@@ -21,7 +21,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['ant-design-vue/dist/antd.css', '@/assets/css/main.css'],
+  css: ['@/assets/ant/main.less', '@/assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: ['@/plugins/antd-ui'],
@@ -34,6 +34,8 @@ export default {
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
     '@nuxt/postcss8',
+    '@nuxtjs/composition-api/module',
+    '@pinia/nuxt',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -54,6 +56,14 @@ export default {
       plugins: {
         tailwindcss: {},
         autoprefixer: {},
+      },
+    },
+    loaders: {
+      less: {
+        lessOptions: {
+          javascriptEnabled: true,
+          math: 'always',
+        },
       },
     },
   },
