@@ -8,7 +8,14 @@ module.exports = {
     './nuxt.config.{js,ts}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      gridTemplateRows: {
+        'auto-1fr': 'auto 1fr',
+      },
+      gridTemplateColumns: {
+        'grid-col-auto-1fr': 'auto 1fr',
+      },
+    },
   },
   plugins: [],
 }

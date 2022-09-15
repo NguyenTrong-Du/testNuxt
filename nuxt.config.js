@@ -1,3 +1,6 @@
+import en from './locales/en.json'
+import ja from './locales/ja.json'
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -42,7 +45,30 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/i18n',
   ],
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        name: 'English',
+      },
+      {
+        code: 'ja',
+        name: '日本語',
+      },
+    ],
+    defaultLocale: 'en',
+    vueI18n: {
+      fallbackLocale: 'en',
+      messages: { en, ja },
+    },
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root', // recommended
+    },
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
