@@ -20,6 +20,7 @@
 <script>
 export default {
   name: 'App',
+  layout: 'homepage',
   data() {
     return {
       collapsed: false,

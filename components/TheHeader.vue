@@ -4,13 +4,17 @@
       <div class="font-mono ml-10 mt-4 font-bold">NODEYE</div>
       <div class="flex mr-10 mt-2 mb-2">
         <a-button type="text" shape="round">
-          {{ $t('homepage.login') }}
+          <nuxt-link to="/signin">
+            {{ $t('homepage.login') }}
+          </nuxt-link>
         </a-button>
         <a-button
           shape="round"
           style="background: green; bordercolor: green; color: white"
         >
-          {{ $t('homepage.register') }}
+          <nuxt-link to="/signup">
+            {{ $t('homepage.register') }}
+          </nuxt-link>
         </a-button>
         <div class="ml-4 flex">
           <div class="flex items-center">
@@ -56,7 +60,7 @@ export default {
   },
 }
 </script>
-<style scoped>
+<style>
 .ion {
   fill: #fff;
 }
