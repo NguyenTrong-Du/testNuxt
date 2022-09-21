@@ -8,10 +8,7 @@
             {{ $t('homepage.login') }}
           </nuxt-link>
         </a-button>
-        <a-button
-          shape="round"
-          style="background: green; bordercolor: green; color: white"
-        >
+        <a-button shape="round" class="bg-green-700 text-white">
           <nuxt-link to="/signup">
             {{ $t('homepage.register') }}
           </nuxt-link>
@@ -19,19 +16,20 @@
         <div class="ml-4 flex">
           <div class="flex items-center">
             <MdGlobeIcon w="25px" h="25px" />
-            <a-dropdown class="ml-1" style="display: flex; align-items: center">
+            <a-dropdown class="ml-1 flex items-center">
               <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
                 {{ $i18n.locale === 'en' ? 'English' : '日本語' }}
                 <a-icon type="down" />
               </a>
               <a-menu slot="overlay">
-                <nuxt-link
+                <a-menu-item
                   v-for="locale in availableLocales"
                   :key="locale.code"
-                  :to="switchLocalePath(locale.code)"
-                  class="m-5"
-                  >{{ locale.name }} <br
-                /></nuxt-link>
+                >
+                  <nuxt-link :to="switchLocalePath(locale.code)" class="m-5">{{
+                    locale.name
+                  }}</nuxt-link>
+                </a-menu-item>
               </a-menu>
             </a-dropdown>
           </div>

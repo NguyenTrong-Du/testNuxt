@@ -6,11 +6,7 @@
         <br />
         {{ $t('homepage.title2') }}
       </div>
-      <a-button
-        shape="round"
-        :size="size"
-        style="background: white; color: black"
-      >
+      <a-button shape="round" :size="size" class="bg-white text-black">
         {{ $t('homepage.joinNow') }}
       </a-button>
     </div>

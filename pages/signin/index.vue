@@ -50,7 +50,7 @@
             <a-button
               type="text"
               shape="round"
-              style="background: white; bordercolor: white; color: black"
+              class="bg-white text-black"
               :disabled="disabledBtn"
             >
               {{ $t('homepage.signUpUseLink') }}
@@ -59,7 +59,7 @@
               type="primary"
               html-type="submit"
               shape="round"
-              style="background: green; bordercolor: green; color: white"
+              class="bg-green-700 text-white"
               :disabled="disabledBtn"
             >
               {{ $t('homepage.login') }}

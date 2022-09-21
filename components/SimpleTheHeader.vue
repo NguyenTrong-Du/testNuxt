@@ -12,42 +12,39 @@
               <a-avatar :size="32" class="flex items-center justify-center">
                 <template #icon><MdPersonIcon /></template>
               </a-avatar>
-              <a-dropdown
-                class="ml-1"
-                style="display: flex; align-items: center"
-              >
+              <a-dropdown class="ml-1 flex items-center">
                 <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
                   {{ userName }}
                   <a-icon type="down" />
                 </a>
                 <a-menu slot="overlay">
-                  <nuxt-link to="/profile" class="ml-3"
-                    >Profile <br
+                  <nuxt-link to="/profile" class="m-3"
+                    >{{ $t('homepage.profile') }} <br
                   /></nuxt-link>
-                  <nuxt-link to="/setting" class="ml-3"
-                    >Setting <br
+                  <nuxt-link to="/setting" class="m-3"
+                    >{{ $t('homepage.setting') }} <br
                   /></nuxt-link>
                 </a-menu>
               </a-dropdown>
             </div>
             <div class="flex items-center">
               <MdGlobeIcon w="25px" h="25px" />
-              <a-dropdown
-                class="ml-1"
-                style="display: flex; align-items: center"
-              >
+              <a-dropdown class="ml-1 flex items-center">
                 <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
                   {{ $i18n.locale === 'en' ? 'English' : '日本語' }}
                   <a-icon type="down" />
                 </a>
                 <a-menu slot="overlay">
-                  <nuxt-link
+                  <a-menu-item
                     v-for="locale in availableLocales"
                     :key="locale.code"
-                    :to="switchLocalePath(locale.code)"
-                    class="m-5"
-                    >{{ locale.name }} <br
-                  /></nuxt-link>
+                  >
+                    <nuxt-link
+                      :to="switchLocalePath(locale.code)"
+                      class="m-5"
+                      >{{ locale.name }}</nuxt-link
+                    >
+                  </a-menu-item>
                 </a-menu>
               </a-dropdown>
             </div>

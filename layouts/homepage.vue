@@ -40,7 +40,13 @@ export default {
           response.first_name + ' ' + response.last_name
         currentUser.setCurrentUser(response)
       } catch (e) {
-        this.$router.push({ path: this.localePath('/signin') })
+        if (
+          !$nuxt.$route.path.includes('signin') &&
+          !$nuxt.$route.path.includes('signup') &&
+          !$nuxt.$route.path === '/'
+        ) {
+          this.$router.push({ path: this.localePath('/signin') })
+        }
       }
     }
   },

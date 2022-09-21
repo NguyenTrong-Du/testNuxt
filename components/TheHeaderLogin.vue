@@ -10,19 +10,17 @@
     </div>
     <div class="flex items-center mr-10">
       <MdGlobeIcon w="25px" h="25px" />
-      <a-dropdown class="ml-1" style="display: flex; align-items: center">
+      <a-dropdown class="ml-1 flex items-center">
         <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
           {{ $i18n.locale === 'en' ? 'English' : '日本語' }}
           <a-icon type="down" />
         </a>
         <a-menu slot="overlay">
-          <nuxt-link
-            v-for="locale in availableLocales"
-            :key="locale.code"
-            :to="switchLocalePath(locale.code)"
-            class="m-5"
-            >{{ locale.name }} <br
-          /></nuxt-link>
+          <a-menu-item v-for="locale in availableLocales" :key="locale.code">
+            <nuxt-link :to="switchLocalePath(locale.code)" class="m-5">{{
+              locale.name
+            }}</nuxt-link>
+          </a-menu-item>
         </a-menu>
       </a-dropdown>
     </div>
@@ -57,11 +55,14 @@ export default {
         this.$router.push({ path: this.localePath('/') })
       }
     } catch (e) {
-      if (
-        !$nuxt.$route.path.includes('signin') &&
-        !$nuxt.$route.path.includes('signup')
-      ) {
-        this.$router.push({ path: this.localePath('/signin') })
+      if (e.response.status === 401) {
+        if (
+          !$nuxt.$route.path.includes('signin') &&
+          !$nuxt.$route.path.includes('signup') &&
+          !$nuxt.$route.path === '/'
+        ) {
+          this.$router.push({ path: this.localePath('/signin') })
+        }
       }
     }
   },

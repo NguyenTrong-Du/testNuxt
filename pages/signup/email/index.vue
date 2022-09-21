@@ -10,7 +10,7 @@
     </div>
     <div class="w-1/2 ml-10">
       <TheHeaderLogin />
-      <div class="p-8 rounded-md">
+      <div class="rounded-md">
         <div class="flex justify-center m-5 text-xl font-bold">
           {{ $t('homepage.titleRegister') }}
         </div>
@@ -52,7 +52,11 @@
                   'email',
                   {
                     rules: [
-                      { required: true, message: 'Please input your email!' },
+                      {
+                        type: 'email',
+                        message: $t('homepage.validEmail'),
+                      },
+                      { required: true, message: $t('homepage.emailEmtry') },
                     ],
                   },
                 ]"
@@ -67,6 +71,13 @@
                       {
                         required: true,
                         message: $t('homepage.passwordEmtry'),
+                      },
+                      {
+                        min: 8,
+                        message: $t('homepage.valiPassword'),
+                      },
+                      {
+                        validator: validateToNextPassword,
                       },
                     ],
                   },
@@ -83,25 +94,29 @@
                         required: true,
                         message: $t('homepage.passwordConfirmEmtry'),
                       },
+                      {
+                        validator: compareToFirstPassword,
+                      },
                     ],
                   },
                 ]"
+                type="password"
+                @blur="handleConfirmBlur"
               />
             </a-form-item>
             <a-form-item>
               <a-button
                 type="text"
                 shape="round"
-                style="background: white; bordercolor: white; color: black"
+                class="bg-white text-black"
                 :disabled="disabledBtn"
               >
                 {{ $t('homepage.signUpUseLink') }}
               </a-button>
               <a-button
-                type="primary"
                 html-type="submit"
                 shape="round"
-                style="background: green; bordercolor: green; color: white"
+                class="bg-green-700 text-white"
                 :disabled="disabledBtn"
               >
                 {{ $t('homepage.register') }}
@@ -131,6 +146,7 @@ export default {
       formLayout: 'vertical',
       form: this.$form.createForm(this, { name: 'coordinated' }),
       disabledBtn: false,
+      confirmDirty: false,
     }
   },
   computed: {
@@ -148,6 +164,27 @@ export default {
         description: des,
       })
     },
+    handleConfirmBlur(e) {
+      const value = e.target.value
+      this.confirmDirty = this.confirmDirty || !!value
+    },
+    validateToNextPassword(_, value, callback) {
+      const form = this.form
+      if (value && this.confirmDirty) {
+        form.validateFields(['password_confirmation'], { force: true })
+      }
+      callback()
+    },
+
+    compareToFirstPassword(_, value, callback) {
+      const form = this.form
+      if (value && value !== form.getFieldValue('password')) {
+        callback(this.$t('homepage.valiPasswordConfirm'))
+      } else {
+        callback()
+      }
+    },
+
     handleSubmit(e) {
       this.disabledBtn = true
       e.preventDefault()
@@ -168,8 +205,8 @@ export default {
             )
           }
         }
-        this.disabledBtn = false
       })
+      this.disabledBtn = false
     },
   },
 }

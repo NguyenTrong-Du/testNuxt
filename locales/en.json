@@ -33,6 +33,9 @@
     "desSignupError": "Registration failed. Please check your information again",
     "signinSuccess": "Login successful",
     "signinError": "Login error",
-    "desSigninError": "The account doesn’t exist, the password is incorrect, or you have exceeded the number of allowed login attempts."
+    "desSigninError": "The account doesn’t exist, the password is incorrect, or you have exceeded the number of allowed login attempts.",
+    "validEmail": "The input is not valid E-mail!",
+    "valiPasswordConfirm": "Two passwords that you enter is inconsistent!",
+    "valiPassword": "Password must be more than 8 characters"
   }
 }

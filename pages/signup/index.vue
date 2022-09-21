@@ -2,7 +2,7 @@
   <div class="h-full flex">
     <div class="w-1/2 flex justify-center">
       <img
-        :src="linkBanner"
+        :src="bannerURL"
         min-width="100%"
         min-height="100%"
         class="shrink-0"
@@ -22,7 +22,12 @@
           class="h-12 w-1/2 bg-white rounded-lg flex items-center text-black font-semibold cursor-pointer"
           @click="$router.push({ path: localePath('/signup/email') })"
         >
-          <img :src="linkEmail" width="20px" height="20px" class="mr-3 ml-3" />
+          <img
+            :src="emailLogoURL"
+            width="20px"
+            height="20px"
+            class="mr-3 ml-3"
+          />
           {{ $t('homepage.loginByEmail') }}
         </div>
       </div>
@@ -44,8 +49,8 @@ export default {
     return {
       collapsed: false,
       size: 'large',
-      linkEmail: '/icon-email.png',
-      linkBanner: '/banner.jpg',
+      emailLogoURL: '/icon-email.png',
+      bannerURL: '/banner.jpg',
     }
   },
   computed: {
