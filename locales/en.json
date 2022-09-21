@@ -37,5 +37,20 @@
     "validEmail": "The input is not valid E-mail!",
     "valiPasswordConfirm": "Two passwords that you enter is inconsistent!",
     "valiPassword": "Password must be more than 8 characters"
+  },
+  "error": {
+    "default": "Something went wrong",
+    "10001": "Email cannot be empty",
+    "10002": "Email is a string",
+    "10003": "Email is not in the correct format",
+    "10005": "Email already exists",
+    "10006": "Email does not exist",
+    "10008": "Email is not verified",
+    "10009": "Password cannot be empty",
+    "10010": "Passwords do not match",
+    "10012": "Password is incorrect",
+    "10013": "First name cannot be empty",
+    "10016": "Last name cannot be empty",
+    "30001": "User logged in"
   }
 }

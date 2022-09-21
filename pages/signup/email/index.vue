@@ -158,11 +158,13 @@ export default {
     this.$api.getCookie()
   },
   methods: {
-    openNotificationWithIcon(type, title, des) {
-      this.$notification[type]({
-        message: title,
-        description: des,
-      })
+    openNotificationWithIcon(type, title, error) {
+      for (let i = 0; i < error.length; i++) {
+        this.$notification[type]({
+          message: title,
+          description: this.$t('error.' + error[i]),
+        })
+      }
     },
     handleConfirmBlur(e) {
       const value = e.target.value
@@ -201,7 +203,7 @@ export default {
             this.openNotificationWithIcon(
               'error',
               this.$t('homepage.signupError'),
-              this.$t('homepage.desSignupError')
+              e.response.data.error
             )
           }
         }
