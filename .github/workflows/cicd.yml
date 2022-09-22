@@ -54,6 +54,7 @@ jobs:
 
       - name: Build 🏗
         run: |
+          cp .env.example .env
           yarn install
           yarn build --spa
           yarn generate
