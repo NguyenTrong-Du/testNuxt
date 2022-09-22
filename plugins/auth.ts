@@ -32,6 +32,9 @@ export default function ({ $axios }: any, inject: any) {
     signUp: (data: User) => axios.$post('api/v1/register', data),
     login: (data: User) => axios.$post('api/v1/login', data),
     getUser: () => axios.$get('api/v1/user'),
+    loginByFb: () => axios.$get('/api/v1/auth/facebook'),
+    redirectLoginByFb: (code: string) =>
+      axios.$get('/api/v1/auth/facebook/callback?code=' + code),
   }
   inject('api', api)
 }
