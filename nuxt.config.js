@@ -27,7 +27,7 @@ export default {
   css: ['@/assets/ant/main.less', '@/assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/antd-ui'],
+  plugins: ['@/plugins/antd-ui', '@/plugins/auth'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -46,6 +46,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/i18n',
+    '@nuxtjs/auth',
   ],
   i18n: {
     locales: [
@@ -72,8 +73,38 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
+    baseURL: process.env.API_URL || 'http://localhost/',
+    debug: process.env.DEBUG || false,
+    proxyHeaders: false,
+    credentials: true,
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: 'accounts/token/',
+            method: 'post',
+            propertyName: 'access',
+          },
+          user: {
+            url: 'accounts/me/',
+            method: 'get',
+            propertyName: 'users',
+          },
+          tokenRequired: true,
+          logout: false,
+        },
+      },
+      watchLoggedIn: true,
+      redirect: {
+        login: '/signin',
+        logout: '/',
+        callback: '/signin',
+        home: '/',
+      },
+    },
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
