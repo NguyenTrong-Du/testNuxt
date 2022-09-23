@@ -16,6 +16,7 @@
     <div class="flex justify-center mt-5">
       <div
         class="h-12 w-1/2 bg-white rounded-lg flex items-center cursor-pointer"
+        @click="loginByFb"
       >
         <img
           :src="facebookLogoURL"
@@ -65,6 +66,12 @@ export default {
       instagramLogoURL: '/icon-instagram.png',
       twitterLogoURL: '/icon-twitter.png',
     }
+  },
+  methods: {
+    async loginByFb() {
+      const data = await this.$api.loginByFb()
+      window.location.href = data.redirectUrl
+    },
   },
 }
 </script>
