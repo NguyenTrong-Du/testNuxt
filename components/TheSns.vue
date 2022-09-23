@@ -3,6 +3,7 @@
     <div class="flex justify-center mt-5">
       <div
         class="h-12 w-1/2 bg-white rounded-lg flex items-center cursor-pointer"
+        @click="loginByGg"
       >
         <img
           :src="googleLogoURL"
@@ -68,6 +69,10 @@ export default {
     }
   },
   methods: {
+    async loginByGg() {
+      const data = await this.$api.loginByGg()
+      window.location.href = data.redirectUrl
+    },
     async loginByFb() {
       const data = await this.$api.loginByFb()
       window.location.href = data.redirectUrl

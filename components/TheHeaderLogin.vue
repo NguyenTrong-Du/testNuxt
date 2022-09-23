@@ -1,10 +1,10 @@
 <template>
   <div class="flex justify-between mt-10 mb-10">
     <div>
-      <nuxt-link to="/signin" class="mr-10 text-lg">{{
+      <nuxt-link to="./signin" class="mr-10 text-lg">{{
         $t('homepage.login')
       }}</nuxt-link>
-      <nuxt-link to="/signup" class="text-lg">{{
+      <nuxt-link to="./signup" class="text-lg">{{
         $t('homepage.register')
       }}</nuxt-link>
     </div>
