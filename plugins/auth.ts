@@ -43,6 +43,9 @@ export default function ({ $axios }: any, inject: any) {
     loginByFacebook: () => axios.$get('/api/v1/auth/facebook'),
     redirectLoginByFacebook: (code: string) =>
       axios.$get(`/api/v1/auth/facebook/callback?code=${code}`),
+    loginByInstagram: () => axios.$get('/api/v1/auth/instagram'),
+    redirectLoginByInstagram: (code: string) =>
+      axios.$get(`/api/v1/auth/instagram/callback?code=${code}`),
   }
   inject('api', api)
 }

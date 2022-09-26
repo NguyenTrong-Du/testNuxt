@@ -7,7 +7,7 @@
     <div class="flex justify-center m-5">
       {{ $t('homepage.or') }}
     </div>
-    <div class="w-1/3 ml-[33%]">
+    <div class="w-1/2 ml-[25%]">
       <a-form
         :form="form"
         :layout="formLayout"
