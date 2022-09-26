@@ -2,7 +2,7 @@
   <div class="text-black font-semibold">
     <div class="flex justify-center mt-5">
       <div
-        class="h-12 w-1/3 bg-white rounded-lg flex items-center cursor-pointer"
+        class="h-12 w-1/2 bg-white rounded-lg flex items-center cursor-pointer"
         @click="loginByGoogle"
       >
         <img
@@ -16,7 +16,7 @@
     </div>
     <div class="flex justify-center mt-5">
       <div
-        class="h-12 w-1/3 bg-white rounded-lg flex items-center cursor-pointer"
+        class="h-12 w-1/2 bg-white rounded-lg flex items-center cursor-pointer"
         @click="loginByFacebook"
       >
         <img
@@ -30,7 +30,7 @@
     </div>
     <div class="flex justify-center mt-5">
       <div
-        class="h-12 w-1/3 bg-white rounded-lg flex items-center cursor-pointer"
+        class="h-12 w-1/2 bg-white rounded-lg flex items-center cursor-pointer"
         @click="loginByTwitter"
       >
         <img
@@ -44,7 +44,8 @@
     </div>
     <div class="flex justify-center mt-5">
       <div
-        class="h-12 w-1/3 bg-white rounded-lg flex items-center cursor-pointer"
+        class="h-12 w-1/2 bg-white rounded-lg flex items-center cursor-pointer"
+        @click="loginByInstagram"
       >
         <img
           :src="instagramLogoURL"
@@ -59,7 +60,6 @@
 </template>
 
 <script>
-import { useRoute } from '@nuxtjs/composition-api'
 export default {
   name: 'TheSns',
   data() {
@@ -73,18 +73,19 @@ export default {
   methods: {
     async loginByTwitter() {
       const data = await this.$api.loginByTwitter()
-      const router = useRoute()
-      router.push(data.redirectUrl)
+      window.location.href = data.redirectUrl
     },
     async loginByGoogle() {
       const data = await this.$api.loginByGoogle()
-      const router = useRoute()
-      router.push(data.redirectUrl)
+      window.location.href = data.redirectUrl
     },
     async loginByFacebook() {
       const data = await this.$api.loginByFacebook()
-      const router = useRoute()
-      router.push(data.redirectUrl)
+      window.location.href = data.redirectUrl
+    },
+    async loginByInstagram() {
+      const data = await this.$api.loginByInstagram()
+      window.location.href = data.redirectUrl
     },
   },
 }

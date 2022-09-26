@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="grid grid-rows-auto-1fr h-screen overflow-hidden">
-      <div v-if="userName.trim().length === 0"><TheHeader /></div>
+      <div v-if="userName?.trim().length === 0"><TheHeader /></div>
       <div v-else><SimpleTheHeader :user-name="userName" /></div>
       <div class="overflow-auto">
         <nuxt />
@@ -35,11 +35,11 @@ export default {
       }
     }
     const currentUser = useCurrentUserStore()
-    if (currentUser.firstName.trim().length > 0) {
+    if (currentUser.firstName || currentUser.displayName) {
       this.userName = getFullName(
-        response.first_name,
-        response.last_name,
-        response.display_name
+        currentUser.firstName,
+        currentUser.lastName,
+        currentUser.displayName
       )
     } else {
       try {
