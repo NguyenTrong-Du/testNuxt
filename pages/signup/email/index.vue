@@ -56,58 +56,65 @@
             ]"
           />
         </a-form-item>
-        <a-form-item :label="$t('homepage.password')">
-          <a-input-password
-            v-decorator="[
-              'password',
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: $t('homepage.passwordEmtry'),
-                  },
-                  {
-                    pattern: new RegExp(
-                      /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]{8,}$/
-                    ),
-                    message: $t('homepage.valiPassword'),
-                  },
-                  {
-                    validator: validateToNextPassword,
-                  },
-                ],
-              },
-            ]"
-          />
-        </a-form-item>
-        <a-form-item :label="$t('homepage.passwordConfirm')">
-          <a-input-password
-            v-decorator="[
-              'password_confirmation',
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: $t('homepage.passwordConfirmEmtry'),
-                  },
-                  {
-                    validator: compareToFirstPassword,
-                  },
-                ],
-              },
-            ]"
-            type="password"
-            @blur="handleConfirmBlur"
-          />
-        </a-form-item>
+        <div v-if="usePassword">
+          <a-form-item :label="$t('homepage.password')">
+            <a-input-password
+              v-decorator="[
+                'password',
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: $t('homepage.passwordEmtry'),
+                    },
+                    {
+                      pattern: new RegExp(
+                        /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]{8,}$/
+                      ),
+                      message: $t('homepage.valiPassword'),
+                    },
+                    {
+                      validator: validateToNextPassword,
+                    },
+                  ],
+                },
+              ]"
+            />
+          </a-form-item>
+          <a-form-item :label="$t('homepage.passwordConfirm')">
+            <a-input-password
+              v-decorator="[
+                'password_confirmation',
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: $t('homepage.passwordConfirmEmtry'),
+                    },
+                    {
+                      validator: compareToFirstPassword,
+                    },
+                  ],
+                },
+              ]"
+              type="password"
+              @blur="handleConfirmBlur"
+            />
+          </a-form-item>
+        </div>
         <a-form-item class="flex justify-center">
           <a-button
             type="text"
             shape="round"
             class="bg-white text-black mr-2"
             :disabled="disabledBtn"
+            @click="handleUsePassword"
           >
-            {{ $t('homepage.signUpUseLink') }}
+            {{
+              usePassword
+                ? $t('homepage.signUpUseLink')
+                : $t('homepage.signUpUsePassword')
+            }}
           </a-button>
           <a-button
             html-type="submit"
@@ -136,6 +143,7 @@ export default {
       form: this.$form.createForm(this, { name: 'coordinated' }),
       disabledBtn: false,
       confirmDirty: false,
+      usePassword: false,
     }
   },
   computed: {
@@ -199,6 +207,9 @@ export default {
       })
       this.disabledBtn = false
     },
+  },
+  handleUsePassword() {
+    this.usePassword = !this.usePassword
   },
 }
 </script>

@@ -30,35 +30,42 @@
             ]"
           />
         </a-form-item>
-        <a-form-item :label="$t('homepage.password')">
-          <a-input-password
-            v-decorator="[
-              'password',
-              {
-                rules: [
-                  {
-                    required: true,
-                    message: $t('homepage.passwordEmtry'),
-                  },
-                  {
-                    pattern: new RegExp(
-                      /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]{8,}$/
-                    ),
-                    message: $t('homepage.valiPassword'),
-                  },
-                ],
-              },
-            ]"
-          />
-        </a-form-item>
+        <div v-if="usePassword">
+          <a-form-item :label="$t('homepage.password')">
+            <a-input-password
+              v-decorator="[
+                'password',
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: $t('homepage.passwordEmtry'),
+                    },
+                    {
+                      pattern: new RegExp(
+                        /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]{8,}$/
+                      ),
+                      message: $t('homepage.valiPassword'),
+                    },
+                  ],
+                },
+              ]"
+            />
+          </a-form-item>
+        </div>
         <a-form-item class="flex justify-center">
           <a-button
             type="text"
             shape="round"
             class="bg-white text-black mr-2"
             :disabled="disabledBtn"
+            @click="handleUsePassword"
           >
-            {{ $t('homepage.signUpUseLink') }}
+            {{
+              usePassword
+                ? $t('homepage.signUpUseLink')
+                : $t('homepage.signUpUsePassword')
+            }}
           </a-button>
           <a-button
             type="primary"
@@ -92,6 +99,7 @@ export default {
       formLayout: 'vertical',
       form: this.$form.createForm(this, { name: 'coordinated' }),
       disabledBtn: false,
+      usePassword: false,
     }
   },
   computed: {
@@ -118,14 +126,18 @@ export default {
       this.form.validateFields(async (err, values) => {
         if (!err) {
           try {
-            const res = await this.$api.login(values)
-            currentUser.setCurrentUser(res.data.user)
-            this.$router.push({ path: this.localePath('/homepage') })
-            this.openNotificationWithIcon(
-              'success',
-              this.$t('homepage.signinSuccess'),
-              ''
-            )
+            if (!values.password) {
+              await this.$api.loginByOtp(values)
+            } else {
+              const res = await this.$api.login(values)
+              currentUser.setCurrentUser(res.data.user)
+              this.$router.push({ path: this.localePath('/homepage') })
+              this.openNotificationWithIcon(
+                'success',
+                this.$t('homepage.signinSuccess'),
+                ''
+              )
+            }
           } catch (e) {
             this.openNotificationWithIcon(
               'error',
@@ -136,6 +148,9 @@ export default {
         }
         this.disabledBtn = false
       })
+    },
+    handleUsePassword() {
+      this.usePassword = !this.usePassword
     },
   },
 }
