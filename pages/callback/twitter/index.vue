@@ -9,10 +9,11 @@ import { useCurrentUserStore } from '~/store/user'
 export default {
   name: 'CallbackLoading',
   async created() {
-    if (this.$route.query.code) {
+    if (this.$route.query.oauth_token && this.$route.query.oauth_verifier) {
       try {
-        const data = await this.$api.redirectLoginByFacebook(
-          this.$route.query.code
+        const data = await this.$api.redirectLoginByTwitter(
+          this.$route.query.oauth_token,
+          this.$route.query.oauth_verifier
         )
         const currentUser = useCurrentUserStore()
         currentUser.setCurrentUser(data.data.user)

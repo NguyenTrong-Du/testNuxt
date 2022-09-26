@@ -32,12 +32,17 @@ export default function ({ $axios }: any, inject: any) {
     signUp: (data: User) => axios.$post('api/v1/register', data),
     login: (data: User) => axios.$post('api/v1/login', data),
     getUser: () => axios.$get('api/v1/user'),
-    loginByGg: () => axios.$get('/api/v1/auth/google'),
-    redirectLoginByGg: (code: string) =>
-      axios.$get('/api/v1/auth/google/callback?code=' + code),
-    loginByFb: () => axios.$get('/api/v1/auth/facebook'),
-    redirectLoginByFb: (code: string) =>
-      axios.$get('/api/v1/auth/facebook/callback?code=' + code),
+    loginByTwitter: () => axios.$get('/api/v1/auth/twitter'),
+    redirectLoginByTwitter: (oauthToken: string, oauthVerifier: string) =>
+      axios.$get(
+        `/api/v1/auth/twitter/callback?oauth_token=${oauthToken}&oauth_verifier=${oauthVerifier}`
+      ),
+    loginByGoogle: () => axios.$get('/api/v1/auth/google'),
+    redirectLoginByGoogle: (code: string) =>
+      axios.$get(`/api/v1/auth/google/callback?code=${code}`),
+    loginByFacebook: () => axios.$get('/api/v1/auth/facebook'),
+    redirectLoginByFacebook: (code: string) =>
+      axios.$get(`/api/v1/auth/facebook/callback?code=${code}`),
   }
   inject('api', api)
 }

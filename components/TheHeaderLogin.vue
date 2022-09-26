@@ -1,16 +1,22 @@
 <template>
-  <div class="flex justify-between mt-10 mb-10">
+  <div class="flex justify-between m-8">
     <div>
-      <nuxt-link to="./signin" class="mr-10 text-lg">{{
-        $t('homepage.login')
-      }}</nuxt-link>
-      <nuxt-link to="./signup" class="text-lg">{{
-        $t('homepage.register')
-      }}</nuxt-link>
+      <nuxt-link
+        :to="`${$i18n.locale === 'ja' ? '/ja/signin' : '/signin'}`"
+        class="mr-10 text-lg"
+        :class="{ underline: !isSignup }"
+        >{{ $t('homepage.login') }}</nuxt-link
+      >
+      <nuxt-link
+        :to="`${$i18n.locale === 'ja' ? '/ja/signup' : '/signup'}`"
+        class="text-lg"
+        :class="{ underline: isSignup }"
+        >{{ $t('homepage.register') }}</nuxt-link
+      >
     </div>
     <div class="flex items-center mr-10">
       <MdGlobeIcon w="25px" h="25px" />
-      <a-dropdown class="ml-1 flex items-center">
+      <a-dropdown class="ml-1 flex items-center gap-1">
         <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
           {{ $i18n.locale === 'en' ? 'English' : '日本語' }}
           <a-icon type="down" />
@@ -38,12 +44,16 @@ export default {
     return {
       collapsed: false,
       size: 'large',
+      isSignup: false,
     }
   },
   computed: {
     availableLocales() {
       return this.$i18n.locales
     },
+  },
+  updated() {
+    this.isSignup = $nuxt.$route.path.includes('signup')
   },
   async created() {
     try {
@@ -61,7 +71,11 @@ export default {
           !$nuxt.$route.path.includes('signup') &&
           !$nuxt.$route.path === '/'
         ) {
-          this.$router.push({ path: this.localePath('/signin') })
+          this.$router.push({
+            path: this.localePath(
+              `${$i18n.locale === 'ja' ? '/ja/signup' : '/signup'}`
+            ),
+          })
         }
       }
     }

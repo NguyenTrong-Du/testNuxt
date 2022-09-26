@@ -2,8 +2,8 @@
   <div class="text-black font-semibold">
     <div class="flex justify-center mt-5">
       <div
-        class="h-12 w-1/2 bg-white rounded-lg flex items-center cursor-pointer"
-        @click="loginByGg"
+        class="h-12 w-1/3 bg-white rounded-lg flex items-center cursor-pointer"
+        @click="loginByGoogle"
       >
         <img
           :src="googleLogoURL"
@@ -16,8 +16,8 @@
     </div>
     <div class="flex justify-center mt-5">
       <div
-        class="h-12 w-1/2 bg-white rounded-lg flex items-center cursor-pointer"
-        @click="loginByFb"
+        class="h-12 w-1/3 bg-white rounded-lg flex items-center cursor-pointer"
+        @click="loginByFacebook"
       >
         <img
           :src="facebookLogoURL"
@@ -30,7 +30,8 @@
     </div>
     <div class="flex justify-center mt-5">
       <div
-        class="h-12 w-1/2 bg-white rounded-lg flex items-center cursor-pointer"
+        class="h-12 w-1/3 bg-white rounded-lg flex items-center cursor-pointer"
+        @click="loginByTwitter"
       >
         <img
           :src="twitterLogoURL"
@@ -43,7 +44,7 @@
     </div>
     <div class="flex justify-center mt-5">
       <div
-        class="h-12 w-1/2 bg-white rounded-lg flex items-center cursor-pointer"
+        class="h-12 w-1/3 bg-white rounded-lg flex items-center cursor-pointer"
       >
         <img
           :src="instagramLogoURL"
@@ -58,6 +59,7 @@
 </template>
 
 <script>
+import { useRoute } from '@nuxtjs/composition-api'
 export default {
   name: 'TheSns',
   data() {
@@ -69,13 +71,20 @@ export default {
     }
   },
   methods: {
-    async loginByGg() {
-      const data = await this.$api.loginByGg()
-      window.location.href = data.redirectUrl
+    async loginByTwitter() {
+      const data = await this.$api.loginByTwitter()
+      const router = useRoute()
+      router.push(data.redirectUrl)
     },
-    async loginByFb() {
-      const data = await this.$api.loginByFb()
-      window.location.href = data.redirectUrl
+    async loginByGoogle() {
+      const data = await this.$api.loginByGoogle()
+      const router = useRoute()
+      router.push(data.redirectUrl)
+    },
+    async loginByFacebook() {
+      const data = await this.$api.loginByFacebook()
+      const router = useRoute()
+      router.push(data.redirectUrl)
     },
   },
 }

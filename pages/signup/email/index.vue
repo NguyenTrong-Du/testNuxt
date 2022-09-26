@@ -1,148 +1,137 @@
 <template>
-  <div class="h-full flex">
-    <div class="w-1/2 flex justify-center">
-      <img
-        :src="linkBanner"
-        min-width="100%"
-        min-height="100%"
-        class="shrink-0"
-      />
+  <div class="rounded-md">
+    <div class="flex justify-center m-5 text-xl font-bold">
+      {{ $t('homepage.titleRegister') }}
     </div>
-    <div class="w-1/2 ml-10">
-      <TheHeaderLogin />
-      <div class="rounded-md">
-        <div class="flex justify-center m-5 text-xl font-bold">
-          {{ $t('homepage.titleRegister') }}
-        </div>
-        <div class="flex justify-center">
-          <a-form :form="form" :layout="formLayout" @submit="handleSubmit">
-            <a-form-item :label="$t('homepage.lastName')">
-              <a-input
-                v-decorator="[
-                  'last_name',
+    <div class="flex justify-center">
+      <a-form
+        :form="form"
+        :layout="formLayout"
+        class="w-1/2"
+        @submit="handleSubmit"
+      >
+        <a-form-item :label="$t('homepage.lastName')">
+          <a-input
+            v-decorator="[
+              'last_name',
+              {
+                rules: [
                   {
-                    rules: [
-                      {
-                        required: true,
-                        message: $t('homepage.lastNameEmtry'),
-                      },
-                    ],
+                    required: true,
+                    message: $t('homepage.lastNameEmtry'),
                   },
-                ]"
-              />
-            </a-form-item>
-            <a-form-item :label="$t('homepage.firstName')">
-              <a-input
-                v-decorator="[
-                  'first_name',
+                ],
+              },
+            ]"
+          />
+        </a-form-item>
+        <a-form-item :label="$t('homepage.firstName')">
+          <a-input
+            v-decorator="[
+              'first_name',
+              {
+                rules: [
                   {
-                    rules: [
-                      {
-                        required: true,
-                        message: $t('homepage.firstNameEmtry'),
-                      },
-                    ],
+                    required: true,
+                    message: $t('homepage.firstNameEmtry'),
                   },
-                ]"
-              />
-            </a-form-item>
-            <a-form-item :label="$t('homepage.email')">
-              <a-input
-                v-decorator="[
-                  'email',
+                ],
+              },
+            ]"
+          />
+        </a-form-item>
+        <a-form-item :label="$t('homepage.email')">
+          <a-input
+            v-decorator="[
+              'email',
+              {
+                rules: [
                   {
-                    rules: [
-                      {
-                        type: 'email',
-                        message: $t('homepage.validEmail'),
-                      },
-                      { required: true, message: $t('homepage.emailEmtry') },
-                    ],
+                    type: 'email',
+                    message: $t('homepage.validEmail'),
                   },
-                ]"
-              />
-            </a-form-item>
-            <a-form-item :label="$t('homepage.password')">
-              <a-input-password
-                v-decorator="[
-                  'password',
+                  { required: true, message: $t('homepage.emailEmtry') },
+                ],
+              },
+            ]"
+          />
+        </a-form-item>
+        <a-form-item :label="$t('homepage.password')">
+          <a-input-password
+            v-decorator="[
+              'password',
+              {
+                rules: [
                   {
-                    rules: [
-                      {
-                        required: true,
-                        message: $t('homepage.passwordEmtry'),
-                      },
-                      {
-                        min: 8,
-                        message: $t('homepage.valiPassword'),
-                      },
-                      {
-                        validator: validateToNextPassword,
-                      },
-                    ],
+                    required: true,
+                    message: $t('homepage.passwordEmtry'),
                   },
-                ]"
-              />
-            </a-form-item>
-            <a-form-item :label="$t('homepage.passwordConfirm')">
-              <a-input-password
-                v-decorator="[
-                  'password_confirmation',
                   {
-                    rules: [
-                      {
-                        required: true,
-                        message: $t('homepage.passwordConfirmEmtry'),
-                      },
-                      {
-                        validator: compareToFirstPassword,
-                      },
-                    ],
+                    pattern: new RegExp(
+                      /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]{8,}$/
+                    ),
+                    message: $t('homepage.valiPassword'),
                   },
-                ]"
-                type="password"
-                @blur="handleConfirmBlur"
-              />
-            </a-form-item>
-            <a-form-item>
-              <a-button
-                type="text"
-                shape="round"
-                class="bg-white text-black"
-                :disabled="disabledBtn"
-              >
-                {{ $t('homepage.signUpUseLink') }}
-              </a-button>
-              <a-button
-                html-type="submit"
-                shape="round"
-                class="bg-green-700 text-white"
-                :disabled="disabledBtn"
-              >
-                {{ $t('homepage.register') }}
-              </a-button>
-            </a-form-item>
-          </a-form>
-        </div>
-      </div>
+                  {
+                    validator: validateToNextPassword,
+                  },
+                ],
+              },
+            ]"
+          />
+        </a-form-item>
+        <a-form-item :label="$t('homepage.passwordConfirm')">
+          <a-input-password
+            v-decorator="[
+              'password_confirmation',
+              {
+                rules: [
+                  {
+                    required: true,
+                    message: $t('homepage.passwordConfirmEmtry'),
+                  },
+                  {
+                    validator: compareToFirstPassword,
+                  },
+                ],
+              },
+            ]"
+            type="password"
+            @blur="handleConfirmBlur"
+          />
+        </a-form-item>
+        <a-form-item class="flex justify-center">
+          <a-button
+            type="text"
+            shape="round"
+            class="bg-white text-black mr-2"
+            :disabled="disabledBtn"
+          >
+            {{ $t('homepage.signUpUseLink') }}
+          </a-button>
+          <a-button
+            html-type="submit"
+            shape="round"
+            class="bg-green-700 text-white ml-2"
+            :disabled="disabledBtn"
+          >
+            {{ $t('homepage.register') }}
+          </a-button>
+        </a-form-item>
+      </a-form>
     </div>
   </div>
 </template>
 
 <script>
-import TheHeaderLogin from '~/components/TheHeaderLogin.vue'
 export default {
   name: 'SignIn',
-  components: {
-    TheHeaderLogin,
-  },
   layout: 'signin',
   data() {
     return {
       collapsed: false,
       size: 'large',
       linkEmail: '/icon-email.png',
-      linkBanner: '/banner.jpg',
       formLayout: 'vertical',
       form: this.$form.createForm(this, { name: 'coordinated' }),
       disabledBtn: false,

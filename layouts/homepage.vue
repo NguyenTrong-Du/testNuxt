@@ -27,17 +27,28 @@ export default {
     }
   },
   async created() {
+    const getFullName = (firstName, lastName, displayName) => {
+      if (lastName) {
+        return displayName || `${firstName} ${lastName}`
+      } else {
+        return displayName || firstName
+      }
+    }
     const currentUser = useCurrentUserStore()
     if (currentUser.firstName.trim().length > 0) {
-      this.userName =
-        currentUser.displayName ||
-        currentUser.firstName + ' ' + currentUser.lastName
+      this.userName = getFullName(
+        response.first_name,
+        response.last_name,
+        response.display_name
+      )
     } else {
       try {
         const response = await this.$api.getUser()
-        this.userName =
-          response.display_name ||
-          response.first_name + ' ' + response.last_name
+        this.userName = getFullName(
+          response.first_name,
+          response.last_name,
+          response.display_name
+        )
         currentUser.setCurrentUser(response)
       } catch (e) {
         if (

@@ -16,7 +16,7 @@
         <div class="ml-4 flex">
           <div class="flex items-center">
             <MdGlobeIcon w="25px" h="25px" />
-            <a-dropdown class="ml-1 flex items-center">
+            <a-dropdown class="ml-1 flex items-center gap-1">
               <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
                 {{ $i18n.locale === 'en' ? 'English' : '日本語' }}
                 <a-icon type="down" />

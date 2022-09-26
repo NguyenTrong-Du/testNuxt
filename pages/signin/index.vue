@@ -1,85 +1,87 @@
 <template>
-  <div class="h-full flex">
-    <div class="w-1/2 flex justify-center">
-      <img
-        :src="linkBanner"
-        min-width="100%"
-        min-height="100%"
-        class="shrink-0"
-      />
+  <div>
+    <div class="flex justify-center m-5 text-xl font-bold">
+      {{ $t('homepage.titleLogin') }}
     </div>
-    <div class="w-1/2 ml-10">
-      <TheHeaderLogin />
-      <div class="flex justify-center m-5 text-xl font-bold">
-        {{ $t('homepage.titleLogin') }}
-      </div>
-      <TheSns />
-      <div class="flex justify-center m-5">
-        {{ $t('homepage.or') }}
-      </div>
-      <div class="w-1/2 ml-[25%]">
-        <a-form :form="form" :layout="formLayout" @submit="handleSubmit">
-          <a-form-item :label="$t('homepage.email')">
-            <a-input
-              v-decorator="[
-                'email',
-                {
-                  rules: [
-                    { required: true, message: $t('homepage.emailEmtry') },
-                  ],
-                },
-              ]"
-            />
-          </a-form-item>
-          <a-form-item :label="$t('homepage.password')">
-            <a-input-password
-              v-decorator="[
-                'password',
-                {
-                  rules: [
-                    {
-                      required: true,
-                      message: $t('homepage.passwordEmtry'),
-                    },
-                  ],
-                },
-              ]"
-            />
-          </a-form-item>
-          <a-form-item>
-            <a-button
-              type="text"
-              shape="round"
-              class="bg-white text-black"
-              :disabled="disabledBtn"
-            >
-              {{ $t('homepage.signUpUseLink') }}
-            </a-button>
-            <a-button
-              type="primary"
-              html-type="submit"
-              shape="round"
-              class="bg-green-700 text-white"
-              :disabled="disabledBtn"
-            >
-              {{ $t('homepage.login') }}
-            </a-button>
-          </a-form-item>
-        </a-form>
-      </div>
+    <TheSns />
+    <div class="flex justify-center m-5">
+      {{ $t('homepage.or') }}
+    </div>
+    <div class="w-1/3 ml-[33%]">
+      <a-form
+        :form="form"
+        :layout="formLayout"
+        class="w-full"
+        @submit="handleSubmit"
+      >
+        <a-form-item :label="$t('homepage.email')">
+          <a-input
+            v-decorator="[
+              'email',
+              {
+                rules: [
+                  {
+                    type: 'email',
+                    message: $t('homepage.validEmail'),
+                  },
+                  { required: true, message: $t('homepage.emailEmtry') },
+                ],
+              },
+            ]"
+          />
+        </a-form-item>
+        <a-form-item :label="$t('homepage.password')">
+          <a-input-password
+            v-decorator="[
+              'password',
+              {
+                rules: [
+                  {
+                    required: true,
+                    message: $t('homepage.passwordEmtry'),
+                  },
+                  {
+                    pattern: new RegExp(
+                      /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]{8,}$/
+                    ),
+                    message: $t('homepage.valiPassword'),
+                  },
+                ],
+              },
+            ]"
+          />
+        </a-form-item>
+        <a-form-item class="flex justify-center">
+          <a-button
+            type="text"
+            shape="round"
+            class="bg-white text-black mr-2"
+            :disabled="disabledBtn"
+          >
+            {{ $t('homepage.signUpUseLink') }}
+          </a-button>
+          <a-button
+            type="primary"
+            html-type="submit"
+            shape="round"
+            class="bg-green-700 text-white ml-2"
+            :disabled="disabledBtn"
+          >
+            {{ $t('homepage.login') }}
+          </a-button>
+        </a-form-item>
+      </a-form>
     </div>
   </div>
 </template>
 
 <script>
-import TheHeaderLogin from '~/components/TheHeaderLogin.vue'
 import TheSns from '~/components/TheSns.vue'
 import { useCurrentUserStore } from '~/store/user'
 export default {
   name: 'SignIn',
   components: {
     TheSns,
-    TheHeaderLogin,
   },
   layout: 'signin',
   data() {
@@ -87,7 +89,6 @@ export default {
       collapsed: false,
       size: 'large',
       linkEmail: '/icon-email.png',
-      linkBanner: '/banner.jpg',
       formLayout: 'vertical',
       form: this.$form.createForm(this, { name: 'coordinated' }),
       disabledBtn: false,

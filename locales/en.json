@@ -10,7 +10,7 @@
     "loginByTwitter": "Continue with Twitter",
     "loginByInstagram": "Continue with Instagram",
     "loginByEmail": "Use your email",
-    "titleLogin": "Log in to your account",
+    "titleLogin": "Login to your account",
     "titleRegister": "Create your account",
     "or": "Or",
     "email": "Email address",
@@ -36,7 +36,7 @@
     "desSigninError": "The account doesn’t exist, the password is incorrect, or you have exceeded the number of allowed login attempts.",
     "validEmail": "The input is not valid E-mail!",
     "valiPasswordConfirm": "Two passwords that you enter is inconsistent!",
-    "valiPassword": "Password must be more than 8 characters"
+    "valiPassword": "Password is unsigned characters or special characters more than 8 characters"
   },
   "error": {
     "default": "Something went wrong",
