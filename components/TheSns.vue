@@ -71,6 +71,7 @@ export default {
     }
   },
   methods: {
+    // TODO chuyển window.location.href thành router
     async loginByTwitter() {
       const data = await this.$api.loginByTwitter()
       window.location.href = data.redirectUrl
