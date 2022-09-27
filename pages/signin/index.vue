@@ -120,7 +120,7 @@ export default {
           try {
             const res = await this.$api.login(values)
             currentUser.setCurrentUser(res.data.user)
-            this.$router.push({ path: this.localePath('/homepage') })
+            this.$router.push({ path: this.localePath('/') })
             this.openNotificationWithIcon(
               'success',
               this.$t('homepage.signinSuccess'),

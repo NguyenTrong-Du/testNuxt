@@ -18,12 +18,19 @@
                   <a-icon type="down" />
                 </a>
                 <a-menu slot="overlay">
-                  <nuxt-link to="/profile" class="m-3"
-                    >{{ $t('homepage.profile') }} <br
-                  /></nuxt-link>
-                  <nuxt-link to="/setting" class="m-3"
-                    >{{ $t('homepage.setting') }} <br
-                  /></nuxt-link>
+                  <a-menu-item>
+                    <nuxt-link to="/profile"
+                      >{{ $t('homepage.profile') }} <br
+                    /></nuxt-link>
+                  </a-menu-item>
+                  <a-menu-item>
+                    <nuxt-link to="/setting"
+                      >{{ $t('homepage.setting') }} <br
+                    /></nuxt-link>
+                  </a-menu-item>
+                  <a-menu-item @click="handleLogout">{{
+                    $t('homepage.logout')
+                  }}</a-menu-item>
                 </a-menu>
               </a-dropdown>
             </div>
@@ -78,6 +85,16 @@ export default {
   computed: {
     availableLocales() {
       return this.$i18n.locales
+    },
+  },
+  methods: {
+    async handleLogout() {
+      try {
+        await this.$api.logout()
+        this.$router.push({ path: this.localePath('signin') })
+      } catch {
+        // TODO
+      }
     },
   },
 }
