@@ -57,6 +57,7 @@ export default function ({ $axios }: any, inject: any) {
         `/api/v1/login/email-otp/verify/${userId}?signature=${signature}`
       )
     },
+    logout: () => axios.$post('/api/v1/logout'),
   }
   inject('api', api)
 }
