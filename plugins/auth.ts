@@ -52,11 +52,10 @@ export default function ({ $axios }: any, inject: any) {
       axios.$get(`/api/v1/auth/instagram/callback?code=${code}`),
     loginByOtp: (data: UserLogin) =>
       axios.$post('api/v1/login/email-otp', data),
-    redirectLoginByOtp: (userId: string, signature: string) => {
+    redirectLoginByOtp: (userId: string, signature: string) =>
       axios.$get(
         `/api/v1/login/email-otp/verify/${userId}?signature=${signature}`
-      )
-    },
+      ),
     logout: () => axios.$post('/api/v1/logout'),
   }
   inject('api', api)

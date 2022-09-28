@@ -10,7 +10,9 @@
         {{ $t('homepage.title2') }}
       </div>
       <a-button shape="round" :size="size" class="bg-white text-black">
-        {{ $t('homepage.joinNow') }}
+        <nuxt-link :to="`${$i18n.locale === 'ja' ? '/ja/signin' : '/signin'}`">
+          {{ $t('homepage.joinNow') }}
+        </nuxt-link>
       </a-button>
     </div>
   </div>

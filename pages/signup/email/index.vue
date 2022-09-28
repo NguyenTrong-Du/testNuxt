@@ -16,7 +16,7 @@
               'last_name',
               {
                 rules: [
-                  { transform: (value) => value.trim() },
+                  { transform: (value) => value?.trim() },
                   {
                     required: true,
                     message: $t('homepage.lastNameEmtry'),
@@ -32,7 +32,7 @@
               'first_name',
               {
                 rules: [
-                  { transform: (value) => value.trim() },
+                  { transform: (value) => value?.trim() },
                   {
                     required: true,
                     message: $t('homepage.firstNameEmtry'),
@@ -48,7 +48,7 @@
               'email',
               {
                 rules: [
-                  { transform: (value) => value.trim() },
+                  { transform: (value) => value?.trim() },
                   {
                     type: 'email',
                     message: $t('homepage.validEmail'),
@@ -199,12 +199,14 @@ export default {
         if (!err) {
           try {
             await this.$api.signUp(values)
+            this.$router.push({ path: this.localePath('/') })
             notification(
               this.$notification,
               'success',
               this.$t('homepage.signupSuccess'),
               this.$t('homepage.desSignupSuccess')
             )
+            this.form.resetFields()
           } catch (e) {
             const messageError = []
             for (let i = 0; i < e.response.data.error.length; i++) {
