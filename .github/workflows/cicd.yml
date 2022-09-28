@@ -3,8 +3,6 @@ name: cicd
 on:
   push:
     branches:
-      - main
-      - master
       - develop
 
 jobs:
