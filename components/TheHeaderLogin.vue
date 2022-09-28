@@ -44,7 +44,7 @@ export default {
     return {
       collapsed: false,
       size: 'large',
-      isSignup: false,
+      isSignup: $nuxt.$route.path.includes('signup'),
     }
   },
   computed: {
