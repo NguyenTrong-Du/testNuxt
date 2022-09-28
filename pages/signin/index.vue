@@ -142,16 +142,27 @@ export default {
               this.form.resetFields()
             }
           } catch (e) {
-            const messageError = []
-            for (let i = 0; i < e.response.data.error.length; i++) {
-              messageError.push(this.$t(`error.${e.response.data.error}`))
+            if (e.response.data.error.includes(30001)) {
+              this.$router.push({ path: this.localePath('/') })
+              const messageError = [this.$t(`error.${e.response.data.error}`)]
+              notification(
+                this.$notification,
+                'error',
+                this.$t('homepage.signinError'),
+                messageError
+              )
+            } else {
+              const messageError = []
+              for (let i = 0; i < e.response.data.error.length; i++) {
+                messageError.push(this.$t(`error.${e.response.data.error}`))
+              }
+              notification(
+                this.$notification,
+                'error',
+                this.$t('homepage.signinError'),
+                messageError
+              )
             }
-            notification(
-              this.$notification,
-              'error',
-              this.$t('homepage.signinError'),
-              messageError
-            )
           }
         }
         this.disabledBtn = false

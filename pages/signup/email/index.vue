@@ -199,7 +199,6 @@ export default {
         if (!err) {
           try {
             await this.$api.signUp(values)
-            this.$router.push({ path: this.localePath('/') })
             notification(
               this.$notification,
               'success',
