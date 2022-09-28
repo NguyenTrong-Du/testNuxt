@@ -2,7 +2,7 @@
   <div class="w-full bg-[#05293C] top-0">
     <div class="shadow-xl border-b-2 border-zinc-300 flex justify-between">
       <div class="font-mono ml-10 mt-4 font-bold">NODEYE</div>
-      <div class="flex mr-10 mt-2 mb-2">
+      <div class="flex mr-10 mt-2 mb-2 gap-3">
         <a-button type="text" shape="round">
           <nuxt-link to="/signin">
             {{ $t('homepage.login') }}

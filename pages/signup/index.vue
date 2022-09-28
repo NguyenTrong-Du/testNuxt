@@ -9,7 +9,7 @@
     </div>
     <div class="flex justify-center mt-5">
       <div
-        class="h-12 w-1/2 bg-white rounded-lg flex items-center text-black font-semibold cursor-pointer"
+        class="h-12 w-2/3 bg-white rounded-lg flex items-center text-black font-semibold cursor-pointer"
         @click="$router.push({ path: localePath('/signup/email') })"
       >
         <img :src="emailLogoURL" width="20px" height="20px" class="mr-3 ml-3" />

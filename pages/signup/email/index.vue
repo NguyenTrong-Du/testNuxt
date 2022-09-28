@@ -7,15 +7,16 @@
       <a-form
         :form="form"
         :layout="formLayout"
-        class="w-1/2"
+        class="w-2/3"
         @submit="handleSubmit"
       >
-        <a-form-item :label="$t('homepage.lastName')">
+        <a-form-item :label="$t('homepage.lastName')" class="mb-0">
           <a-input
             v-decorator="[
               'last_name',
               {
                 rules: [
+                  { transform: (value) => value.trim() },
                   {
                     required: true,
                     message: $t('homepage.lastNameEmtry'),
@@ -25,12 +26,13 @@
             ]"
           />
         </a-form-item>
-        <a-form-item :label="$t('homepage.firstName')">
+        <a-form-item :label="$t('homepage.firstName')" class="mb-0">
           <a-input
             v-decorator="[
               'first_name',
               {
                 rules: [
+                  { transform: (value) => value.trim() },
                   {
                     required: true,
                     message: $t('homepage.firstNameEmtry'),
@@ -40,12 +42,13 @@
             ]"
           />
         </a-form-item>
-        <a-form-item :label="$t('homepage.email')">
+        <a-form-item :label="$t('homepage.email')" class="mb-0">
           <a-input
             v-decorator="[
               'email',
               {
                 rules: [
+                  { transform: (value) => value.trim() },
                   {
                     type: 'email',
                     message: $t('homepage.validEmail'),
@@ -57,7 +60,7 @@
           />
         </a-form-item>
         <div v-if="usePassword">
-          <a-form-item :label="$t('homepage.password')">
+          <a-form-item :label="$t('homepage.password')" class="mb-0">
             <a-input-password
               v-decorator="[
                 'password',
@@ -81,7 +84,7 @@
               ]"
             />
           </a-form-item>
-          <a-form-item :label="$t('homepage.passwordConfirm')">
+          <a-form-item :label="$t('homepage.passwordConfirm')" class="mb-0">
             <a-input-password
               v-decorator="[
                 'password_confirmation',
@@ -102,13 +105,13 @@
             />
           </a-form-item>
         </div>
-        <a-form-item class="flex justify-center">
+        <a-form-item class="flex justify-center mt-5">
           <a-button
             type="text"
             shape="round"
             class="bg-white text-black mr-2"
             :disabled="disabledBtn"
-            @click="handleUsePassword"
+            @click="handleUsePassword()"
           >
             {{
               usePassword
@@ -131,6 +134,7 @@
 </template>
 
 <script>
+import useNotification from '@/composables/useNotification'
 export default {
   name: 'SignIn',
   layout: 'signin',
@@ -155,6 +159,9 @@ export default {
     this.$api.getCookie()
   },
   methods: {
+    handleUsePassword() {
+      this.usePassword = !this.usePassword
+    },
     openNotificationWithIcon(type, title, error) {
       for (let i = 0; i < error.length; i++) {
         this.$notification[type]({
@@ -186,30 +193,34 @@ export default {
 
     handleSubmit(e) {
       this.disabledBtn = true
+      const { notification } = useNotification()
       e.preventDefault()
       this.form.validateFields(async (err, values) => {
         if (!err) {
           try {
             await this.$api.signUp(values)
-            this.openNotificationWithIcon(
+            notification(
+              this.$notification,
               'success',
               this.$t('homepage.signupSuccess'),
               this.$t('homepage.desSignupSuccess')
             )
           } catch (e) {
-            this.openNotificationWithIcon(
+            const messageError = []
+            for (let i = 0; i < e.response.data.error.length; i++) {
+              messageError.push(this.$t(`error.${e.response.data.error}`))
+            }
+            notification(
+              this.$notification,
               'error',
               this.$t('homepage.signupError'),
-              e.response.data.error
+              messageError
             )
           }
         }
       })
       this.disabledBtn = false
     },
-  },
-  handleUsePassword() {
-    this.usePassword = !this.usePassword
   },
 }
 </script>

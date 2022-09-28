@@ -1,5 +1,8 @@
 <template>
-  <div class="bg-[#9CA3AF] h-full flex items-center pt-12">
+  <div
+    class="h-full flex items-center pt-12"
+    :style="{ backgroundImage: `url(${backgroundUrl})` }"
+  >
     <div class="ml-20">
       <div class="text-black w-[1/3] text-xl mb-4">
         {{ $t('homepage.title1') }}
@@ -14,6 +17,7 @@
 </template>
 
 <script>
+import backgroundUrl from '~/assets/img/bg.avif'
 export default {
   name: 'App',
   layout: 'homepage',
@@ -21,6 +25,7 @@ export default {
     return {
       collapsed: false,
       size: 'large',
+      backgroundUrl,
     }
   },
 }

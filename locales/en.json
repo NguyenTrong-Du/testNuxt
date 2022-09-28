@@ -33,6 +33,7 @@
     "desSignupError": "Registration failed. Please check your information again",
     "signinSuccess": "Login successful",
     "signinError": "Login error",
+    "signinSuccessOtp": "Check your email to log in",
     "desSigninError": "The account doesn’t exist, the password is incorrect, or you have exceeded the number of allowed login attempts.",
     "validEmail": "The input is not valid E-mail!",
     "valiPasswordConfirm": "Two passwords that you enter is inconsistent!",

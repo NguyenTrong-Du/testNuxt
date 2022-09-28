@@ -7,19 +7,20 @@
     <div class="flex justify-center m-5">
       {{ $t('homepage.or') }}
     </div>
-    <div class="w-1/2 ml-[25%]">
+    <div class="w-2/3 ml-[16%]">
       <a-form
         :form="form"
         :layout="formLayout"
         class="w-full"
         @submit="handleSubmit"
       >
-        <a-form-item :label="$t('homepage.email')">
+        <a-form-item :label="$t('homepage.email')" class="mb-0">
           <a-input
             v-decorator="[
               'email',
               {
                 rules: [
+                  { transform: (value) => value.trim() },
                   {
                     type: 'email',
                     message: $t('homepage.validEmail'),
@@ -53,7 +54,7 @@
             />
           </a-form-item>
         </div>
-        <a-form-item class="flex justify-center">
+        <a-form-item class="flex justify-center mt-5">
           <a-button
             type="text"
             shape="round"
@@ -85,6 +86,7 @@
 <script>
 import TheSns from '~/components/TheSns.vue'
 import { useCurrentUserStore } from '~/store/user'
+import useNotification from '@/composables/useNotification'
 export default {
   name: 'SignIn',
   components: {
@@ -111,15 +113,8 @@ export default {
     this.$api.getCookie()
   },
   methods: {
-    openNotificationWithIcon(type, title, error) {
-      for (let i = 0; i < error.length; i++) {
-        this.$notification[type]({
-          message: title,
-          description: this.$t('error.' + error[i]),
-        })
-      }
-    },
     handleSubmit(e) {
+      const { notification } = useNotification()
       e.preventDefault()
       this.disabledBtn = true
       const currentUser = useCurrentUserStore()
@@ -128,21 +123,33 @@ export default {
           try {
             if (!values.password) {
               await this.$api.loginByOtp(values)
+              notification(
+                this.$notification,
+                'success',
+                this.$t('homepage.signinSuccess'),
+                this.$t('homepage.signinSuccessOtp')
+              )
             } else {
               const res = await this.$api.login(values)
               currentUser.setCurrentUser(res.data.user)
-              this.$router.push({ path: this.localePath('/homepage') })
-              this.openNotificationWithIcon(
+              this.$router.push({ path: this.localePath('/') })
+              notification(
+                this.$notification,
                 'success',
                 this.$t('homepage.signinSuccess'),
                 ''
               )
             }
           } catch (e) {
-            this.openNotificationWithIcon(
+            const messageError = []
+            for (let i = 0; i < e.response.data.error.length; i++) {
+              messageError.push(this.$t(`error.${e.response.data.error}`))
+            }
+            notification(
+              this.$notification,
               'error',
-              this.$t('homepage.signupError'),
-              e.response.data.error
+              this.$t('homepage.signinError'),
+              messageError
             )
           }
         }
