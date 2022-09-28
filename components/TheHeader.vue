@@ -4,12 +4,16 @@
       <div class="font-mono ml-10 mt-4 font-bold">NODEYE</div>
       <div class="flex mr-10 mt-2 mb-2 gap-3">
         <a-button type="text" shape="round">
-          <nuxt-link to="/signin">
+          <nuxt-link
+            :to="`${$i18n.locale === 'ja' ? '/ja/signin' : '/signin'}`"
+          >
             {{ $t('homepage.login') }}
           </nuxt-link>
         </a-button>
         <a-button shape="round" class="bg-green-700 text-white">
-          <nuxt-link to="/signup">
+          <nuxt-link
+            :to="`${$i18n.locale === 'ja' ? '/ja/signup' : '/signup'}`"
+          >
             {{ $t('homepage.register') }}
           </nuxt-link>
         </a-button>

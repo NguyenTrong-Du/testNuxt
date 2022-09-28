@@ -20,7 +20,7 @@
               'email',
               {
                 rules: [
-                  { transform: (value) => value.trim() },
+                  { transform: (value) => value?.trim() },
                   {
                     type: 'email',
                     message: $t('homepage.validEmail'),
@@ -139,6 +139,7 @@ export default {
                 this.$t('homepage.signinSuccess'),
                 ''
               )
+              this.form.resetFields()
             }
           } catch (e) {
             const messageError = []
