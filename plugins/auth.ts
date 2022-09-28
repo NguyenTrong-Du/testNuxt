@@ -26,6 +26,10 @@ export default function ({ $axios }: any, inject: any) {
     password: string
     password_confirmation: string
   }
+  interface UserLogin {
+    email: string
+    password?: string
+  }
 
   const api = {
     getCookie: () => axios.$get('sanctum/csrf-cookie'),
@@ -43,6 +47,17 @@ export default function ({ $axios }: any, inject: any) {
     loginByFacebook: () => axios.$get('/api/v1/auth/facebook'),
     redirectLoginByFacebook: (code: string) =>
       axios.$get(`/api/v1/auth/facebook/callback?code=${code}`),
+    loginByInstagram: () => axios.$get('/api/v1/auth/instagram'),
+    redirectLoginByInstagram: (code: string) =>
+      axios.$get(`/api/v1/auth/instagram/callback?code=${code}`),
+    loginByOtp: (data: UserLogin) =>
+      axios.$post('api/v1/login/email-otp', data),
+    redirectLoginByOtp: (userId: string, signature: string) => {
+      axios.$get(
+        `/api/v1/login/email-otp/verify/${userId}?signature=${signature}`
+      )
+    },
+    logout: () => axios.$post('/api/v1/logout'),
   }
   inject('api', api)
 }
