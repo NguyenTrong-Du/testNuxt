@@ -9,7 +9,10 @@ import { useCurrentUserStore } from '~/store/user'
 export default {
   name: 'CallbackLoading',
   async created() {
-    if (this.$route.query.oauth_token && this.$route.query.oauth_verifier) {
+    const isLoginTwitterSuccess = Boolean(
+      this.$route.query.oauth_token && this.$route.query.oauth_verifier
+    )
+    if (isLoginTwitterSuccess) {
       try {
         const data = await this.$api.redirectLoginByTwitter(
           this.$route.query.oauth_token,
@@ -21,6 +24,8 @@ export default {
       } catch (e) {
         // TODO task show message
       }
+    } else {
+      this.$router.push({ path: this.localePath('/signin') })
     }
   },
 }

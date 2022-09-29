@@ -9,7 +9,8 @@ import { useCurrentUserStore } from '~/store/user'
 export default {
   name: 'CallbackLoading',
   async created() {
-    if (this.$route.query.code) {
+    const isLoginInstagramSuccess = Boolean(this.$route.query.code)
+    if (isLoginInstagramSuccess) {
       try {
         const data = await this.$api.redirectLoginByInstagram(
           this.$route.query.code
@@ -20,6 +21,8 @@ export default {
       } catch (e) {
         // TODO task show message
       }
+    } else {
+      this.$router.push({ path: this.localePath('/signin') })
     }
   },
 }
