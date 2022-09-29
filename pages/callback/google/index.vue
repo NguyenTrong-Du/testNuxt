@@ -18,7 +18,6 @@ export default {
         currentUser.setCurrentUser(data.data.user)
         this.$router.push({ path: this.localePath('/') })
       } catch (e) {
-        this.$router.push({ path: this.localePath('/signin') })
         // TODO task show message
       }
     } else {
