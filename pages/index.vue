@@ -10,7 +10,7 @@
         {{ $t('homepage.title2') }}
       </div>
       <a-button
-        v-show="isShow"
+        v-show="isLoggedIn"
         shape="round"
         :size="size"
         class="bg-white text-black"
@@ -34,12 +34,12 @@ export default {
       collapsed: false,
       size: 'large',
       backgroundUrl,
-      isShow: true,
+      isLoggedIn: true,
     }
   },
   created() {
     const { displayName, firstName } = useCurrentUserStore()
-    if (displayName || firstName) this.isShow = false
+    if (displayName || firstName) this.isLoggedIn = false
   },
 }
 </script>
