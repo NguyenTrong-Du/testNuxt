@@ -74,6 +74,7 @@
             shape="round"
             class="bg-green-700 text-white ml-2"
             :disabled="disabledBtn"
+            :loading="loadingBtn"
           >
             {{ $t('homepage.login') }}
           </a-button>
@@ -102,6 +103,7 @@ export default {
       form: this.$form.createForm(this, { name: 'coordinated' }),
       disabledBtn: false,
       usePassword: false,
+      loadingBtn: false,
     }
   },
   computed: {
@@ -117,6 +119,7 @@ export default {
       const { notification } = useNotification()
       e.preventDefault()
       this.disabledBtn = true
+      this.loadingBtn = true
       const currentUser = useCurrentUserStore()
       this.form.validateFields(async (err, values) => {
         if (!err) {
@@ -166,6 +169,7 @@ export default {
           }
         }
         this.disabledBtn = false
+        this.loadingBtn = false
       })
     },
     handleUsePassword() {

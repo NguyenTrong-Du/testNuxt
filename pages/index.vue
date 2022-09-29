@@ -9,7 +9,12 @@
         <br />
         {{ $t('homepage.title2') }}
       </div>
-      <a-button shape="round" :size="size" class="bg-white text-black">
+      <a-button
+        v-show="isShow"
+        shape="round"
+        :size="size"
+        class="bg-white text-black"
+      >
         <nuxt-link :to="`${$i18n.locale === 'ja' ? '/ja/signin' : '/signin'}`">
           {{ $t('homepage.joinNow') }}
         </nuxt-link>
@@ -20,6 +25,7 @@
 
 <script>
 import backgroundUrl from '~/assets/img/bg.avif'
+import { useCurrentUserStore } from '~/store/user'
 export default {
   name: 'App',
   layout: 'homepage',
@@ -28,7 +34,12 @@ export default {
       collapsed: false,
       size: 'large',
       backgroundUrl,
+      isShow: true,
     }
+  },
+  created() {
+    const { displayName, firstName } = useCurrentUserStore()
+    if (displayName || firstName) this.isShow = false
   },
 }
 </script>

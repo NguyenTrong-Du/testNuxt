@@ -124,6 +124,7 @@
             shape="round"
             class="bg-green-700 text-white ml-2"
             :disabled="disabledBtn"
+            :loading="loadingBtn"
           >
             {{ $t('homepage.register') }}
           </a-button>
@@ -148,6 +149,7 @@ export default {
       disabledBtn: false,
       confirmDirty: false,
       usePassword: false,
+      loadingBtn: false,
     }
   },
   computed: {
@@ -193,6 +195,7 @@ export default {
 
     handleSubmit(e) {
       this.disabledBtn = true
+      this.loadingBtn = true
       const { notification } = useNotification()
       e.preventDefault()
       this.form.validateFields(async (err, values) => {
@@ -221,6 +224,7 @@ export default {
         }
       })
       this.disabledBtn = false
+      this.loadingBtn = false
     },
   },
 }
