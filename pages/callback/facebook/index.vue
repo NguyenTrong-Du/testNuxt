@@ -9,7 +9,8 @@ import { useCurrentUserStore } from '~/store/user'
 export default {
   name: 'CallbackLoading',
   async created() {
-    if (this.$route.query.code) {
+    const isLoginFacebookSuccess = Boolean(this.$route.query.code)
+    if (isLoginFacebookSuccess) {
       try {
         const data = await this.$api.redirectLoginByFacebook(
           this.$route.query.code

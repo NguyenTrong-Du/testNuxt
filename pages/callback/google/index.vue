@@ -9,7 +9,8 @@ import { useCurrentUserStore } from '~/store/user'
 export default {
   name: 'CallbackLoading',
   async created() {
-    if (this.$route.query.code) {
+    const isLoginGoogleSuccess = Boolean(this.$route.query.code)
+    if (isLoginGoogleSuccess) {
       try {
         const data = await this.$api.redirectLoginByGoogle(
           this.$route.query.code
