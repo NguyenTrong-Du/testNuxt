@@ -34,12 +34,14 @@ export default {
       collapsed: false,
       size: 'large',
       backgroundUrl,
-      isNotLoggedIn: true,
     }
   },
-  created() {
-    const { displayName, firstName } = useCurrentUserStore()
-    if (displayName || firstName) this.isNotLoggedIn = false
+  computed: {
+    isNotLoggedIn() {
+      const { displayName, firstName } = useCurrentUserStore()
+      if (displayName || firstName) return false
+      return true
+    },
   },
 }
 </script>
