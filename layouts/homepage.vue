@@ -38,6 +38,7 @@ export default {
       }
     }
     const currentUser = useCurrentUserStore()
+    currentUser.setLoadingUser(true)
     if (currentUser.firstName || currentUser.displayName) {
       this.userName = getFullName(
         currentUser.firstName,
