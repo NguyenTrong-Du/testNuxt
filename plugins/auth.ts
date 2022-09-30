@@ -57,6 +57,15 @@ export default function ({ $axios }: any, inject: any) {
         `/api/v1/login/email-otp/verify/${userId}?signature=${signature}`
       ),
     logout: () => axios.$post('/api/v1/logout'),
+
+    // info
+    getAllCountry: () => axios.$get('/api/v1/country'),
+    editInfo: (userId: string, data: any) =>
+      axios.$post(`/api/v1/user/company/update/${userId}`, data, {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      })
   }
   inject('api', api)
 }

@@ -20,7 +20,11 @@ export default {
         )
         const currentUser = useCurrentUserStore()
         currentUser.setCurrentUser(data.data.user)
-        this.$router.push({ path: this.localePath('/') })
+        if (!currentUser.hasFinishedBasicInfo) {
+          this.$router.push({ path: this.localePath('/info') })
+        } else {
+          this.$router.push({ path: this.localePath('/') })
+        }
       } catch (e) {
         // TODO task show message
       }
