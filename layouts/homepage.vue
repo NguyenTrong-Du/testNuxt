@@ -14,6 +14,7 @@
 import SimpleTheHeader from '~/components/SimpleTheHeader.vue'
 import TheHeader from '~/components/TheHeader.vue'
 import { useCurrentUserStore } from '~/store/user'
+import { useRefetchUser } from '~/store/refetch'
 export default {
   name: 'App',
   components: {
@@ -21,10 +22,35 @@ export default {
     SimpleTheHeader,
   },
   data() {
+    const currentRefetch = useRefetchUser()
     return {
       collapsed: false,
       userName: '',
+      isRefetch2: currentRefetch.isRefetch,
     }
+  },
+  computed: {
+    isRefetch() {
+      const test = useRefetchUser()
+      return test.isRefetch
+    },
+  },
+  watch: {
+    async isRefetch() {
+      try {
+        const response = await this.$api.getUser()
+        if (response.last_name) {
+          this.userName =
+            response.display_name ||
+            `${response.first_name} ${response.last_name}`
+        } else {
+          this.userName = response.display_name || response.first_name
+        }
+        currentUser.setCurrentUser(response)
+      } catch (e) {
+        // TODO
+      }
+    },
   },
   async created() {
     const getFullName = (firstName, lastName, displayName) => {

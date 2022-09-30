@@ -2,12 +2,12 @@
   <div class="flex justify-center items-center h-screen">
     <a-result
       status="error"
-      title="Email verification failed"
-      sub-title="Verification link expired. Please resend the verification email."
+      :title="$t('homepage.verifyFailed')"
+      :sub-title="$t('homepage.descVerifyFailed')"
     >
       <template #extra>
         <a-button key="console" type="primary">
-          <nuxt-link to="/signup">Register</nuxt-link>
+          <nuxt-link to="/signup">{{$t('homepage.register')}}</nuxt-link>
         </a-button>
       </template>
     </a-result>

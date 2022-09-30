@@ -17,10 +17,10 @@
           </div>
           <div v-if="current === 2">
             <div v-if="form.account_type === 'company'">
-            <CompanyInfo @prev="prev" @done="done" />
+              <CompanyInfo @prev="prev" @done="done" />
             </div>
             <div v-if="form.account_type === 'individual'">
-            <PersonInfo @prev="prev" @done="done" />
+              <PersonInfo @prev="prev" @done="done" />
             </div>
           </div>
         </div>
@@ -34,6 +34,7 @@ import BasicInfo from '~/components/BasicInfo.vue'
 import CompanyInfo from '~/components/CompanyInfo.vue'
 import { useCurrentUserStore } from '~/store/user'
 import useNotification from '@/composables/useNotification'
+import { useRefetchUser } from '~/store/refetch'
 export default {
   name: 'InfoAccount',
   components: { BasicInfo, CompanyInfo },
@@ -58,9 +59,9 @@ export default {
       ],
     }
   },
-    created(){
+  created() {
     const currentUser = useCurrentUserStore()
-    if(currentUser.email){
+    if (currentUser.email) {
       this.form.email = currentUser.email
     }
   },
@@ -78,6 +79,7 @@ export default {
     },
     done(form) {
       const { notification } = useNotification()
+      const refetchUser = useRefetchUser()
       const currentUser = useCurrentUserStore()
       form.validateFields(async (err, values) => {
         if (!err) {
@@ -101,6 +103,7 @@ export default {
           this.form = data
           try {
             await this.$api.editInfo(currentUser.id, data)
+            refetchUser.changeRefetch()
             this.$router.push({ path: this.localePath('/') })
             notification(
               this.$notification,
