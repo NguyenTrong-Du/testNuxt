@@ -5,10 +5,12 @@
 </template>
 
 <script>
+import useNotification from '~/composables/useNotification'
 import { useCurrentUserStore } from '~/store/user'
 export default {
   name: 'CallbackLoading',
   async created() {
+    const { notification } = useNotification()
     const isLoginGoogleSuccess = Boolean(this.$route.query.code)
     if (isLoginGoogleSuccess) {
       try {
@@ -18,6 +20,12 @@ export default {
         const currentUser = useCurrentUserStore()
         currentUser.setCurrentUser(data.data.user)
         this.$router.push({ path: this.localePath('/') })
+        notification(
+          this.$notification,
+          'success',
+          this.$t('homepage.signinSuccess'),
+          ''
+        )
       } catch (e) {
         // TODO task show message
       }

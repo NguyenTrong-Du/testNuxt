@@ -1,12 +1,14 @@
 <template>
   <div>
-    <div class="grid grid-rows-auto-1fr h-screen overflow-hidden">
-      <div v-if="userName?.trim().length === 0"><TheHeader /></div>
-      <div v-else><SimpleTheHeader :user-name="userName" /></div>
-      <div class="overflow-auto">
-        <nuxt />
+    <a-spin :spinning="isLoadingUser">
+      <div class="grid grid-rows-auto-1fr h-screen overflow-hidden">
+        <div v-if="userName?.trim().length === 0"><TheHeader /></div>
+        <div v-else><SimpleTheHeader :user-name="userName" /></div>
+        <div class="overflow-auto">
+          <nuxt />
+        </div>
       </div>
-    </div>
+    </a-spin>
   </div>
 </template>
 
@@ -24,6 +26,7 @@ export default {
     return {
       collapsed: false,
       userName: '',
+      isLoadingUser: true,
     }
   },
   async created() {
@@ -41,6 +44,9 @@ export default {
         currentUser.lastName,
         currentUser.displayName
       )
+      if ($nuxt.$route.path.includes('wellcome')) {
+        this.$router.push({ path: this.localePath('/') })
+      }
     } else {
       try {
         const response = await this.$api.getUser()
@@ -50,16 +56,22 @@ export default {
           response.display_name
         )
         currentUser.setCurrentUser(response)
+        if ($nuxt.$route.path.includes('wellcome')) {
+          this.$router.push({ path: this.localePath('/') })
+        }
       } catch (e) {
-        if (
+        if ($nuxt.$route.path === '/') {
+          this.$router.push({ path: this.localePath('/wellcome') })
+        } else if (
           !$nuxt.$route.path.includes('signin') &&
           !$nuxt.$route.path.includes('signup') &&
-          !$nuxt.$route.path === '/'
+          !$nuxt.$route.path.includes('wellcome')
         ) {
           this.$router.push({ path: this.localePath('/signin') })
         }
       }
     }
+    this.isLoadingUser = false
   },
 }
 </script>

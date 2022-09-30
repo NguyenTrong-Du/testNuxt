@@ -6,9 +6,11 @@
 
 <script>
 import { useCurrentUserStore } from '~/store/user'
+import useNotification from '@/composables/useNotification'
 export default {
   name: 'CallbackLoading',
   async created() {
+    const { notification } = useNotification()
     const isLoginFacebookSuccess = Boolean(this.$route.query.code)
     if (isLoginFacebookSuccess) {
       try {
@@ -18,6 +20,12 @@ export default {
         const currentUser = useCurrentUserStore()
         currentUser.setCurrentUser(data.data.user)
         this.$router.push({ path: this.localePath('/') })
+        notification(
+          this.$notification,
+          'success',
+          this.$t('homepage.signinSuccess'),
+          ''
+        )
       } catch (e) {
         // TODO task show message
       }
