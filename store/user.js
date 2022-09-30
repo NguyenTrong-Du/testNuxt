@@ -9,6 +9,7 @@ export const useCurrentUserStore = defineStore('currentUser', {
     hasFinishedBasicInfo: false,
     profileImage: null,
     totalPoint: 0,
+    isLoadingUser: false,
   }),
   actions: {
     setCurrentUser(user) {
@@ -19,6 +20,9 @@ export const useCurrentUserStore = defineStore('currentUser', {
       this.hasFinishedBasicInfo = user.has_finished_basic_info
       this.profileImage = user.profile_image
       this.totalPoint = user.total_point
+    },
+    setLoadingUser(loading) {
+      this.isLoadingUser = loading
     },
   },
 })

@@ -14,5 +14,11 @@ export default {
       backgroundUrl,
     }
   },
+  computed: {
+    isNotLoggedIn() {
+      const { isLoadingUser } = useCurrentUserStore()
+      return !isLoadingUser
+    },
+  },
 }
 </script>

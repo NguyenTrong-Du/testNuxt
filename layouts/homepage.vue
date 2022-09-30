@@ -27,6 +27,7 @@ export default {
       collapsed: false,
       userName: '',
       isLoadingUser: true,
+      isNotLoadingUser: false,
     }
   },
   async created() {
@@ -72,6 +73,7 @@ export default {
         }
       }
     }
+    currentUser.setLoadingUser(false)
     this.isLoadingUser = false
   },
 }
