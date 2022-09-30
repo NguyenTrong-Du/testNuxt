@@ -83,7 +83,7 @@
     ><a-form-item :label="$t('info.phoneNumber')" class="mb-4 flex gap-8">
       <a-input v-decorator="['phone_number']" />
     </a-form-item>
-    <!-- <a-form-item :label="$t('info.nationality')" class="mb-4 flex gap-8">
+    <a-form-item :label="$t('info.nationality')" class="mb-4 flex gap-8">
       <div
         v-for="nationality in nationalityNumber"
         :key="nationality"
@@ -93,24 +93,21 @@
           class="mr-3"
           :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
         >
-          <a-select v-model="nationalities">
-            <div v-for="region in nationalities" :key="region.region">
-              <a-select-option :value="region.region">
-                {{ region.region }}
-              </a-select-option>
-            </div>
+          <a-select v-model = "choseRegions[nationality-1]" @change = "handleRegionChange">
+            <a-select-option v-for="nationality in allCountries" :key="nationality.region">
+            {{ nationality.region }}
+            </a-select-option>
           </a-select>
         </a-form-item>
+
         <a-form-item
           class="ml-3"
           :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
         >
-          <a-select v-model="nationalities">
-            <div v-for="countries in nationalities" :key="countries.countries">
-            <a-select-option :value="countries.countries">
-              {{ countries.countries }}
-            </a-select-option>
-          </div>
+          <a-select v-model = "choseNationalities[nationality-1]">
+              <a-select-option  v-for="country in listCountriesInChoseRegion" :key="country.id" :value="country.id">
+                {{ country.name }}
+              </a-select-option>
           </a-select>
         </a-form-item>
       </div>
@@ -120,7 +117,7 @@
       >
         <MdAddIcon w="25px" h="25px" />
       </div>
-    </a-form-item> -->
+    </a-form-item>
     <a-form-item :label="$t('info.refferalUserEmail')" class="mb-4 flex gap-8">
       <a-input v-decorator="['refferal_user_email']" />
     </a-form-item>
@@ -131,20 +128,22 @@
 </template>
 
 <script>
-// import MdAddIcon from 'vue-ionicons/dist/md-add.vue'
+import MdAddIcon from 'vue-ionicons/dist/md-add.vue'
 import { useCurrentUserStore } from '~/store/user'
 export default {
-  // components: {
-  //   MdAddIcon,
-  // },
-  // eslint-disable-next-line vue/require-prop-types
+  components: {
+    MdAddIcon,
+  },
+  //eslint-disable-next-line vue/require-prop-types
   props: ['formData'],
   data() {
     return {
       first_name: this.formData.first_name,
       nationalityNumber: 1,
-      nationalitys: [],
-      nationaly: '',
+      allCountries: [],
+      choseRegions: [],
+      listCountriesInChoseRegion: [],
+      choseNationalities: [],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       headers: {
         authorization: 'authorization-text',
@@ -152,10 +151,21 @@ export default {
       currentUser: useCurrentUserStore(),
     }
   },
+   async created () {
+    const countryData = await this.$api.getAllCountry();
+    this.allCountries = [...countryData.data];
+  },
   mounted() {
     this.form.setFieldsValue(this.formData)
   },
   methods: {
+    handleRegionChange(value) {
+        for(const region of this.allCountries) {
+          if (region.region === value) {
+            this.listCountriesInChoseRegion =  [...region.countries];
+          }
+        }
+    },
     handleAddNationality() {
       this.nationalityNumber++
     },
