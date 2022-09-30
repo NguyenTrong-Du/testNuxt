@@ -6,6 +6,7 @@ export const useCurrentUserStore = defineStore('currentUser', {
     firstName: '',
     lastName: '',
     displayName: '',
+    email: '',
     hasFinishedBasicInfo: false,
     profileImage: null,
     totalPoint: 0,
@@ -19,6 +20,7 @@ export const useCurrentUserStore = defineStore('currentUser', {
       this.hasFinishedBasicInfo = user.has_finished_basic_info
       this.profileImage = user.profile_image
       this.totalPoint = user.total_point
+      this.email = user.email
     },
   },
 })
