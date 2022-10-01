@@ -10,6 +10,7 @@ export const useCurrentUserStore = defineStore('currentUser', {
     hasFinishedBasicInfo: false,
     profileImage: null,
     totalPoint: 0,
+    isLoadingUser: false,
   }),
   getters: {
     getEmail: (state) => state.email,
@@ -24,6 +25,9 @@ export const useCurrentUserStore = defineStore('currentUser', {
       this.profileImage = user.profile_image
       this.totalPoint = user.total_point
       this.email = user.email
+    },
+    setLoadingUser(loading) {
+      this.isLoadingUser = loading
     },
   },
 })

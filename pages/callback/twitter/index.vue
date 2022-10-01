@@ -5,10 +5,12 @@
 </template>
 
 <script>
+import useNotification from '~/composables/useNotification'
 import { useCurrentUserStore } from '~/store/user'
 export default {
   name: 'CallbackLoading',
   async created() {
+    const { notification } = useNotification()
     const isLoginTwitterSuccess = Boolean(
       this.$route.query.oauth_token && this.$route.query.oauth_verifier
     )
@@ -25,6 +27,12 @@ export default {
         } else {
           this.$router.push({ path: this.localePath('/') })
         }
+        notification(
+          this.$notification,
+          'success',
+          this.$t('homepage.signinSuccess'),
+          ''
+        )
       } catch (e) {
         // TODO task show message
       }
