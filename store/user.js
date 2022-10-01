@@ -12,7 +12,7 @@ export const useCurrentUserStore = defineStore('currentUser', {
     totalPoint: 0,
   }),
   getters: {
-    getEmail: (state) => state.email
+    getEmail: (state) => state.email,
   },
   actions: {
     setCurrentUser(user) {

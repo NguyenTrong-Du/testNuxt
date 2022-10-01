@@ -64,12 +64,14 @@
         v-decorator="[
           'profile_image_file',
           {
-            valuePropName: 'fileList',
             getValueFromEvent: normFile,
           },
         ]"
+        :before-upload="beforeUpload"
         name="logo"
         list-type="picture"
+        :file-list="listFileAvata"
+        @change="handleSelectImage"
       >
         <a-button>
           <a-icon type="upload" /> {{ $t('info.uploadFile') }}
@@ -79,7 +81,9 @@
     </a-form-item>
     <a-form-item :label="$t('info.email')" class="mb-4 flex gap-8">
       <div v-if="currentUser.email">{{ currentUser.email }}</div>
-      <div v-else class="text-rose-800">{{ $t('info.noEmail') }}</div> </a-form-item
+      <div v-else class="text-rose-800">
+        {{ $t('info.noEmail') }}
+      </div> </a-form-item
     ><a-form-item :label="$t('info.phoneNumber')" class="mb-4 flex gap-8">
       <a-input v-decorator="['phone_number']" />
     </a-form-item>
@@ -93,9 +97,15 @@
           class="mr-3"
           :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
         >
-          <a-select v-model = "choseRegions[nationality-1]" @change = "handleRegionChange">
-            <a-select-option v-for="nationality in allCountries" :key="nationality.region">
-            {{ nationality.region }}
+          <a-select
+            v-model="choseRegions[nationality - 1]"
+            @change="(value) => handleRegionChange(nationality, value)"
+          >
+            <a-select-option
+              v-for="region in allCountries"
+              :key="region.region"
+            >
+              {{ region.region }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -104,12 +114,27 @@
           class="ml-3"
           :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
         >
-          <a-select v-model = "choseNationalities[nationality-1]">
-              <a-select-option  v-for="country in listCountriesInChoseRegion" :key="country.id" :value="country.id">
-                {{ country.name }}
-              </a-select-option>
+          <a-select
+            v-model="choseNationalities[nationality - 1]"
+            @change="(value) => handleCountryChange(nationality, value)"
+          >
+            <a-select-option
+              v-for="country in listCountriesInChoseRegion[nationality - 1]"
+              :key="country.id"
+              :value="country.id"
+            >
+              {{ country.name }}
+            </a-select-option>
           </a-select>
         </a-form-item>
+        <div v-if="nationality > 1" class="ml-2 mb-4">
+          <a-icon
+            type="delete"
+            :style="{ fontSize: '25px', color: 'red' }"
+            @click="deleteNationality"
+          />
+        </div>
+        <div v-else class="mr-8"></div>
       </div>
       <div
         class="steps-content flex justify-center items-center cursor-pointer"
@@ -122,7 +147,9 @@
       <a-input v-decorator="['refferal_user_email']" />
     </a-form-item>
     <div class="flex justify-center">
-      <a-button type="primary" @click="$emit('next', form)"> {{ $t('info.next')}} </a-button>
+      <a-button type="primary" @click="$emit('next', form, nationalities)">
+        {{ $t('info.next') }}
+      </a-button>
     </div>
   </a-form>
 </template>
@@ -134,7 +161,7 @@ export default {
   components: {
     MdAddIcon,
   },
-  //eslint-disable-next-line vue/require-prop-types
+  // eslint-disable-next-line vue/require-prop-types
   props: ['formData'],
   data() {
     return {
@@ -149,22 +176,30 @@ export default {
         authorization: 'authorization-text',
       },
       currentUser: useCurrentUserStore(),
+      nationalities: [],
+      listFileAvata: [],
     }
   },
-   async created () {
-    const countryData = await this.$api.getAllCountry();
-    this.allCountries = [...countryData.data];
+  async created() {
+    const countryData = await this.$api.getAllCountry()
+    this.allCountries = [...countryData.data]
   },
   mounted() {
     this.form.setFieldsValue(this.formData)
   },
   methods: {
-    handleRegionChange(value) {
-        for(const region of this.allCountries) {
-          if (region.region === value) {
-            this.listCountriesInChoseRegion =  [...region.countries];
-          }
+    handleRegionChange(nationality, value) {
+      for (const region of this.allCountries) {
+        if (region.region === value) {
+          this.listCountriesInChoseRegion[nationality - 1] = [
+            ...region.countries,
+          ]
         }
+      }
+    },
+    handleCountryChange(nationality, value) {
+      this.nationalities[nationality - 1] = value
+      // this.form.setFieldsValue('nationalities', this.nationalities)
     },
     handleAddNationality() {
       this.nationalityNumber++
@@ -174,6 +209,28 @@ export default {
         return e
       }
       return e && e.fileList
+    },
+    beforeUpload(file) {
+      const isJpgOrPng =
+        file.type === 'image/jpeg' ||
+        file.type === 'image/jpg' ||
+        file.type === 'image/png'
+      if (!isJpgOrPng) {
+        this.$message.error('You can only upload JPG/PNG/JPEG file!')
+      }
+      const isLt2M = file.size / 1024 / 1024 < 5
+      if (!isLt2M) {
+        this.$message.error('Image must smaller than 5MB!')
+      }
+      return isJpgOrPng && isLt2M
+    },
+    handleSelectImage(info) {
+      const fileImageList = [...info.fileList]
+      this.listFileAvata[0] = fileImageList[fileImageList.length - 1]
+    },
+    deleteNationality() {
+      this.nationalities.splice(this.nationalityNumber - 1, 1)
+      this.nationalityNumber--
     },
   },
 }

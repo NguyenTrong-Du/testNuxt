@@ -10,7 +10,7 @@
         {{ $t('info.save') }}
       </a-button>
       <a-button style="margin-left: 8px" @click="$emit('prev')">
-        {{ $t('info.previous')}}
+        {{ $t('info.previous') }}
       </a-button>
     </a-form-item>
   </a-form>

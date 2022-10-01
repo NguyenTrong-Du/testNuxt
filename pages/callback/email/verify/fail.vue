@@ -7,7 +7,7 @@
     >
       <template #extra>
         <a-button key="console" type="primary">
-          <nuxt-link to="/signup">{{$t('homepage.register')}}</nuxt-link>
+          <nuxt-link to="/signup">{{ $t('homepage.register') }}</nuxt-link>
         </a-button>
       </template>
     </a-result>

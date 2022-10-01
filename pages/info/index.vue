@@ -11,7 +11,7 @@
             :description="item.description"
           />
         </a-steps>
-        <div class="steps-content">
+        <div class="steps-content overflow-auto max-h-[550px]">
           <div v-if="current === 1" class="w-full">
             <BasicInfo :form-data="form" @next="next" />
           </div>
@@ -66,11 +66,11 @@ export default {
     }
   },
   methods: {
-    next(form) {
+    next(form, nationalities) {
       form.validateFields((err, values) => {
         if (!err) {
           this.current++
-          this.form = { ...values }
+          this.form = { ...values, nationalities: [...nationalities] }
         }
       })
     },
@@ -91,8 +91,16 @@ export default {
             )
           }
           for (const key in this.form) {
-            if (key !== 'profile_image_file' && this.form[key]) {
+            if (
+              key !== 'profile_image_file' &&
+              key !== 'nationalities' &&
+              this.form[key]
+            ) {
               data.append(key, this.form[key])
+            } else if (key === 'nationalities') {
+              for (let i = 0; i < this.form[key].length; i++) {
+                data.append('nationalities[]', this.form[key][i])
+              }
             }
           }
           for (const key in values) {

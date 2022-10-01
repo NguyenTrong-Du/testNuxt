@@ -63,9 +63,9 @@ export default function ({ $axios }: any, inject: any) {
     editInfo: (userId: string, data: any) =>
       axios.$post(`/api/v1/user/company/update/${userId}`, data, {
         headers: {
-          'content-type': 'multipart/form-data'
-        }
-      })
+          'content-type': 'multipart/form-data',
+        },
+      }),
   }
   inject('api', api)
 }
