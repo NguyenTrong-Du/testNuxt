@@ -1,13 +1,13 @@
 <template>
   <div>
-    <div class="flex justify-center m-5 text-xl font-bold">
+    <div class="flex justify-center m-5 text-2xl font-bold">
       {{ $t('homepage.titleLogin') }}
     </div>
     <TheSns />
-    <div class="flex justify-center m-5">
+    <div class="flex justify-center m-5 font-bold text-lg">
       {{ $t('homepage.or') }}
     </div>
-    <div class="w-2/3 ml-[16%]">
+    <div class="w-1/2 ml-[25%]">
       <a-form
         :form="form"
         :layout="formLayout"
@@ -58,7 +58,7 @@
           <a-button
             type="text"
             shape="round"
-            class="bg-white text-black mr-2"
+            class="bg-white text-black mr-2 h-12"
             :disabled="disabledBtn"
             @click="handleUsePassword"
           >
@@ -72,7 +72,7 @@
             type="primary"
             html-type="submit"
             shape="round"
-            class="bg-green-700 text-white ml-2"
+            class="bg-green-700 text-white ml-2 h-12"
             :disabled="disabledBtn"
             :loading="loadingBtn"
           >

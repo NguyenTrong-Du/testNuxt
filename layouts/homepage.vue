@@ -3,7 +3,9 @@
     <a-spin :spinning="isLoadingUser">
       <div class="grid grid-rows-auto-1fr h-screen overflow-hidden">
         <div v-if="userName?.trim().length === 0"><TheHeader /></div>
-        <div v-else><SimpleTheHeader :user-name="userName" /></div>
+        <div v-else>
+          <SimpleTheHeader :user-name="userName" :avt-url="avatarUrl" />
+        </div>
         <div class="overflow-auto">
           <nuxt />
         </div>
@@ -28,6 +30,7 @@ export default {
     return {
       collapsed: false,
       userName: '',
+      avatarUrl: '',
       isRefetch2: currentRefetch.isRefetch,
       isLoadingUser: true,
       isNotLoadingUser: false,
@@ -50,6 +53,7 @@ export default {
         } else {
           this.userName = response.display_name || response.first_name
         }
+        this.avatarUrl = response.profile_image
         currentUser.setCurrentUser(response)
       } catch (e) {
         // TODO
@@ -72,6 +76,7 @@ export default {
         currentUser.lastName,
         currentUser.displayName
       )
+      this.avatarUrl = currentUser.profileImage
       if ($nuxt.$route.path.includes('wellcome')) {
         this.$router.push({ path: this.localePath('/') })
       }
@@ -83,6 +88,7 @@ export default {
           response.last_name,
           response.display_name
         )
+        this.avatarUrl = response.profile_image
         currentUser.setCurrentUser(response)
         if ($nuxt.$route.path.includes('wellcome')) {
           this.$router.push({ path: this.localePath('/') })

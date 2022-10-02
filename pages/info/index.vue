@@ -1,33 +1,35 @@
 <template>
-  <div class="ml-10 mt-3">
-    <div class="text-2xl">{{ $t('info.titleInfo') }}</div>
-    <div class="flex justify-center mt-3">
-      <div class="w-2/3">
-        <a-steps progress-dot :current="current">
-          <a-step
-            v-for="item in steps"
-            :key="item.title"
-            :title="item.title"
-            :description="item.description"
-          />
-        </a-steps>
-        <div class="steps-content overflow-auto max-h-[550px]">
-          <div v-if="current === 1" class="w-full">
-            <BasicInfo :form-data="form" @next="next" />
-          </div>
-          <div v-if="current === 2">
-            <div v-if="form.account_type === 'company'">
-              <CompanyInfo @prev="prev" @done="done" />
+  <a-spin :spinning="isLoadingUpdateInfo">
+    <div class="ml-10 mt-3">
+      <div class="text-2xl">{{ $t('info.titleInfo') }}</div>
+      <div class="flex justify-center mt-3">
+        <div class="w-2/3">
+          <a-steps progress-dot :current="current">
+            <a-step
+              v-for="item in steps"
+              :key="item.title"
+              :title="item.title"
+              :description="item.description"
+            />
+          </a-steps>
+          <div class="steps-content overflow-auto max-h-[550px]">
+            <div v-if="current === 1" class="w-full">
+              <BasicInfo :form-data="form" @next="next" />
             </div>
-            <div v-if="form.account_type === 'individual'">
-              <PersonInfo @prev="prev" @done="done" />
+            <div v-if="current === 2">
+              <div v-if="form.account_type === 'company'">
+                <CompanyInfo @prev="prev" @done="done" />
+              </div>
+              <div v-if="form.account_type === 'individual'">
+                <PersonInfo @prev="prev" @done="done" />
+              </div>
             </div>
           </div>
+          <div class="steps-action"></div>
         </div>
-        <div class="steps-action"></div>
       </div>
     </div>
-  </div>
+  </a-spin>
 </template>
 <script>
 import BasicInfo from '~/components/BasicInfo.vue'
@@ -43,6 +45,7 @@ export default {
     return {
       current: 1,
       form: {},
+      isLoadingUpdateInfo: false,
       steps: [
         {
           title: this.$t('info.login'),
@@ -69,8 +72,10 @@ export default {
     next(form, nationalities) {
       form.validateFields((err, values) => {
         if (!err) {
-          this.current++
-          this.form = { ...values, nationalities: [...nationalities] }
+          if (this.current < 2) {
+            this.current++
+            this.form = { ...values, nationalities: [...nationalities] }
+          }
         }
       })
     },
@@ -78,6 +83,7 @@ export default {
       this.current--
     },
     done(form) {
+      this.isLoadingUpdateInfo = true
       const { notification } = useNotification()
       const refetchUser = useRefetchUser()
       const currentUser = useCurrentUserStore()
@@ -112,6 +118,7 @@ export default {
           try {
             await this.$api.editInfo(currentUser.id, data)
             refetchUser.changeRefetch()
+            this.isLoadingUpdateInfo = false
             this.$router.push({ path: this.localePath('/') })
             notification(
               this.$notification,

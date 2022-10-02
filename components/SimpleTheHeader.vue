@@ -9,8 +9,11 @@
         <div class="ml-4 flex">
           <div class="flex items-center">
             <div class="flex items-center mr-5">
-              <a-avatar :size="32" class="flex items-center justify-center">
-                <template #icon><MdPersonIcon /></template>
+              <a-avatar
+                :src="avtUrl"
+                :size="32"
+                class="flex items-center justify-center"
+              >
               </a-avatar>
               <a-dropdown class="ml-1 flex items-center gap-1">
                 <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
@@ -64,15 +67,17 @@
 
 <script>
 import MdGlobeIcon from 'vue-ionicons/dist/md-globe.vue'
-import MdPersonIcon from 'vue-ionicons/dist/md-person.vue'
 export default {
   name: 'App',
   components: {
     MdGlobeIcon,
-    MdPersonIcon,
   },
   props: {
     userName: {
+      type: String,
+      default: '',
+    },
+    avtUrl: {
       type: String,
       default: '',
     },
