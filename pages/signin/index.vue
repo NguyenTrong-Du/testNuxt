@@ -7,7 +7,7 @@
     <div class="flex justify-center m-5 font-bold text-lg">
       {{ $t('homepage.or') }}
     </div>
-    <div class="w-1/2 ml-[25%]">
+    <div class="w-1/2 m-auto">
       <a-form
         :form="form"
         :layout="formLayout"
@@ -54,11 +54,11 @@
             />
           </a-form-item>
         </div>
-        <a-form-item class="flex justify-center mt-5">
+        <a-form-item class="block mt-5 ">
           <a-button
             type="text"
             shape="round"
-            class="bg-white text-black mr-2 h-12"
+            class="bg-white font-semibold text-black h-12 w-full rounded-lg flex items-center justify-center"
             :disabled="disabledBtn"
             @click="handleUsePassword"
           >
@@ -72,7 +72,7 @@
             type="primary"
             html-type="submit"
             shape="round"
-            class="bg-green-700 text-white ml-2 h-12"
+            class="bg-green-700 font-semibold text-white mt-5 h-12 w-full rounded-lg flex items-center justify-center"
             :disabled="disabledBtn"
             :loading="loadingBtn"
           >
