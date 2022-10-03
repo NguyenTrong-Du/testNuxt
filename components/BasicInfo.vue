@@ -97,9 +97,24 @@
     <a-form-item :label="$t('info.email')" class="mb-4 flex gap-8">
       <div v-if="currentUser?.email">{{ currentUser?.email }}</div>
       <div v-else class="text-rose-800">
-        {{ $t('info.noEmail') }}
-      </div> </a-form-item
-    ><a-form-item :label="$t('info.phoneNumber')" class="mb-4 flex gap-8">
+        <a-input
+          v-decorator="[
+            'email',
+            {
+              rules: [
+                { transform: (value) => value?.trim() },
+                {
+                  type: 'email',
+                  message: $t('homepage.validEmail'),
+                },
+                { required: true, message: $t('homepage.emailEmtry') },
+              ],
+            },
+          ]"
+        />
+      </div>
+    </a-form-item>
+    <a-form-item :label="$t('info.phoneNumber')" class="mb-4 flex gap-8">
       <a-input
         v-decorator="[
           'phone_number',

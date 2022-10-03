@@ -81,7 +81,8 @@
     "sizeImage": "Image must smaller than 5MB!",
     "errorTypeImage": "You can only upload JPG/PNG/JPEG file!",
     "valiPhoneNumber": "Phone numbers must contain 10 to 11 digits",
-    "valiUrl": "The path is not in the correct format"
+    "valiUrl": "The path is not in the correct format",
+    "editInfoWithEmailSuccess": "You have updated the new email. Please check your mailbox to verify this email."
   },
   "error": {
     "default": "Something went wrong",
