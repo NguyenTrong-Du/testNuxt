@@ -35,7 +35,7 @@
                   { transform: (value) => value?.trim() },
                   {
                     required: true,
-                    message: $t('homepage.firstNameEmtry'),
+                    message: $t('homepage.firstNameEmpty'),
                   },
                 ],
               },

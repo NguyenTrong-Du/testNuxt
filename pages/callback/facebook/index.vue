@@ -7,10 +7,12 @@
 <script>
 import { useCurrentUserStore } from '~/store/user'
 import useNotification from '@/composables/useNotification'
+import useNextRoute from '@/composables/useNextRoute'
 export default {
   name: 'CallbackLoading',
   async created() {
     const { notification } = useNotification()
+    const { nextRouteCheckFinishedBasicInfo } = useNextRoute()
     const isLoginFacebookSuccess = Boolean(this.$route.query.code)
     if (isLoginFacebookSuccess) {
       try {
@@ -19,11 +21,7 @@ export default {
         )
         const currentUser = useCurrentUserStore()
         currentUser.setCurrentUser(data.data.user)
-        if (!currentUser.hasFinishedBasicInfo) {
-          this.$router.push({ path: this.localePath('/info') })
-        } else {
-          this.$router.push({ path: this.localePath('/') })
-        }
+        nextRouteCheckFinishedBasicInfo(currentUser)
         notification(
           this.$notification,
           'success',

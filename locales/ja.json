@@ -25,7 +25,7 @@
     "emailEmtry": "メールアドレスを入力してください！",
     "passwordEmtry": "パスワードを入力してください。",
     "passwordConfirmEmtry": "パスワード確認を入力してください！",
-    "firstNameEmtry": "名を入力してください!",
+    "firstNameEmpty": "名を入力してください!",
     "lastNameEmtry": "姓を入力してください!",
     "signupSuccess": "登録成功",
     "signupError": "登録エラー",
@@ -70,14 +70,16 @@
     "otherInfo": "その他の情報",
     "descOtherInfo": "詳細情報",
     "uploadFile": "クリックしてアップロード",
-    "firstNameEmtry": "名を入力してください!",
+    "firstNameEmpty": "名を入力してください!",
     "lastNameEmtry": "姓を入力してください!",
     "companyNameEmtry": "会社名を入力してください!",
     "noEmail": "このアカウントにはメールがありません",
     "valiFile": "ファイルサイズは 5MB から",
     "previous": "前へ",
     "next": "次へ",
-    "save": "保存"
+    "save": "保存",
+    "sizeImage": "画像を５MB未満のサイズにしてください",
+    "errorTypeImage": "画像をJPG/PNG/JPEG形式に選択してください"
   },
   "error": {
     "default": "エラーが発生しました",

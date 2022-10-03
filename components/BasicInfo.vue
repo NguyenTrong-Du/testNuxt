@@ -33,7 +33,7 @@
             v-decorator="[
               'first_name',
               {
-                rules: [{ required: true, message: $t('info.firstNameEmtry') }],
+                rules: [{ required: true, message: $t('info.firstNameEmpty') }],
               },
             ]"
             class="sm:w-1/2 md:w-1/2 lg:w-full"
@@ -80,7 +80,7 @@
       <div class="text-rose-800">{{ $t('info.valiFile') }}</div>
     </a-form-item>
     <a-form-item :label="$t('info.email')" class="mb-4 flex gap-8">
-      <div v-if="currentUser.email">{{ currentUser.email }}</div>
+      <div v-if="currentUser?.email">{{ currentUser?.email }}</div>
       <div v-else class="text-rose-800">
         {{ $t('info.noEmail') }}
       </div> </a-form-item
@@ -216,13 +216,13 @@ export default {
         file.type === 'image/jpg' ||
         file.type === 'image/png'
       if (!isJpgOrPng) {
-        this.$message.error('You can only upload JPG/PNG/JPEG file!')
+        this.$message.error('info.errorTypeImage')
       }
-      const isLt2M = file.size / 1024 / 1024 < 5
-      if (!isLt2M) {
-        this.$message.error('Image must smaller than 5MB!')
+      const isLt5M = file.size / 1024 / 1024 < 5
+      if (!isLt5M) {
+        this.$message.error($t('info.sizeImage'))
       }
-      return isJpgOrPng && isLt2M
+      return isJpgOrPng && isLt5M
     },
     handleSelectImage(info) {
       const fileImageList = [...info.fileList]
