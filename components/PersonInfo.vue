@@ -6,7 +6,7 @@
     @submit="handleSubmit"
   >
     <a-form-item class="flex justify-center w-screen">
-      <a-button type="primary" @click="$emit('done', form)">
+      <a-button type="primary" @click="$emit('submit', form)">
         {{ $t('info.save') }}
       </a-button>
       <a-button style="margin-left: 8px" @click="$emit('prev')">
@@ -23,16 +23,6 @@ export default {
       formLayout: 'horizontal',
       form: this.$form.createForm(this, { name: 'coordinated' }),
     }
-  },
-  methods: {
-    // handleSubmit(e) {
-    //   e.preventDefault();
-    //   this.form.validateFields((err, values) => {
-    //     if (!err) {
-    //       console.log('Received values of form: ', values);
-    //     }
-    //   });
-    // },
   },
 }
 </script>

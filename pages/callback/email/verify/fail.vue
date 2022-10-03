@@ -19,8 +19,3 @@ export default defineComponent({
   name: 'VerifyFail',
 })
 </script>
-<style scoped>
-.desc p {
-  margin-bottom: 1em;
-}
-</style>

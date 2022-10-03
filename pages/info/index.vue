@@ -18,14 +18,14 @@
             </div>
             <div v-if="current === 2">
               <div v-if="form.account_type === 'company'">
-                <CompanyInfo @prev="prev" @done="done" />
+                <CompanyInfo :form-data="form" @prev="prev" @submit="submit" />
               </div>
               <div v-if="form.account_type === 'individual'">
-                <PersonInfo @prev="prev" @done="done" />
+                <PersonInfo @prev="prev" @submit="submit" />
               </div>
             </div>
           </div>
-          <div class="steps-action"></div>
+          <div class="steps-action" />
         </div>
       </div>
     </div>
@@ -64,8 +64,8 @@ export default {
   },
   created() {
     const currentUser = useCurrentUserStore()
-    if (currentUser.email) {
-      this.form.email = currentUser.email
+    if (currentUser?.email) {
+      this.form.email = currentUser?.email
     }
   },
   methods: {
@@ -74,15 +74,20 @@ export default {
         if (!err) {
           if (this.current < 2) {
             this.current++
-            this.form = { ...values, nationalities: [...nationalities] }
+            this.form = { ...values, nationalities: [...nationalities], ...this.form }
           }
         }
       })
     },
-    prev() {
-      this.current--
+    prev(form) {
+      form.validateFields((err, values) => {
+        if (!err) {
+          this.current--
+          this.form = { ...values, ...this.form}
+        }
+      })
     },
-    done(form) {
+    submit(form) {
       this.isLoadingUpdateInfo = true
       const { notification } = useNotification()
       const refetchUser = useRefetchUser()
@@ -98,15 +103,14 @@ export default {
           }
           for (const key in this.form) {
             if (
-              key !== 'profile_image_file' &&
-              key !== 'nationalities' &&
+              ['profile_image_file', 'nationalities'].includes(key) &&
               this.form[key]
             ) {
               data.append(key, this.form[key])
             } else if (key === 'nationalities') {
-              for (let i = 0; i < this.form[key].length; i++) {
-                data.append('nationalities[]', this.form[key][i])
-              }
+              this.form[key].forEach((nationality) => {
+                data.append('nationalities[]', nationality)
+              })
             }
           }
           for (const key in values) {

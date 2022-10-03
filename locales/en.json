@@ -25,7 +25,7 @@
     "emailEmtry": "Please input your email!",
     "passwordEmtry": "Please input your password!",
     "passwordConfirmEmtry": "Please input your password confirmation!",
-    "firstNameEmtry": "Please input your first name!",
+    "firstNameEmpty": "Please input your first name!",
     "lastNameEmtry": "Please input your last name!",
     "signupSuccess": "Registration successful",
     "signupError": "Registration error",
@@ -70,14 +70,16 @@
     "otherInfo": "Other information",
     "descOtherInfo": "Detailed information",
     "uploadFile": "Click to upload",
-    "firstNameEmtry": "Please input your first name!",
+    "firstNameEmpty": "Please input your first name!",
     "lastNameEmtry": "Please input your last name!",
     "companyNameEmtry": "Please input your company name!",
     "noEmail": "This account has no email",
     "valiFile": "File size from 5MB down",
     "previous": "Previous",
     "next": "Next",
-    "save": "Save"
+    "save": "Save",
+    "sizeImage": "Image must smaller than 5MB!",
+    "errorTypeImage": "You can only upload JPG/PNG/JPEG file!"
   },
   "error": {
     "default": "Something went wrong",
