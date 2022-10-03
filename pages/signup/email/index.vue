@@ -105,11 +105,11 @@
             />
           </a-form-item>
         </div>
-        <a-form-item class="flex justify-center mt-5">
+        <a-form-item class="block mt-5">
           <a-button
             type="text"
             shape="round"
-            class="bg-white text-black mr-2 h-10"
+            class="bg-white font-semibold text-black h-12 w-full rounded-lg flex items-center justify-center"
             :disabled="disabledBtn"
             @click="handleUsePassword()"
           >
@@ -122,7 +122,7 @@
           <a-button
             html-type="submit"
             shape="round"
-            class="bg-green-700 text-white ml-2 h-10"
+            class="bg-green-700 text-white font-semibold h-12 w-full rounded-lg mt-5 flex items-center justify-center"
             :disabled="disabledBtn"
             :loading="loadingBtn"
           >
