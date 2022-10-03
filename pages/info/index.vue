@@ -14,7 +14,15 @@
           </a-steps>
           <div class="steps-content overflow-auto max-h-[550px]">
             <div v-if="current === 1" class="w-full">
-              <BasicInfo :form-data="form" @next="next" />
+              <BasicInfo
+                :form-data="form"
+                :list-file-image="listFileImage"
+                :chosen-region="chosenRegion"
+                :chosen-nationaly="chosenNationaly"
+                :list-countries-in-chosen-region="listCountriesInChosenRegion"
+                :nationality-sum="nationalitySum"
+                @next="next"
+              />
             </div>
             <div v-if="current === 2">
               <div v-if="form.account_type === 'company'">
@@ -43,9 +51,14 @@ export default {
   layout: 'homepage',
   data() {
     return {
+      nationalitySum: 1,
       current: 1,
       form: {},
       isLoadingUpdateInfo: false,
+      listFileImage: [],
+      chosenNationaly: [],
+      chosenRegion: [],
+      listCountriesInChosenRegion: [],
       steps: [
         {
           title: this.$t('info.login'),
@@ -67,11 +80,25 @@ export default {
     if (currentUser?.email) {
       this.form.first_name = currentUser?.firstName
       this.form.last_name = currentUser?.lastName
+      this.form.display_name = currentUser?.displayName
     }
   },
   methods: {
-    next(formData, nationalities) {
+    next(
+      formData,
+      nationalities,
+      listFileImage,
+      choseRegions,
+      choseNationalities,
+      listCountriesInChosenRegion,
+      nationalitySum
+    ) {
       formData.validateFields((err, values) => {
+        this.listFileImage = listFileImage
+        this.chosenRegion = choseRegions
+        this.chosenNationaly = choseNationalities
+        this.listCountriesInChosenRegio = listCountriesInChosenRegion
+        this.nationalitySum = nationalitySum
         if (!err) {
           if (this.current < 2) {
             this.current++
@@ -85,11 +112,9 @@ export default {
       })
     },
     prev(formData) {
-      formData.validateFields((err, values) => {
-        if (!err) {
-          this.current--
-          this.form = { ...values, ...this.form }
-        }
+      formData.validateFields((_, values) => {
+        this.current--
+        this.form = { ...values, ...this.form }
       })
     },
     success() {

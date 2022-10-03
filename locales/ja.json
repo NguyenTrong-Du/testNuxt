@@ -81,6 +81,7 @@
     "sizeImage": "画像を５MB未満のサイズにしてください",
     "errorTypeImage": "画像をJPG/PNG/JPEG形式に選択してください",
     "valiPhoneNumber": "電話番号は 10～11 桁である必要があります",
+    "valiUrl": "パスの形式が正しくありません",
     "editInfoWithEmailSuccess": "新しいメールを更新しました。 メールボックスを確認して、このメールを確認してください。"
   },
   "error": {
