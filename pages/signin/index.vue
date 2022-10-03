@@ -147,7 +147,7 @@ export default {
           } catch (e) {
             if (e.response.data.error.includes(30001)) {
               this.$router.push({ path: this.localePath('/') })
-              const messageError = [this.$t(`error.${e.response.data.error}`)]
+              const messageError = [this.$t('error.30001')]
               notification(
                 this.$notification,
                 'error',
@@ -157,7 +157,11 @@ export default {
             } else {
               const messageError = []
               for (let i = 0; i < e.response.data.error.length; i++) {
-                messageError.push(this.$t(`error.${e.response.data.error}`))
+                if (e.response.data.error !== 30001) {
+                  messageError.push(
+                    this.$t(`error.${e.response.data.error[i]}`)
+                  )
+                }
               }
               notification(
                 this.$notification,

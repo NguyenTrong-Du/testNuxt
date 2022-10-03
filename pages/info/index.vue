@@ -66,33 +66,39 @@ export default {
     const currentUser = useCurrentUserStore()
     if (currentUser?.email) {
       this.form.email = currentUser?.email
+      this.form.first_name = currentUser?.firstName
+      this.form.last_name = currentUser?.lastName
     }
   },
   methods: {
-    next(form, nationalities) {
-      form.validateFields((err, values) => {
+    next(formData, nationalities) {
+      formData.validateFields((err, values) => {
         if (!err) {
           if (this.current < 2) {
             this.current++
-            this.form = { ...values, nationalities: [...nationalities], ...this.form }
+            this.form = {
+              ...values,
+              nationalities: [...nationalities],
+              ...this.form,
+            }
           }
         }
       })
     },
-    prev(form) {
-      form.validateFields((err, values) => {
+    prev(formData) {
+      formData.validateFields((err, values) => {
         if (!err) {
           this.current--
-          this.form = { ...values, ...this.form}
+          this.form = { ...values, ...this.form }
         }
       })
     },
-    submit(form) {
+    submit(formData) {
       this.isLoadingUpdateInfo = true
       const { notification } = useNotification()
       const refetchUser = useRefetchUser()
       const currentUser = useCurrentUserStore()
-      form.validateFields(async (err, values) => {
+      formData.validateFields(async (err, values) => {
         if (!err) {
           const data = new FormData()
           if (this.form.profile_image_file) {
@@ -103,11 +109,11 @@ export default {
           }
           for (const key in this.form) {
             if (
-              ['profile_image_file', 'nationalities'].includes(key) &&
+              !['profile_image_file', 'nationalities'].includes(key) &&
               this.form[key]
             ) {
               data.append(key, this.form[key])
-            } else if (key === 'nationalities') {
+            } else if (key === 'nationalities' && this.form.nationalities) {
               this.form[key].forEach((nationality) => {
                 data.append('nationalities[]', nationality)
               })
@@ -127,22 +133,24 @@ export default {
             notification(
               this.$notification,
               'success',
-              this.$t('homepage.signinSuccess'),
+              this.$t('info.editInfoSuccess'),
               ''
             )
           } catch (e) {
             const messageError = []
             for (let i = 0; i < e.response.data.error.length; i++) {
-              messageError.push(this.$t(`error.${e.response.data.error}`))
+              messageError.push(this.$t(`error.${e.response.data.error[i]}`))
             }
             notification(
               this.$notification,
               'error',
-              this.$t('homepage.signinError'),
+              this.$t('info.editInfoFailed'),
               messageError
             )
+            this.current = 2
           }
         }
+        this.isLoadingUpdateInfo = false
       })
     },
   },

@@ -33,7 +33,11 @@
             v-decorator="[
               'first_name',
               {
-                rules: [{ required: true, message: $t('info.firstNameEmpty') }],
+                rules: [
+                  { transform: (value) => value?.trim() },
+                  { required: true, message: $t('info.firstNameEmpty') },
+                ],
+                initialValue: currentUser?.firstName,
               },
             ]"
             class="sm:w-1/2 md:w-1/2 lg:w-full"
@@ -48,7 +52,11 @@
             v-decorator="[
               'last_name',
               {
-                rules: [{ required: true, message: $t('info.lastNameEmtry') }],
+                rules: [
+                  { transform: (value) => value?.trim() },
+                  { required: true, message: $t('info.lastNameEmtry') },
+                ],
+                initialValue: currentUser?.lastName,
               },
             ]"
             class="sm:w-1/2 md:w-1/2 lg:w-full"
@@ -85,7 +93,20 @@
         {{ $t('info.noEmail') }}
       </div> </a-form-item
     ><a-form-item :label="$t('info.phoneNumber')" class="mb-4 flex gap-8">
-      <a-input v-decorator="['phone_number']" />
+      <a-input
+        v-decorator="[
+          'phone_number',
+          {
+            rules: [
+              { transform: (value) => value?.trim() },
+              {
+                pattern: new RegExp('^[0-9]{10,11}$'),
+                message: $t('info.valiPhoneNumber'),
+              },
+            ],
+          },
+        ]"
+      />
     </a-form-item>
     <a-form-item :label="$t('info.nationality')" class="mb-4 flex gap-8">
       <div
@@ -144,7 +165,16 @@
       </div>
     </a-form-item>
     <a-form-item :label="$t('info.refferalUserEmail')" class="mb-4 flex gap-8">
-      <a-input v-decorator="['refferal_user_email']" />
+      <a-input
+        v-decorator="[
+          'refferal_user_email',
+          { transform: (value) => value?.trim() },
+          {
+            type: 'email',
+            message: $t('homepage.validEmail'),
+          },
+        ]"
+      />
     </a-form-item>
     <div class="flex justify-center">
       <a-button type="primary" @click="$emit('next', form, nationalities)">
@@ -165,7 +195,6 @@ export default {
   props: ['formData'],
   data() {
     return {
-      first_name: this.formData.first_name,
       nationalityNumber: 1,
       allCountries: [],
       choseRegions: [],
