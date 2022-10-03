@@ -7,7 +7,7 @@
       <a-form
         :form="form"
         :layout="formLayout"
-        class="w-2/3"
+        class="w-1/2"
         @submit="handleSubmit"
       >
         <a-form-item :label="$t('homepage.lastName')" class="mb-0">
@@ -109,7 +109,7 @@
           <a-button
             type="text"
             shape="round"
-            class="bg-white text-black mr-2"
+            class="bg-white text-black mr-2 h-10"
             :disabled="disabledBtn"
             @click="handleUsePassword()"
           >
@@ -122,7 +122,7 @@
           <a-button
             html-type="submit"
             shape="round"
-            class="bg-green-700 text-white ml-2"
+            class="bg-green-700 text-white ml-2 h-10"
             :disabled="disabledBtn"
             :loading="loadingBtn"
           >

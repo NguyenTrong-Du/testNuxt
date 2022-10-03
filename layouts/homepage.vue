@@ -3,7 +3,9 @@
     <a-spin :spinning="isLoadingUser">
       <div class="grid grid-rows-auto-1fr h-screen overflow-hidden">
         <div v-if="userName?.trim().length === 0"><TheHeader /></div>
-        <div v-else><SimpleTheHeader :user-name="userName" /></div>
+        <div v-else>
+          <SimpleTheHeader :user-name="userName" :avt-url="avatarUrl" />
+        </div>
         <div class="overflow-auto">
           <nuxt />
         </div>
@@ -16,6 +18,7 @@
 import SimpleTheHeader from '~/components/SimpleTheHeader.vue'
 import TheHeader from '~/components/TheHeader.vue'
 import { useCurrentUserStore } from '~/store/user'
+import { useRefetchUser } from '~/store/refetch'
 export default {
   name: 'App',
   components: {
@@ -23,12 +26,39 @@ export default {
     SimpleTheHeader,
   },
   data() {
+    const currentRefetch = useRefetchUser()
     return {
       collapsed: false,
       userName: '',
+      avatarUrl: '',
+      isRefetch2: currentRefetch.isRefetch,
       isLoadingUser: true,
       isNotLoadingUser: false,
     }
+  },
+  computed: {
+    isRefetch() {
+      const test = useRefetchUser()
+      return test.isRefetch
+    },
+  },
+  watch: {
+    async isRefetch() {
+      try {
+        const response = await this.$api.getUser()
+        if (response.last_name) {
+          this.userName =
+            response.display_name ||
+            `${response.first_name} ${response.last_name}`
+        } else {
+          this.userName = response.display_name || response.first_name
+        }
+        this.avatarUrl = response.profile_image
+        currentUser.setCurrentUser(response)
+      } catch (e) {
+        // TODO
+      }
+    },
   },
   async created() {
     const getFullName = (firstName, lastName, displayName) => {
@@ -46,6 +76,7 @@ export default {
         currentUser.lastName,
         currentUser.displayName
       )
+      this.avatarUrl = currentUser.profileImage
       if ($nuxt.$route.path.includes('wellcome')) {
         this.$router.push({ path: this.localePath('/') })
       }
@@ -57,6 +88,7 @@ export default {
           response.last_name,
           response.display_name
         )
+        this.avatarUrl = response.profile_image
         currentUser.setCurrentUser(response)
         if ($nuxt.$route.path.includes('wellcome')) {
           this.$router.push({ path: this.localePath('/') })
