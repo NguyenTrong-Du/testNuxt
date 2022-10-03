@@ -80,7 +80,8 @@
     "save": "Save",
     "sizeImage": "Image must smaller than 5MB!",
     "errorTypeImage": "You can only upload JPG/PNG/JPEG file!",
-    "valiPhoneNumber": "Phone numbers must contain 10 to 11 digits"
+    "valiPhoneNumber": "Phone numbers must contain 10 to 11 digits",
+    "valiUrl": "The path is not in the correct format"
   },
   "error": {
     "default": "Something went wrong",

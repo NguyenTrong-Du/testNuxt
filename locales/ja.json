@@ -80,7 +80,8 @@
     "save": "保存",
     "sizeImage": "画像を５MB未満のサイズにしてください",
     "errorTypeImage": "画像をJPG/PNG/JPEG形式に選択してください",
-    "valiPhoneNumber": "電話番号は 10～11 桁である必要があります"
+    "valiPhoneNumber": "電話番号は 10～11 桁である必要があります",
+    "valiUrl": "パスの形式が正しくありません"
   },
   "error": {
     "default": "エラーが発生しました",

@@ -65,7 +65,14 @@
       </div>
     </a-form-item>
     <a-form-item :label="$t('info.displayName')" class="mb-4 flex gap-8">
-      <a-input v-decorator="['display_name']" />
+      <a-input
+        v-decorator="[
+          'display_name',
+          {
+            initialValue: currentUser?.displayName,
+          },
+        ]"
+      />
     </a-form-item>
     <a-form-item :label="$t('info.profileImage')" class="mb-4 flex gap-8">
       <a-upload
@@ -168,16 +175,34 @@
       <a-input
         v-decorator="[
           'refferal_user_email',
-          { transform: (value) => value?.trim() },
           {
-            type: 'email',
-            message: $t('homepage.validEmail'),
+            rules: [
+              { transform: (value) => value?.trim() },
+              {
+                type: 'email',
+                message: $t('homepage.validEmail'),
+              },
+            ],
           },
         ]"
       />
     </a-form-item>
     <div class="flex justify-center">
-      <a-button type="primary" @click="$emit('next', form, nationalities)">
+      <a-button
+        type="primary"
+        @click="
+          $emit(
+            'next',
+            form,
+            nationalities,
+            listFileAvata,
+            choseRegions,
+            choseNationalities,
+            listCountriesInChoseRegion,
+            nationalityNumber
+          )
+        "
+      >
         {{ $t('info.next') }}
       </a-button>
     </div>
@@ -191,22 +216,34 @@ export default {
   components: {
     MdAddIcon,
   },
-  // eslint-disable-next-line vue/require-prop-types
-  props: ['formData'],
+  props: [
+    // eslint-disable-next-line vue/require-prop-types
+    'formData',
+    // eslint-disable-next-line vue/require-prop-types
+    'listFileImage',
+    // eslint-disable-next-line vue/require-prop-types
+    'chosenRegion',
+    // eslint-disable-next-line vue/require-prop-types
+    'listCountriesInChosenRegion',
+    // eslint-disable-next-line vue/require-prop-types
+    'chosenNationaly',
+    // eslint-disable-next-line vue/require-prop-types
+    'nationalitySum',
+  ],
   data() {
     return {
-      nationalityNumber: 1,
+      nationalityNumber: this.nationalitySum || 1,
       allCountries: [],
-      choseRegions: [],
-      listCountriesInChoseRegion: [],
-      choseNationalities: [],
+      choseRegions: this.chosenRegion || [],
+      listCountriesInChoseRegion: this.listCountriesInChosenRegion || [],
+      choseNationalities: this.chosenNationaly || [],
       form: this.$form.createForm(this, { name: 'coordinated' }),
       headers: {
         authorization: 'authorization-text',
       },
       currentUser: useCurrentUserStore(),
       nationalities: [],
-      listFileAvata: [],
+      listFileAvata: this.listFileImage || [],
     }
   },
   async created() {
@@ -228,7 +265,6 @@ export default {
     },
     handleCountryChange(nationality, value) {
       this.nationalities[nationality - 1] = value
-      // this.form.setFieldsValue('nationalities', this.nationalities)
     },
     handleAddNationality() {
       this.nationalityNumber++

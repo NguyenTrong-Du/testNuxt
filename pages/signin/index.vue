@@ -54,7 +54,7 @@
             />
           </a-form-item>
         </div>
-        <a-form-item class="block mt-5 ">
+        <a-form-item class="block mt-5">
           <a-button
             type="text"
             shape="round"
