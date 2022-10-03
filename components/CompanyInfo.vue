@@ -5,13 +5,29 @@
         v-decorator="[
           'company_name',
           {
-            rules: [{ required: true, message: $t('info.companyNameEmtry') }],
+            rules: [
+              { transform: (value) => value?.trim() },
+              { required: true, message: $t('info.companyNameEmtry') },
+            ],
           },
         ]"
       />
     </a-form-item>
     <a-form-item :label="$t('info.companyUrl')" class="flex gap-8">
-      <a-input v-decorator="['company_url']" />
+      <a-input
+        v-decorator="[
+          'company_url',
+          {
+            rules: [
+              { transform: (value) => value?.trim() },
+              {
+                pattern: new RegExp(regex),
+                message: $t('info.valiUrl'),
+              },
+            ],
+          },
+        ]"
+      />
     </a-form-item>
     <a-form-item :label="$t('info.companyDescription')" class="flex gap-8">
       <a-textarea v-decorator="['company_description']" :rows="4" />
@@ -28,12 +44,14 @@
 </template>
 
 <script>
+import regex from '@/composables/regex'
 export default {
   // eslint-disable-next-line vue/require-prop-types
   props: ['formData'],
   data() {
     return {
       formLayout: 'horizontal',
+      regex,
       form: this.$form.createForm(this, { name: 'coordinated' }),
     }
   },

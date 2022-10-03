@@ -79,7 +79,8 @@
     "next": "Next",
     "save": "Save",
     "sizeImage": "Image must smaller than 5MB!",
-    "errorTypeImage": "You can only upload JPG/PNG/JPEG file!"
+    "errorTypeImage": "You can only upload JPG/PNG/JPEG file!",
+    "valiPhoneNumber": "Phone numbers must contain 10 to 11 digits"
   },
   "error": {
     "default": "Something went wrong",
@@ -94,6 +95,11 @@
     "10012": "Password is incorrect",
     "10013": "First name cannot be empty",
     "10016": "Last name cannot be empty",
-    "30001": "User logged in"
+    "30001": "User logged in",
+    "30002": "Account type must be company",
+    "30004": "Profile image must be in image format",
+    "30005": "Company name cannot be empty",
+    "3009": "Company url must be in the form of a path",
+    "3006": "Nationality should be an array"
   }
 }

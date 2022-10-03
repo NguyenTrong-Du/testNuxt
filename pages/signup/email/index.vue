@@ -212,7 +212,7 @@ export default {
           } catch (e) {
             const messageError = []
             for (let i = 0; i < e.response.data.error.length; i++) {
-              messageError.push(this.$t(`error.${e.response.data.error}`))
+              messageError.push(this.$t(`error.${e.response.data.error[i]}`))
             }
             notification(
               this.$notification,
