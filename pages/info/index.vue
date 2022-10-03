@@ -65,7 +65,6 @@ export default {
   created() {
     const currentUser = useCurrentUserStore()
     if (currentUser?.email) {
-      this.form.email = currentUser?.email
       this.form.first_name = currentUser?.firstName
       this.form.last_name = currentUser?.lastName
     }
@@ -93,6 +92,16 @@ export default {
         }
       })
     },
+    success() {
+      const h = this.$createElement
+      this.$success({
+        title: this.$t('info.editInfoSuccess'),
+        content: h('div', {}, [
+          h('p', this.$t('info.editInfoWithEmailSuccess')),
+        ]),
+        onOk() {},
+      })
+    },
     submit(formData) {
       this.isLoadingUpdateInfo = true
       const { notification } = useNotification()
@@ -106,6 +115,9 @@ export default {
               'profile_image_file',
               this.form.profile_image_file[0].originFileObj
             )
+          }
+          if (!this.form.email && currentUser.email) {
+            data.append('email', currentUser.email)
           }
           for (const key in this.form) {
             if (
@@ -129,13 +141,16 @@ export default {
             await this.$api.editInfo(currentUser.id, data)
             refetchUser.changeRefetch()
             this.isLoadingUpdateInfo = false
+            if (!currentUser.emailVerifiedAt) this.success()
             this.$router.push({ path: this.localePath('/') })
-            notification(
-              this.$notification,
-              'success',
-              this.$t('info.editInfoSuccess'),
-              ''
-            )
+            if (currentUser.emailVerifiedAt) {
+              notification(
+                this.$notification,
+                'success',
+                this.$t('info.editInfoSuccess'),
+                ''
+              )
+            }
           } catch (e) {
             const messageError = []
             for (let i = 0; i < e.response.data.error.length; i++) {

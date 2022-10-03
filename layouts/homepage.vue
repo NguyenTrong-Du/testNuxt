@@ -4,7 +4,11 @@
       <div class="grid grid-rows-auto-1fr h-screen overflow-hidden">
         <div v-if="userName?.trim().length === 0"><TheHeader /></div>
         <div v-else>
-          <SimpleTheHeader :user-name="userName" :avt-url="avatarUrl" @set-is-loading-user="setIsLoadingUser" />
+          <SimpleTheHeader
+            :user-name="userName"
+            :avt-url="avatarUrl"
+            @set-is-loading-user="setIsLoadingUser"
+          />
         </div>
         <div class="overflow-auto">
           <nuxt />
@@ -111,7 +115,7 @@ export default {
   methods: {
     setIsLoadingUser(value) {
       this.isLoadingUser = value
-    }
+    },
   },
 }
 </script>

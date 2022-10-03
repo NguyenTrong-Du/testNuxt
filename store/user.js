@@ -11,6 +11,7 @@ export const useCurrentUserStore = defineStore('currentUser', {
     profileImage: null,
     totalPoint: 0,
     isLoadingUser: false,
+    emailVerifiedAt: null,
   }),
   getters: {
     getEmail: (state) => state.email,
@@ -25,6 +26,7 @@ export const useCurrentUserStore = defineStore('currentUser', {
       this.profileImage = user.profile_image
       this.totalPoint = user.total_point
       this.email = user.email
+      this.emailVerifiedAt = user.email_verified_at
     },
     setLoadingUser(loading) {
       this.isLoadingUser = loading
