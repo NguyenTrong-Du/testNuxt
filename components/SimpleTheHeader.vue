@@ -95,7 +95,9 @@ export default {
   methods: {
     async handleLogout() {
       try {
+        this.$emit('set-is-loading-user', true)
         await this.$api.logout()
+        this.$emit('set-is-loading-user', false)
         this.$router.push({ path: this.localePath('signin') })
       } catch {
         // TODO
