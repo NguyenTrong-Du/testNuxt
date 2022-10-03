@@ -74,7 +74,11 @@ export default {
         if (!err) {
           if (this.current < 2) {
             this.current++
-            this.form = { ...values, nationalities: [...nationalities], ...this.form }
+            this.form = {
+              ...values,
+              nationalities: [...nationalities],
+              ...this.form,
+            }
           }
         }
       })
@@ -83,7 +87,7 @@ export default {
       form.validateFields((err, values) => {
         if (!err) {
           this.current--
-          this.form = { ...values, ...this.form}
+          this.form = { ...values, ...this.form }
         }
       })
     },
