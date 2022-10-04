@@ -43,7 +43,7 @@
 import BasicInfo from '~/components/BasicInfo.vue'
 import CompanyInfo from '~/components/CompanyInfo.vue'
 import { useCurrentUserStore } from '~/store/user'
-import useNotification from '@/composables/useNotification'
+import useMessage from '@/composables/useMessage'
 import { useRefetchUser } from '~/store/refetch'
 export default {
   name: 'InfoAccount',
@@ -129,7 +129,7 @@ export default {
     },
     submit(formData) {
       this.isLoadingUpdateInfo = true
-      const { notification } = useNotification()
+      const { errorMessage } = useMessage()
       const refetchUser = useRefetchUser()
       const currentUser = useCurrentUserStore()
       formData.validateFields(async (err, values) => {
@@ -161,7 +161,6 @@ export default {
               data.append(key, values[key])
             }
           }
-          this.form = data
           try {
             await this.$api.editInfo(currentUser.id, data)
             refetchUser.changeRefetch()
@@ -169,25 +168,11 @@ export default {
             if (!currentUser.emailVerifiedAt) this.success()
             this.$router.push({ path: this.localePath('/') })
             if (currentUser.emailVerifiedAt) {
-              notification(
-                this.$notification,
-                'success',
-                this.$t('info.editInfoSuccess'),
-                ''
-              )
+              this.$message(this.$t('info.editInfoSuccess'))
             }
           } catch (e) {
-            const messageError = []
-            for (let i = 0; i < e.response.data.error.length; i++) {
-              messageError.push(this.$t(`error.${e.response.data.error[i]}`))
-            }
-            notification(
-              this.$notification,
-              'error',
-              this.$t('info.editInfoFailed'),
-              messageError
-            )
-            this.current = 2
+            errorMessage(e.response.data.error)
+            this.current --
           }
         }
         this.isLoadingUpdateInfo = false

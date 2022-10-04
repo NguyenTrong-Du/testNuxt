@@ -1,10 +1,17 @@
+import { useRouter } from '@nuxtjs/composition-api';
+import { message } from 'ant-design-vue';
+import { useCurrentUserStore } from '~/store/user'
 const useNextRoute = () => {
-  const nextRouteCheckFinishedBasicInfo = (currentUser) => {
+  const router = useRouter()
+  const nextRouteCheckFinishedBasicInfo = (user) => {
+    const currentUser = useCurrentUserStore()
+    currentUser.setCurrentUser(user)
     if (!currentUser.hasFinishedBasicInfo) {
-      this.$router.push({ path: this.localePath('/info') })
+      router.push('/info')
     } else {
-      this.$router.push({ path: this.localePath('/') })
+      router.push('/')
     }
+    message.success($nuxt.$t('homepage.signinSuccess'));
   }
   return { nextRouteCheckFinishedBasicInfo }
 }

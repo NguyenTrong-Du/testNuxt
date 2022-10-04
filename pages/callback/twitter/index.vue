@@ -5,12 +5,11 @@
 </template>
 
 <script>
-import useNotification from '~/composables/useNotification'
-import { useCurrentUserStore } from '~/store/user'
+import useNextRoute from '@/composables/useNextRoute'
 export default {
   name: 'CallbackLoading',
   async created() {
-    const { notification } = useNotification()
+    const { nextRouteCheckFinishedBasicInfo } = useNextRoute()
     const isLoginTwitterSuccess = Boolean(
       this.$route.query.oauth_token && this.$route.query.oauth_verifier
     )
@@ -20,20 +19,7 @@ export default {
           this.$route.query.oauth_token,
           this.$route.query.oauth_verifier
         )
-        const currentUser = useCurrentUserStore()
-        currentUser.setCurrentUser(data.data.user)
-        // Todo refactor: write into a function to handle
-        if (!currentUser.hasFinishedBasicInfo) {
-          this.$router.push({ path: this.localePath('/info') })
-        } else {
-          this.$router.push({ path: this.localePath('/') })
-        }
-        notification(
-          this.$notification,
-          'success',
-          this.$t('homepage.signinSuccess'),
-          ''
-        )
+        nextRouteCheckFinishedBasicInfo(data.data.user)
       } catch (e) {
         // TODO task show message
       }
