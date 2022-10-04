@@ -168,7 +168,7 @@ export default {
             if (!currentUser.emailVerifiedAt) this.success()
             this.$router.push({ path: this.localePath('/') })
             if (currentUser.emailVerifiedAt) {
-              this.$message(this.$t('info.editInfoSuccess'))
+              this.$message.success(this.$t('info.editInfoSuccess'))
             }
           } catch (e) {
             errorMessage(e.response.data.error)

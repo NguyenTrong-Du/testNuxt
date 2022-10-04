@@ -194,7 +194,7 @@ export default {
         if (!err) {
           try {
             await this.$api.signUp(values)
-            this.$message(this.$t('homepage.desSignupSuccess'))
+            this.$message.success(this.$t('homepage.desSignupSuccess'))
             this.form.resetFields()
           } catch (e) {
             errorMessage(e.response.data.error)

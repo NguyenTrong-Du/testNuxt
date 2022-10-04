@@ -308,8 +308,16 @@ export default {
       return isJpgOrPng && isLt5M
     },
     handleSelectImage(info) {
-      const fileImageList = [...info.fileList]
-      this.listFileAvata[0] = fileImageList[fileImageList.length - 1]
+      let fileList = [...info.fileList]
+      fileList = fileList.slice(-1)
+      fileList = fileList.map((file) => {
+        if (file.response) {
+          file.url = file.response.url
+        }
+        return file
+      })
+
+      this.listFileAvata = fileList
     },
     deleteNationality() {
       this.nationalities.splice(this.nationalityNumber - 1, 1)
