@@ -58,17 +58,7 @@
           <a-button
             type="text"
             shape="round"
-            class="
-              bg-white
-              font-semibold
-              text-black
-              h-12
-              w-full
-              rounded-lg
-              flex
-              items-center
-              justify-center
-            "
+            class="bg-white font-semibold text-black h-12 w-full rounded-lg flex items-center justify-center"
             :disabled="disabledBtn"
             @click="handleUsePassword"
           >
@@ -82,18 +72,7 @@
             type="primary"
             html-type="submit"
             shape="round"
-            class="
-              bg-green-700
-              font-semibold
-              text-white
-              mt-5
-              h-12
-              w-full
-              rounded-lg
-              flex
-              items-center
-              justify-center
-            "
+            class="bg-green-700 font-semibold text-white mt-5 h-12 w-full rounded-lg flex items-center justify-center"
             :disabled="disabledBtn"
             :loading="loadingBtn"
           >

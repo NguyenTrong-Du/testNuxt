@@ -5,7 +5,6 @@
 </template>
 
 <script>
-
 import useNextRoute from '@/composables/useNextRoute'
 export default {
   name: 'CallbackLoading',

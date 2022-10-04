@@ -1,5 +1,5 @@
-import { useRouter } from '@nuxtjs/composition-api';
-import { message } from 'ant-design-vue';
+import { useRouter } from '@nuxtjs/composition-api'
+import { message } from 'ant-design-vue'
 import { useCurrentUserStore } from '~/store/user'
 const useNextRoute = () => {
   const router = useRouter()
@@ -11,7 +11,7 @@ const useNextRoute = () => {
     } else {
       router.push('/')
     }
-    message.success($nuxt.$t('homepage.signinSuccess'));
+    message.success($nuxt.$t('homepage.signinSuccess'))
   }
   return { nextRouteCheckFinishedBasicInfo }
 }

@@ -172,7 +172,7 @@ export default {
             }
           } catch (e) {
             errorMessage(e.response.data.error)
-            this.current --
+            this.current--
           }
         }
         this.isLoadingUpdateInfo = false
