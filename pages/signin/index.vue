@@ -126,12 +126,14 @@ export default {
           try {
             if (!values.password) {
               await this.$api.loginByOtp(values)
-              this.$message(this.$t('homepage.signinSuccessOtp'))
+              this.disabledBtn = false
+              this.loadingBtn = false
+              this.$message.success(this.$t('homepage.signinSuccessOtp'))
             } else {
               const res = await this.$api.login(values)
               currentUser.setCurrentUser(res.data.user)
               this.$router.push({ path: this.localePath('/') })
-              this.$message(this.$t('homepage.signinSuccess'))
+              this.$message.success(this.$t('homepage.signinSuccess'))
               this.form.resetFields()
             }
           } catch (e) {

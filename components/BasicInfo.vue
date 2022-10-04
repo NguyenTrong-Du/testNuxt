@@ -5,14 +5,12 @@
     :wrapper-col="{ span: 14 }"
     class="w-full"
   >
-    <a-form-item
-      class="flex gap-8 form-icon-required"
-      required
-    >
-    <span slot="label" class = "mr-2">{{$t('info.accountType')}} 
-      <span class = "text-red-600">*</span>
-      <span>:</span>
-    </span>
+    <a-form-item class="flex gap-8 form-icon-required" required>
+      <span slot="label" class="mr-2"
+        >{{ $t('info.accountType') }}
+        <span class="text-red-600">*</span>
+        <span>:</span>
+      </span>
       <a-radio-group
         v-decorator="[
           'account_type',
@@ -29,9 +27,10 @@
         </a-radio>
       </a-radio-group>
     </a-form-item>
-    <a-form-item  class="mb-0 flex gap-8 form-icon-required" required>
-      <span slot="label" class = "mr-2">{{$t('info.name')}}
-        <span class = "text-red-600">*</span>
+    <a-form-item class="mb-0 flex gap-8 form-icon-required" required>
+      <span slot="label" class="mr-2"
+        >{{ $t('info.name') }}
+        <span class="text-red-600">*</span>
         <span>:</span>
       </span>
       <div id="div_name_id" class="flex justify-between">
@@ -319,8 +318,16 @@ export default {
       return isJpgOrPng && isLt5M
     },
     handleSelectImage(info) {
-      const fileImageList = [...info.fileList]
-      this.listFileAvata[0] = fileImageList[fileImageList.length - 1]
+      let fileList = [...info.fileList]
+      fileList = fileList.slice(-1)
+      fileList = fileList.map((file) => {
+        if (file.response) {
+          file.url = file.response.url
+        }
+        return file
+      })
+
+      this.listFileAvata = fileList
     },
     deleteNationality() {
       this.nationalities.splice(this.nationalityNumber - 1, 1)

@@ -24,3 +24,12 @@ div#div_name_id
 .form-icon-required > .ant-form-item-label > label::after {
   display: none;
 }
+
+svg {
+  vertical-align: baseline;
+}
+
+.ant-upload-list-item-card-actions .anticon {
+  color: red;
+  font-size: 20px;
+}

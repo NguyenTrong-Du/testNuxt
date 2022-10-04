@@ -10,7 +10,10 @@
         class="w-1/2"
         @submit="handleSubmit"
       >
-        <a-form-item :label="$t('homepage.lastName')" class="mb-0 icon-required">
+        <a-form-item
+          :label="$t('homepage.lastName')"
+          class="mb-0 icon-required"
+        >
           <a-input
             v-decorator="[
               'last_name',
@@ -26,7 +29,10 @@
             ]"
           />
         </a-form-item>
-        <a-form-item :label="$t('homepage.firstName')" class="mb-0 icon-required">
+        <a-form-item
+          :label="$t('homepage.firstName')"
+          class="mb-0 icon-required"
+        >
           <a-input
             v-decorator="[
               'first_name',
@@ -60,7 +66,10 @@
           />
         </a-form-item>
         <div v-if="usePassword">
-          <a-form-item :label="$t('homepage.password')" class="mb-0 icon-required">
+          <a-form-item
+            :label="$t('homepage.password')"
+            class="mb-0 icon-required"
+          >
             <a-input-password
               v-decorator="[
                 'password',
@@ -84,7 +93,10 @@
               ]"
             />
           </a-form-item>
-          <a-form-item :label="$t('homepage.passwordConfirm')" class="mb-0 icon-required">
+          <a-form-item
+            :label="$t('homepage.passwordConfirm')"
+            class="mb-0 icon-required"
+          >
             <a-input-password
               v-decorator="[
                 'password_confirmation',
@@ -194,7 +206,7 @@ export default {
         if (!err) {
           try {
             await this.$api.signUp(values)
-            this.$message(this.$t('homepage.desSignupSuccess'))
+            this.$message.success(this.$t('homepage.desSignupSuccess'))
             this.form.resetFields()
           } catch (e) {
             errorMessage(e.response.data.error)
