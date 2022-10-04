@@ -103,9 +103,9 @@ export default {
           if (this.current < 2) {
             this.current++
             this.form = {
+              ...this.form,
               ...values,
               nationalities: [...nationalities],
-              ...this.form,
             }
           }
         }
@@ -114,7 +114,7 @@ export default {
     prev(formData) {
       formData.validateFields((_, values) => {
         this.current--
-        this.form = { ...values, ...this.form }
+        this.form = { ...this.form, ...values }
       })
     },
     success() {
