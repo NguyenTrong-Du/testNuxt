@@ -5,32 +5,18 @@
 </template>
 
 <script>
-import useNotification from '~/composables/useNotification'
-import { useCurrentUserStore } from '~/store/user'
+import useNextRoute from '@/composables/useNextRoute'
 export default {
   name: 'CallbackLoading',
   async created() {
-    const { notification } = useNotification()
+    const { nextRouteCheckFinishedBasicInfo } = useNextRoute()
     const isLoginInstagramSuccess = Boolean(this.$route.query.code)
     if (isLoginInstagramSuccess) {
       try {
         const data = await this.$api.redirectLoginByInstagram(
           this.$route.query.code
         )
-        const currentUser = useCurrentUserStore()
-        currentUser.setCurrentUser(data.data.user)
-        // Todo refactor: write into a function to handle
-        if (!currentUser.hasFinishedBasicInfo) {
-          this.$router.push({ path: this.localePath('/info') })
-        } else {
-          this.$router.push({ path: this.localePath('/') })
-        }
-        notification(
-          this.$notification,
-          'success',
-          this.$t('homepage.signinSuccess'),
-          ''
-        )
+        nextRouteCheckFinishedBasicInfo(data.data.user)
       } catch (e) {
         // TODO task show message
       }

@@ -135,7 +135,7 @@
 </template>
 
 <script>
-import useNotification from '@/composables/useNotification'
+import useMessage from '@/composables/useMessage'
 export default {
   name: 'SignIn',
   layout: 'signin',
@@ -164,14 +164,6 @@ export default {
     handleUsePassword() {
       this.usePassword = !this.usePassword
     },
-    openNotificationWithIcon(type, title, error) {
-      for (let i = 0; i < error.length; i++) {
-        this.$notification[type]({
-          message: title,
-          description: this.$t('error.' + error[i]),
-        })
-      }
-    },
     handleConfirmBlur(e) {
       const value = e.target.value
       this.confirmDirty = this.confirmDirty || !!value
@@ -196,30 +188,16 @@ export default {
     handleSubmit(e) {
       this.disabledBtn = true
       this.loadingBtn = true
-      const { notification } = useNotification()
+      const { errorMessage } = useMessage()
       e.preventDefault()
       this.form.validateFields(async (err, values) => {
         if (!err) {
           try {
             await this.$api.signUp(values)
-            notification(
-              this.$notification,
-              'success',
-              this.$t('homepage.signupSuccess'),
-              this.$t('homepage.desSignupSuccess')
-            )
+            this.$message(this.$t('homepage.desSignupSuccess'))
             this.form.resetFields()
           } catch (e) {
-            const messageError = []
-            for (let i = 0; i < e.response.data.error.length; i++) {
-              messageError.push(this.$t(`error.${e.response.data.error[i]}`))
-            }
-            notification(
-              this.$notification,
-              'error',
-              this.$t('homepage.signupError'),
-              messageError
-            )
+            errorMessage(e.response.data.error)
           }
         }
       })

@@ -87,7 +87,7 @@
 <script>
 import TheSns from '~/components/TheSns.vue'
 import { useCurrentUserStore } from '~/store/user'
-import useNotification from '@/composables/useNotification'
+import useMessage from '@/composables/useMessage'
 export default {
   name: 'SignIn',
   components: {
@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     handleSubmit(e) {
-      const { notification } = useNotification()
+      const { errorMessage } = useMessage()
       e.preventDefault()
       this.disabledBtn = true
       this.loadingBtn = true
@@ -126,50 +126,19 @@ export default {
           try {
             if (!values.password) {
               await this.$api.loginByOtp(values)
-              notification(
-                this.$notification,
-                'success',
-                this.$t('homepage.signinSuccess'),
-                this.$t('homepage.signinSuccessOtp')
-              )
+              this.$message(this.$t('homepage.signinSuccessOtp'))
             } else {
               const res = await this.$api.login(values)
               currentUser.setCurrentUser(res.data.user)
               this.$router.push({ path: this.localePath('/') })
-              notification(
-                this.$notification,
-                'success',
-                this.$t('homepage.signinSuccess'),
-                ''
-              )
+              this.$message(this.$t('homepage.signinSuccess'))
               this.form.resetFields()
             }
           } catch (e) {
             if (e.response.data.error.includes(30001)) {
               this.$router.push({ path: this.localePath('/') })
-              const messageError = [this.$t('error.30001')]
-              notification(
-                this.$notification,
-                'error',
-                this.$t('homepage.signinError'),
-                messageError
-              )
-            } else {
-              const messageError = []
-              for (let i = 0; i < e.response.data.error.length; i++) {
-                if (e.response.data.error !== 30001) {
-                  messageError.push(
-                    this.$t(`error.${e.response.data.error[i]}`)
-                  )
-                }
-              }
-              notification(
-                this.$notification,
-                'error',
-                this.$t('homepage.signinError'),
-                messageError
-              )
             }
+            errorMessage(e.response.data.error)
           }
         }
         this.disabledBtn = false
