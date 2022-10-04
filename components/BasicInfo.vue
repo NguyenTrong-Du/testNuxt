@@ -5,7 +5,11 @@
     :wrapper-col="{ span: 14 }"
     class="w-full"
   >
-    <a-form-item :label="$t('info.accountType')" class="flex gap-8">
+    <a-form-item
+      :label="$t('info.accountType')"
+      class="flex gap-8"
+      required
+    >
       <a-radio-group
         v-decorator="[
           'account_type',
@@ -22,9 +26,10 @@
         </a-radio>
       </a-radio-group>
     </a-form-item>
-    <a-form-item :label="$t('info.name')" class="mb-0 flex gap-8">
-      <div class="flex justify-between">
+    <a-form-item :label="$t('info.name')" class="mb-0 flex gap-8" required>
+      <div id="div_name_id" class="flex justify-between">
         <a-form-item
+          id="first_name_1"
           :label-col="{ span: 8 }"
           :wrapper-col="{ span: 16 }"
           :label="$t('info.firstName')"
@@ -44,6 +49,7 @@
           />
         </a-form-item>
         <a-form-item
+          id="last_name"
           :label="$t('info.lastName')"
           :label-col="{ span: 8 }"
           :wrapper-col="{ span: 16 }"
@@ -60,6 +66,7 @@
               },
             ]"
             class="sm:w-1/2 md:w-1/2 lg:w-full"
+            required-mark="optional"
           />
         </a-form-item>
       </div>
