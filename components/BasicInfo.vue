@@ -5,11 +5,7 @@
     :wrapper-col="{ span: 14 }"
     class="w-full"
   >
-    <a-form-item
-      :label="$t('info.accountType')"
-      class="flex gap-8"
-      required
-    >
+    <a-form-item :label="$t('info.accountType')" class="flex gap-8" required>
       <a-radio-group
         v-decorator="[
           'account_type',
