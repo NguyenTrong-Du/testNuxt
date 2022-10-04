@@ -9,3 +9,12 @@ div#div_name_id
   > label.ant-form-item-required:before {
   display: none;
 }
+
+svg {
+  vertical-align: baseline;
+}
+
+.ant-upload-list-item-card-actions .anticon {
+  color: red;
+  font-size: 20px;
+}
