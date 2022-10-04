@@ -14,7 +14,7 @@
         class="w-full"
         @submit="handleSubmit"
       >
-        <a-form-item :label="$t('homepage.email')" class="mb-0">
+        <a-form-item :label="$t('homepage.email')" class="mb-0 icon-required">
           <a-input
             v-decorator="[
               'email',
@@ -32,7 +32,7 @@
           />
         </a-form-item>
         <div v-if="usePassword">
-          <a-form-item :label="$t('homepage.password')">
+          <a-form-item :label="$t('homepage.password')" class="icon-required">
             <a-input-password
               v-decorator="[
                 'password',

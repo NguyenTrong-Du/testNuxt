@@ -9,3 +9,18 @@ div#div_name_id
   > label.ant-form-item-required:before {
   display: none;
 }
+
+.icon-required .ant-form-item-required {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.icon-required .ant-form-item-required::before {
+  margin-left: 4px;
+}
+
+.form-icon-required > .ant-form-item-label .ant-form-item-required::before,
+.form-icon-required > .ant-form-item-label > label::after {
+  display: none;
+}

@@ -10,7 +10,7 @@
         class="w-1/2"
         @submit="handleSubmit"
       >
-        <a-form-item :label="$t('homepage.lastName')" class="mb-0">
+        <a-form-item :label="$t('homepage.lastName')" class="mb-0 icon-required">
           <a-input
             v-decorator="[
               'last_name',
@@ -26,7 +26,7 @@
             ]"
           />
         </a-form-item>
-        <a-form-item :label="$t('homepage.firstName')" class="mb-0">
+        <a-form-item :label="$t('homepage.firstName')" class="mb-0 icon-required">
           <a-input
             v-decorator="[
               'first_name',
@@ -42,7 +42,7 @@
             ]"
           />
         </a-form-item>
-        <a-form-item :label="$t('homepage.email')" class="mb-0">
+        <a-form-item :label="$t('homepage.email')" class="mb-0 icon-required">
           <a-input
             v-decorator="[
               'email',
@@ -60,7 +60,7 @@
           />
         </a-form-item>
         <div v-if="usePassword">
-          <a-form-item :label="$t('homepage.password')" class="mb-0">
+          <a-form-item :label="$t('homepage.password')" class="mb-0 icon-required">
             <a-input-password
               v-decorator="[
                 'password',
@@ -84,7 +84,7 @@
               ]"
             />
           </a-form-item>
-          <a-form-item :label="$t('homepage.passwordConfirm')" class="mb-0">
+          <a-form-item :label="$t('homepage.passwordConfirm')" class="mb-0 icon-required">
             <a-input-password
               v-decorator="[
                 'password_confirmation',
