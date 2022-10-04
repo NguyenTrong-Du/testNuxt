@@ -5,7 +5,12 @@
     :wrapper-col="{ span: 14 }"
     class="w-full"
   >
-    <a-form-item :label="$t('info.accountType')" class="flex gap-8" required>
+    <a-form-item class="flex gap-8 form-icon-required" required>
+      <span slot="label" class="mr-2"
+        >{{ $t('info.accountType') }}
+        <span class="text-red-600">*</span>
+        <span>:</span>
+      </span>
       <a-radio-group
         v-decorator="[
           'account_type',
@@ -22,7 +27,12 @@
         </a-radio>
       </a-radio-group>
     </a-form-item>
-    <a-form-item :label="$t('info.name')" class="mb-0 flex gap-8" required>
+    <a-form-item class="mb-0 flex gap-8 form-icon-required" required>
+      <span slot="label" class="mr-2"
+        >{{ $t('info.name') }}
+        <span class="text-red-600">*</span>
+        <span>:</span>
+      </span>
       <div id="div_name_id" class="flex justify-between">
         <a-form-item
           id="first_name_1"
