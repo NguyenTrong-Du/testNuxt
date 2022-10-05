@@ -107,7 +107,11 @@
       </a-upload>
       <div class="text-rose-800">{{ $t('info.valiFile') }}</div>
     </a-form-item>
-    <a-form-item :label="$t('info.email')" class="mb-4 flex gap-8">
+    <a-form-item class="mb-4 flex gap-8 form-icon-required">
+      <span slot="label" class="mr-2">{{ $t('info.email') }}
+        <span class="text-red-600">*</span>
+        <span>:</span>
+      </span>
       <div v-if="currentUser?.email">{{ currentUser?.email }}</div>
       <div v-else class="text-rose-800">
         <a-input
