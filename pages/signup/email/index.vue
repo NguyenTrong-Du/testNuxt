@@ -15,7 +15,6 @@
           class="mb-0 icon-required"
         >
           <a-input
-            class="h-12 rounded-lg"
             v-decorator="[
               'last_name',
               {
@@ -28,6 +27,7 @@
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
         <a-form-item
@@ -35,7 +35,6 @@
           class="mb-0 icon-required"
         >
           <a-input
-            class="h-12 rounded-lg"
             v-decorator="[
               'first_name',
               {
@@ -48,11 +47,11 @@
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
         <a-form-item :label="$t('homepage.email')" class="mb-0 icon-required">
           <a-input
-            class="h-12 rounded-lg"
             v-decorator="[
               'email',
               {
@@ -66,6 +65,7 @@
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
         <div v-if="usePassword">

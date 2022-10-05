@@ -108,7 +108,8 @@
       <div class="text-rose-800">{{ $t('info.valiFile') }}</div>
     </a-form-item>
     <a-form-item class="mb-4 flex gap-8 form-icon-required">
-      <span slot="label" class="mr-2">{{ $t('info.email') }}
+      <span slot="label" class="mr-2"
+        >{{ $t('info.email') }}
         <span class="text-red-600">*</span>
         <span>:</span>
       </span>
