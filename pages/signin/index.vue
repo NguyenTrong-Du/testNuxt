@@ -16,7 +16,6 @@
       >
         <a-form-item :label="$t('homepage.email')" class="mb-0 icon-required">
           <a-input
-            class="h-12 rounded-lg"
             v-decorator="[
               'email',
               {
@@ -30,10 +29,14 @@
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
         <div v-if="usePassword">
-          <a-form-item :label="$t('homepage.password')" class="icon-required height-input-password">
+          <a-form-item
+            :label="$t('homepage.password')"
+            class="icon-required height-input-password"
+          >
             <a-input-password
               v-decorator="[
                 'password',
