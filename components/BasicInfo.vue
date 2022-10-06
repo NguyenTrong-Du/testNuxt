@@ -215,6 +215,7 @@
             ],
           },
         ]"
+        disabled
       />
     </a-form-item>
     <div class="flex justify-center">
