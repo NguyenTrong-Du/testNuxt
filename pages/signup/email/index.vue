@@ -27,6 +27,7 @@
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
         <a-form-item
@@ -46,6 +47,7 @@
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
         <a-form-item :label="$t('homepage.email')" class="mb-0 icon-required">
@@ -63,12 +65,13 @@
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
         <div v-if="usePassword">
           <a-form-item
             :label="$t('homepage.password')"
-            class="mb-0 icon-required"
+            class="mb-0 icon-required height-input-password"
           >
             <a-input-password
               v-decorator="[
@@ -95,7 +98,7 @@
           </a-form-item>
           <a-form-item
             :label="$t('homepage.passwordConfirm')"
-            class="mb-0 icon-required"
+            class="mb-0 icon-required height-input-password"
           >
             <a-input-password
               v-decorator="[

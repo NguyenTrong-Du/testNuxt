@@ -1,6 +1,11 @@
 <template>
   <a-form :form="form" :label-col="{ span: 5 }" :wrapper-col="{ span: 12 }">
-    <a-form-item :label="$t('info.companyName')" class="flex gap-8">
+    <a-form-item class="flex gap-8 form-icon-required">
+      <span slot="label" class="mr-2"
+        >{{ $t('info.companyName') }}
+        <span class="text-red-600">*</span>
+        <span>:</span>
+      </span>
       <a-input
         v-decorator="[
           'company_name',

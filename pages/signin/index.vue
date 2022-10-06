@@ -29,10 +29,14 @@
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
         <div v-if="usePassword">
-          <a-form-item :label="$t('homepage.password')" class="icon-required">
+          <a-form-item
+            :label="$t('homepage.password')"
+            class="icon-required height-input-password"
+          >
             <a-input-password
               v-decorator="[
                 'password',
