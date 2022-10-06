@@ -60,7 +60,6 @@
     "companyName": "Company Name",
     "companyUrl": "Company Url",
     "companyDescription": "Company Description",
-    "refferalUserEmail": "Refferal User Email",
     "editInfoSuccess": "Successfully updated account information",
     "editInfoFailed": "Account information update failed",
     "login": "Login",
