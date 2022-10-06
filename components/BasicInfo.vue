@@ -201,6 +201,23 @@
         <MdAddIcon w="25px" h="25px" />
       </div>
     </a-form-item>
+    <a-form-item :label="$t('info.refferalUserEmail')" class="mb-4 flex gap-8">
+      <a-input
+        v-decorator="[
+          'refferal_user_email',
+          {
+            rules: [
+              { transform: (value) => value?.trim() },
+              {
+                type: 'email',
+                message: $t('homepage.validEmail'),
+              },
+            ],
+          },
+        ]"
+        disabled
+      />
+    </a-form-item>
     <div class="flex justify-center">
       <a-button type="primary" @click="handleNext()">
         {{ $t('info.next') }}
