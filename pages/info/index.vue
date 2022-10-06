@@ -86,12 +86,12 @@ export default {
   methods: {
     next(
       formData,
-      nationalities,
       listFileImage,
       choseRegions,
       choseNationalities,
       listCountriesInChosenRegion,
-      nationalitySum
+      nationalitySum,
+      choseNationalityIds
     ) {
       formData.validateFields((err, values) => {
         this.listFileImage = listFileImage
@@ -105,7 +105,7 @@ export default {
             this.form = {
               ...this.form,
               ...values,
-              nationalities: [...nationalities],
+              nationalities: [...choseNationalityIds],
             }
           }
         }

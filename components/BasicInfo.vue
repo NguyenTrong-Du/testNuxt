@@ -170,14 +170,11 @@
           class="ml-3"
           :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
         >
-          <a-select
-            v-model="choseNationalities[nationality - 1]"
-            @change="(value) => handleCountryChange(nationality, value)"
-          >
+          <a-select v-model="choseNationalities[nationality - 1]">
             <a-select-option
               v-for="country in listCountriesInChoseRegion[nationality - 1]"
               :key="country.id"
-              :value="country.id"
+              :value="country.name"
             >
               {{ country.name }}
             </a-select-option>
@@ -187,7 +184,7 @@
           <a-icon
             type="delete"
             :style="{ fontSize: '25px', color: 'red' }"
-            @click="deleteNationality"
+            @click="deleteNationality(nationality)"
           />
         </div>
         <div v-else class="mr-8"></div>
@@ -216,21 +213,7 @@
       />
     </a-form-item>
     <div class="flex justify-center">
-      <a-button
-        type="primary"
-        @click="
-          $emit(
-            'next',
-            form,
-            nationalities,
-            listFileAvata,
-            choseRegions,
-            choseNationalities,
-            listCountriesInChoseRegion,
-            nationalityNumber
-          )
-        "
-      >
+      <a-button type="primary" @click="handleNext()">
         {{ $t('info.next') }}
       </a-button>
     </div>
@@ -277,6 +260,9 @@ export default {
   async created() {
     const countryData = await this.$api.getAllCountry()
     this.allCountries = [...countryData.data]
+    for (const country of this.allCountries) {
+      this.nationalities = [...this.nationalities, ...country.countries]
+    }
   },
   mounted() {
     this.form.setFieldsValue(this.formData)
@@ -285,15 +271,17 @@ export default {
     handleRegionChange(nationality, value) {
       for (const region of this.allCountries) {
         if (region.region === value) {
-          this.listCountriesInChoseRegion[nationality - 1] = [
-            ...region.countries,
-          ]
+          const listCountry = []
+          for (const country of region.countries) {
+            if (!this.choseNationalities.includes(country.name)) {
+              listCountry.push(country)
+            }
+          }
+          this.listCountriesInChoseRegion[nationality - 1] = [...listCountry]
         }
       }
     },
-    handleCountryChange(nationality, value) {
-      this.nationalities[nationality - 1] = value
-    },
+
     handleAddNationality() {
       this.nationalityNumber++
     },
@@ -329,9 +317,31 @@ export default {
 
       this.listFileAvata = fileList
     },
-    deleteNationality() {
-      this.nationalities.splice(this.nationalityNumber - 1, 1)
+    deleteNationality(nationality) {
+      this.choseRegions.splice(nationality - 1, 1)
+      this.choseNationalities.splice(nationality - 1, 1)
+      this.nationalities.splice(nationality - 1, 1)
       this.nationalityNumber--
+    },
+    handleNext() {
+      const choseNationalityIds = []
+      for (const choseNationality of this.choseNationalities) {
+        for (const country of this.nationalities) {
+          if (choseNationality === country.name) {
+            choseNationalityIds.push(country.id)
+          }
+        }
+      }
+      this.$emit(
+        'next',
+        this.form,
+        this.listFileAvata,
+        this.choseRegions,
+        this.choseNationalities,
+        this.listCountriesInChoseRegion,
+        this.nationalityNumber,
+        choseNationalityIds
+      )
     },
   },
 }
