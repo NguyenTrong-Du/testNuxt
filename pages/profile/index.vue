@@ -39,8 +39,7 @@
 <script>
 import { useCurrentUserStore } from '~/store/user'
 export default {
-  // eslint-disable-next-line vue/multi-word-component-names
-  name: 'Profile',
+  name: 'UserProfile',
   layout: 'homepage',
   computed: {
     percent() {
