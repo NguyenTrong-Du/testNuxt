@@ -39,12 +39,9 @@
 <script>
 import { useCurrentUserStore } from '~/store/user'
 export default {
-  name: 'InfoAccount',
-  components: {},
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'Profile',
   layout: 'homepage',
-  data() {
-    return {}
-  },
   computed: {
     percent() {
       const currentUser = useCurrentUserStore()

@@ -58,6 +58,7 @@ export default {
   async created() {
     try {
       const response = await this.$api.getUser()
+
       if (
         response.first_name?.trim().length > 0 ||
         response.last_name?.trim().length > 0
