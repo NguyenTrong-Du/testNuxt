@@ -35,7 +35,7 @@ export default function ({ $axios }: any, inject: any) {
     getCookie: () => axios.$get('sanctum/csrf-cookie'),
     signUp: (data: User) => axios.$post('api/v1/register', data),
     login: (data: User) => axios.$post('api/v1/login', data),
-    getUser: () => axios.$get('api/v1/user'),
+    getUser: () => axios.$get(`api/v1/user/profile`),
     loginByTwitter: () => axios.$get('/api/v1/auth/twitter'),
     redirectLoginByTwitter: (oauthToken: string, oauthVerifier: string) =>
       axios.$get(

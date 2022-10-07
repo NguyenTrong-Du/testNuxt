@@ -12,6 +12,7 @@ export const useCurrentUserStore = defineStore('currentUser', {
     totalPoint: 0,
     isLoadingUser: false,
     emailVerifiedAt: null,
+    percent_complete_profile: 0,
   }),
   getters: {
     getEmail: (state) => state.email,
@@ -27,6 +28,7 @@ export const useCurrentUserStore = defineStore('currentUser', {
       this.totalPoint = user.total_point
       this.email = user.email
       this.emailVerifiedAt = user.email_verified_at
+      this.percent_complete_profile = user.percent_complete_profile
     },
     setLoadingUser(loading) {
       this.isLoadingUser = loading

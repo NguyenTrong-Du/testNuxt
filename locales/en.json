@@ -84,6 +84,15 @@
     "valiUrl": "The path is not in the correct format",
     "editInfoWithEmailSuccess": "You have updated the new email. Please check your mailbox to verify this email."
   },
+  "profile": {
+    "home": "Home",
+    "profile": "Profile",
+    "editProfile": "Edit profile",
+    "edit": "Edit",
+    "titleProfile": "This is the top page for profile editing. You can check the registration status of each profile and the merits of entering.",
+    "completeness": "Completeness of profile",
+    "descriptionProfile": "Enhancing your profile will increase your job matching rate"
+  },
   "error": {
     "default": "Something went wrong",
     "10001": "Email cannot be empty",

@@ -50,15 +50,15 @@ export default {
     async isRefetch() {
       try {
         const response = await this.$api.getUser()
-        if (response.last_name) {
+        const { user } = response.data
+        if (user.last_name) {
           this.userName =
-            response.display_name ||
-            `${response.first_name} ${response.last_name}`
+            user.display_name || `${user.first_name} ${user.last_name}`
         } else {
-          this.userName = response.display_name || response.first_name
+          this.userName = user.display_name || user.first_name
         }
-        this.avatarUrl = response.profile_image
-        currentUser.setCurrentUser(response)
+        this.avatarUrl = user.profile_image
+        currentUser.setCurrentUser(user)
       } catch (e) {
         // TODO
       }
@@ -87,13 +87,14 @@ export default {
     } else {
       try {
         const response = await this.$api.getUser()
+        const { user } = response.data
         this.userName = getFullName(
-          response.first_name,
-          response.last_name,
-          response.display_name
+          user.first_name,
+          user.last_name,
+          user.display_name
         )
-        this.avatarUrl = response.profile_image
-        currentUser.setCurrentUser(response)
+        this.avatarUrl = user.profile_image
+        currentUser.setCurrentUser(user)
         if ($nuxt.$route.path.includes('wellcome')) {
           this.$router.push({ path: this.localePath('/') })
         }
