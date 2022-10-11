@@ -93,6 +93,18 @@
     "completeness": "Completeness of profile",
     "descriptionProfile": "Enhancing your profile will increase your job matching rate"
   },
+  "region": {
+    "Asia": "Asia",
+    "EU": "EU",
+    "Other": "Other"
+  },
+  "country": {
+    "Japan": "Japan",
+    "Korea": "Korea",
+    "Germany": "Germany",
+    "France": "France",
+    "United": "United States"
+  },
   "error": {
     "default": "Something went wrong",
     "10001": "Email cannot be empty",

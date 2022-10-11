@@ -166,7 +166,7 @@
               v-for="region in allCountries"
               :key="region.region"
             >
-              {{ region.region }}
+              {{ $t(`region.${region.region}`) }}
             </a-select-option>
           </a-select>
         </a-form-item>
@@ -181,7 +181,11 @@
               :key="country.id"
               :value="country.name"
             >
-              {{ country.name }}
+              {{
+                country.name.split(' ').length >= 2
+                  ? $t(`country.${country.name.split(' ')[0]}`)
+                  : $t(`country.${country.name}`)
+              }}
             </a-select-option>
           </a-select>
         </a-form-item>
