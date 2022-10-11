@@ -177,6 +177,9 @@
           :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
         >
           <a-select v-model="choseNationalities[nationality - 1]">
+            <span slot="notFoundContent"
+              ><a-empty :description="$t('info.noData')"
+            /></span>
             <a-select-option
               v-for="country in listCountriesInChoseRegion[nationality - 1]"
               :key="country.id"
@@ -313,11 +316,11 @@ export default {
         file.type === 'image/jpg' ||
         file.type === 'image/png'
       if (!isJpgOrPng) {
-        this.$message.error('info.errorTypeImage')
+        this.$message.error(this.$t('info.errorTypeImage'))
       }
       const isLt5M = file.size / 1024 / 1024 < 5
       if (!isLt5M) {
-        this.$message.error($t('info.sizeImage'))
+        this.$message.error(this.$t('info.sizeImage'))
       }
       return isJpgOrPng && isLt5M
     },
