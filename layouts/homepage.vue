@@ -23,6 +23,7 @@ import SimpleTheHeader from '~/components/SimpleTheHeader.vue'
 import TheHeader from '~/components/TheHeader.vue'
 import { useCurrentUserStore } from '~/store/user'
 import { useRefetchUser } from '~/store/refetch'
+import useNextRoute from '~/composables/useNextRoute'
 export default {
   name: 'App',
   components: {
@@ -73,6 +74,7 @@ export default {
       }
     }
     const currentUser = useCurrentUserStore()
+    const { nextRouteCheckFinishedBasicInfo } = useNextRoute()
     currentUser.setLoadingUser(true)
     if (currentUser.firstName || currentUser.displayName) {
       this.userName = getFullName(
@@ -84,6 +86,7 @@ export default {
       if ($nuxt.$route.path.includes('wellcome')) {
         this.$router.push({ path: this.localePath('/') })
       }
+      nextRouteCheckFinishedBasicInfo(currentUser)
     } else {
       try {
         const response = await this.$api.getUser()
@@ -94,7 +97,7 @@ export default {
           user.display_name
         )
         this.avatarUrl = user.profile_image
-        currentUser.setCurrentUser(user)
+        nextRouteCheckFinishedBasicInfo(user)
         if ($nuxt.$route.path.includes('wellcome')) {
           this.$router.push({ path: this.localePath('/') })
         }

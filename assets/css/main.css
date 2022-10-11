@@ -38,3 +38,13 @@ svg {
   height: 48px;
   border-radius: 0.5rem;
 }
+
+.step-custom.ant-steps-item-process
+  > .ant-steps-item-container
+  > .ant-steps-item-tail::after,
+.step-custom.ant-steps-item-wait
+  .ant-steps-item-icon
+  > .ant-steps-icon
+  .ant-steps-icon-dot {
+  background-color: #fff;
+}

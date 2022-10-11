@@ -42,7 +42,8 @@
     "verifyFailed": "メールの確認に失敗しました。",
     "descVerifyFailed": "確認リンクの有効期限が切れています。 確認メールを再送信してください。",
     "verifySuccess": "メール認証成功！",
-    "descVerifySuccess": "ログインボタンをクリックしてログインページに移動し、ウェブサイトにログインします。"
+    "descVerifySuccess": "ログインボタンをクリックしてログインページに移動し、ウェブサイトにログインします。",
+    "textBody": "サイトへようこそ"
   },
   "info": {
     "titleInfo": "情報登録",
@@ -74,7 +75,7 @@
     "lastNameEmtry": "姓を入力してください!",
     "companyNameEmtry": "会社名を入力してください!",
     "noEmail": "このアカウントにはメールがありません",
-    "valiFile": "ファイルサイズは 5MB から",
+    "valiFile": "最大ファイルサイズは 5MB です",
     "previous": "前へ",
     "next": "次へ",
     "save": "保存",
@@ -82,7 +83,8 @@
     "errorTypeImage": "画像をJPG/PNG/JPEG形式に選択してください",
     "valiPhoneNumber": "電話番号は 10～11 桁である必要があります",
     "valiUrl": "パスの形式が正しくありません",
-    "editInfoWithEmailSuccess": "新しいメールを更新しました。 メールボックスを確認して、このメールを確認してください。"
+    "editInfoWithEmailSuccess": "新しいメールを更新しました。 メールボックスを確認して、このメールを確認してください。",
+    "maxNationality": "人は最大 2 つの国籍しか選択できません"
   },
   "profile": {
     "home": "ホーム",

@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-[#9CA3AF] h-full flex items-center pt-12">HOMEPAGE</div>
+  <div class="h-full flex items-center justify-center text-2xl pt-12">
+    {{ $t('textBody') }}
+  </div>
 </template>
 
 <script>

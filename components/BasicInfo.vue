@@ -95,6 +95,7 @@
             getValueFromEvent: normFile,
           },
         ]"
+        accept="image/*"
         :before-upload="beforeUpload"
         name="logo"
         list-type="picture"
@@ -293,7 +294,11 @@ export default {
     },
 
     handleAddNationality() {
-      this.nationalityNumber++
+      if (this.nationalityNumber < 2) {
+        this.nationalityNumber++
+      } else {
+        this.$message.warning(this.$t('info.maxNationality'))
+      }
     },
     normFile(e) {
       if (Array.isArray(e)) {

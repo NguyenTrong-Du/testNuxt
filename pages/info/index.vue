@@ -10,6 +10,7 @@
               :key="item.title"
               :title="item.title"
               :description="item.description"
+              class="step-custom"
             />
           </a-steps>
           <div class="steps-content overflow-auto max-h-[550px]">
