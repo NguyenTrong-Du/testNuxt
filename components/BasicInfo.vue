@@ -280,6 +280,7 @@ export default {
   },
   methods: {
     handleRegionChange(nationality, value) {
+      this.choseNationalities[nationality - 1] = null
       for (const region of this.allCountries) {
         if (region.region === value) {
           const listCountry = []
@@ -341,6 +342,9 @@ export default {
     handleNext() {
       const choseNationalityIds = []
       for (const choseNationality of this.choseNationalities) {
+        if (!choseNationality) {
+          return this.$message.warning(this.$t('info.nationalityEmpty'))
+        }
         for (const country of this.nationalities) {
           if (choseNationality === country.name) {
             choseNationalityIds.push(country.id)

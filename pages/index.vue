@@ -1,6 +1,6 @@
 <template>
   <div class="h-full flex items-center justify-center text-2xl pt-12">
-    {{ $t('textBody') }}
+    {{ $t('homepage.textBody') }}
   </div>
 </template>
 

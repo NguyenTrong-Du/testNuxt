@@ -84,7 +84,8 @@
     "valiPhoneNumber": "電話番号は 10～11 桁である必要があります",
     "valiUrl": "パスの形式が正しくありません",
     "editInfoWithEmailSuccess": "新しいメールを更新しました。 メールボックスを確認して、このメールを確認してください。",
-    "maxNationality": "人は最大 2 つの国籍しか選択できません"
+    "maxNationality": "人は最大 2 つの国籍しか選択できません",
+    "nationalityEmpty": "国籍を空にすることはできません"
   },
   "profile": {
     "home": "ホーム",
