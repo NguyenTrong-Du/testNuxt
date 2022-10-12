@@ -148,7 +148,10 @@ export default {
       formData.validateFields(async (err, values) => {
         if (!err) {
           const data = new FormData()
-          if (this.form.profile_image_file?.length) {
+          if (
+            this.form.profile_image_file?.length &&
+            this.form.profile_image_file[0].shouldUpload
+          ) {
             data.append(
               'profile_image_file',
               this.form.profile_image_file[0].originFileObj
