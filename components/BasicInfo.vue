@@ -355,6 +355,12 @@ export default {
     },
     handleNext() {
       const choseNationalityIds = []
+      if (
+        this.nationalityNumber > 0 &&
+        this.choseNationalities.length < this.nationalityNumber
+      ) {
+        return this.$message.warning(this.$t('info.nationalityEmpty'))
+      }
       for (const choseNationality of this.choseNationalities) {
         if (!choseNationality) {
           return this.$message.warning(this.$t('info.nationalityEmpty'))
