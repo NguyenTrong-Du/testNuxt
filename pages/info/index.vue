@@ -13,8 +13,9 @@
               class="step-custom"
             />
           </a-steps>
-          <div class="steps-content overflow-auto max-h-[550px]">
-            <div v-if="current === 1" class="w-full">
+
+          <div v-if="current === 1" class="w-full">
+            <div class="steps-content overflow-auto max-h-[550px] bg-slate-800">
               <BasicInfo
                 :form-data="form"
                 :list-file-image="listFileImage"
@@ -25,13 +26,22 @@
                 @next="next"
               />
             </div>
-            <div v-if="current === 2">
-              <div v-if="form.account_type === 'company'">
+          </div>
+          <div v-if="current === 2" class="w-full">
+            <div v-if="form.account_type === 'company'">
+              <div
+                class="steps-content overflow-auto max-h-[550px] bg-slate-800"
+              >
                 <CompanyInfo :form-data="form" @prev="prev" @submit="submit" />
               </div>
-              <div v-if="form.account_type === 'individual'">
-                <PersonInfo @prev="prev" @submit="submit" />
-              </div>
+            </div>
+            <div v-else>
+              <PersonInfo
+                :data-individual="dataIndividual"
+                :form-data="form"
+                @prev="prev"
+                @submit="submit"
+              />
             </div>
           </div>
           <div class="steps-action" />
@@ -60,6 +70,7 @@ export default {
       chosenNationaly: [],
       chosenRegion: [],
       listCountriesInChosenRegion: [],
+      dataIndividual: {},
       steps: [
         {
           title: this.$t('info.login'),
@@ -112,7 +123,8 @@ export default {
         }
       })
     },
-    prev(formData) {
+    prev(formData, data) {
+      this.dataIndividual = data
       formData.validateFields((_, values) => {
         this.current--
         this.form = { ...this.form, ...values }
@@ -128,7 +140,7 @@ export default {
         onOk() {},
       })
     },
-    submit(formData) {
+    submit(formData, listAttributes) {
       this.isLoadingUpdateInfo = true
       const { errorMessage } = useMessage()
       const refetchUser = useRefetchUser()
@@ -163,7 +175,12 @@ export default {
             }
           }
           try {
-            await this.$api.editInfo(currentUser.id, data)
+            if (this.form.account_type === 'company') {
+              await this.$api.updateInfoCompany(currentUser.id, data)
+            } else {
+              data.append('attributes', JSON.stringify(listAttributes))
+              await this.$api.updateInfoIndividual(currentUser.id, data)
+            }
             refetchUser.changeRefetch()
             this.isLoadingUpdateInfo = false
             currentUser.setHasFinishedBasicInfo(true)

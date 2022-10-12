@@ -84,9 +84,48 @@
     "valiPhoneNumber": "Phone numbers must contain 10 to 11 digits",
     "valiUrl": "The path is not in the correct format",
     "editInfoWithEmailSuccess": "You have updated the new email. Please check your mailbox to verify this email.",
+    "job": "Job",
+    "pr": "PR",
+    "language": "Language",
+    "translation": "Translation",
+    "programmingLanguages": "Programming Languages",
+    "translationError": "Please fill out the information in the translation section",
+    "languageError": "Please fill out the information in the language section",
     "maxNationality": "A person can only choose a maximum of two nationalities",
     "nationalityEmpty": "Nationality can't be empty",
-    "noData": "No Data"
+    "noData": "No Data",
+    "yearsExperience": "Years of experience"
+  },
+  "job": {
+    "none": "--None--",
+    "ITEngineer": "IT Engineer",
+    "SystemEngineer": "System Engineer",
+    "SmartPhoneProgrammer": "Smart Phone Programmer",
+    "AndroidApplicationEngineer": "Android Application Engineer",
+    "ITConsultant": "IT Consultant",
+    "NetworkEngineer": "Network Engineer",
+    "DatabaseEngineer": "Database Engineer",
+    "Programmer": "Programmer",
+    "IOSApplicationEngineer": "IOS Application Engineer",
+    "AIEngineer": "AI Engineer",
+    "SecurityEngineer": "Security Engineer",
+    "ServerEngineer/InfrastructureEngineer": "Server Engineer / Infrastructure Engineer",
+    "DesktopApplicationDeveloper": "Desktop Application Developer"
+  },
+  "language": {
+    "English": "English",
+    "Japanese": "Japanese"
+  },
+  "level": {
+    "Beginner": "Beginner",
+    "Intermediate": "Intermediate",
+    "Advanced": "Advanced"
+  },
+  "translation": {
+    "English": "English",
+    "Japanese": "Japanese",
+    "Chinese": "Chinese",
+    "French": "French"
   },
   "profile": {
     "home": "Home",

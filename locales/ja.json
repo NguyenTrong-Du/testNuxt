@@ -84,9 +84,48 @@
     "valiPhoneNumber": "電話番号は 10～11 桁である必要があります",
     "valiUrl": "パスの形式が正しくありません",
     "editInfoWithEmailSuccess": "新しいメールを更新しました。 メールボックスを確認して、このメールを確認してください。",
+    "job": "職種",
+    "pr": "自己PR",
+    "language": "言語",
+    "translation": "翻訳",
+    "programmingLanguages": "エンジニア",
+    "translationError": "翻訳セクションに情報を入力してください",
+    "languageError": "言語セクションに情報を入力してください",
     "maxNationality": "人は最大 2 つの国籍しか選択できません",
     "nationalityEmpty": "国籍を空にすることはできません",
-    "noData": "データなし"
+    "noData": "データなし",
+    "yearsExperience": "経験年数"
+  },
+  "job": {
+    "none": "--無し--",
+    "ITEngineer": "ITエンジニア",
+    "SystemEngineer": "システムエンジニア",
+    "SmartPhoneProgrammer": "スマートフォンプログラマー",
+    "AndroidApplicationEngineer": "Android アプリケーション エンジニア",
+    "ITConsultant": "ITコンサルタント",
+    "NetworkEngineer": "ネットワーク エンジニア",
+    "DatabaseEngineer": "データベース エンジニア",
+    "Programmer": "プログラマー",
+    "IOSApplicationEngineer": "IOS アプリケーション エンジニア",
+    "AIEngineer": "AIエンジニア",
+    "SecurityEngineer": "セキュリティエンジニア",
+    "ServerEngineer/InfrastructureEngineer": "サーバーエンジニア / インフラエンジニア",
+    "DesktopApplicationDeveloper": "デスクトップ アプリケーション開発者"
+  },
+  "language": {
+    "English": "英語",
+    "Japanese": "日本語"
+  },
+  "level": {
+    "Beginner": "初心者",
+    "Intermediate": "中級者",
+    "Advanced": "上級者"
+  },
+  "translation": {
+    "English": "英語",
+    "Japanese": "日本語",
+    "Chinese": "中国語",
+    "French": "フランス語"
   },
   "profile": {
     "home": "ホーム",

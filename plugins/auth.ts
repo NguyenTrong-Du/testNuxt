@@ -60,12 +60,22 @@ export default function ({ $axios }: any, inject: any) {
 
     // info
     getAllCountry: () => axios.$get('/api/v1/country'),
-    editInfo: (userId: string, data: any) =>
+
+    updateInfoCompany: (userId: string, data: any) =>
       axios.$post(`/api/v1/user/company/update/${userId}`, data, {
         headers: {
           'content-type': 'multipart/form-data',
         },
       }),
+
+    updateInfoIndividual: (userId: string, data: any) =>
+      axios.$post(`/api/v1/user/individual/update/${userId}`, data, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      }),
+
+    getAttributes: () => axios.$get('/api/v1/attribute'),
   }
   inject('api', api)
 }

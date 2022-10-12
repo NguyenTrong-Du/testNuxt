@@ -15,15 +15,15 @@
         v-decorator="[
           'account_type',
           {
-            initialValue: 'company',
+            initialValue: 'individual',
           },
         ]"
       >
-        <a-radio value="company">
-          {{ $t('info.company') }}
-        </a-radio>
         <a-radio value="individual">
           {{ $t('info.individual') }}
+        </a-radio>
+        <a-radio value="company">
+          {{ $t('info.company') }}
         </a-radio>
       </a-radio-group>
     </a-form-item>
@@ -179,9 +179,9 @@
           :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
         >
           <a-select v-model="choseNationalities[nationality - 1]">
-            <span slot="notFoundContent"
-              ><a-empty :description="$t('info.noData')"
-            /></span>
+            <span slot="notFoundContent">
+              <span class="flex justify-center">{{ $t('info.noData') }}</span>
+            </span>
             <a-select-option
               v-for="country in listCountriesInChoseRegion[nationality - 1]"
               :key="country.id"
