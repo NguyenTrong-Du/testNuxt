@@ -33,5 +33,8 @@ export const useCurrentUserStore = defineStore('currentUser', {
     setLoadingUser(loading) {
       this.isLoadingUser = loading
     },
+    setHasFinishedBasicInfo(hasFinishedBasicInfo) {
+      this.hasFinishedBasicInfo = hasFinishedBasicInfo
+    },
   },
 })

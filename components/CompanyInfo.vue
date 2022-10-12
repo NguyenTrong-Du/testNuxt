@@ -38,7 +38,11 @@
       <a-textarea v-decorator="['company_description']" :rows="4" />
     </a-form-item>
     <div class="flex justify-center">
-      <a-button type="primary" @click="$emit('submit', form)">
+      <a-button
+        type="primary"
+        :disabled="hasErrors(form.getFieldsError())"
+        @click="$emit('submit', form)"
+      >
         {{ $t('info.save') }}
       </a-button>
       <a-button style="margin-left: 8px" @click="$emit('prev', form)">
@@ -52,7 +56,7 @@
 import regex from '@/composables/regex'
 export default {
   // eslint-disable-next-line vue/require-prop-types
-  props: ['formData'],
+  props: ['formData', 'isValidateFail'],
   data() {
     return {
       formLayout: 'horizontal',
@@ -62,6 +66,11 @@ export default {
   },
   mounted() {
     this.form.setFieldsValue(this.formData)
+  },
+  methods: {
+    hasErrors(fieldsError) {
+      return Object.keys(fieldsError).some((field) => fieldsError[field])
+    },
   },
 }
 </script>

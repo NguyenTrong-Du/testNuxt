@@ -23,7 +23,6 @@ import SimpleTheHeader from '~/components/SimpleTheHeader.vue'
 import TheHeader from '~/components/TheHeader.vue'
 import { useCurrentUserStore } from '~/store/user'
 import { useRefetchUser } from '~/store/refetch'
-import useNextRoute from '~/composables/useNextRoute'
 export default {
   name: 'App',
   components: {
@@ -74,7 +73,6 @@ export default {
       }
     }
     const currentUser = useCurrentUserStore()
-    const { nextRouteCheckFinishedBasicInfo } = useNextRoute()
     currentUser.setLoadingUser(true)
     if (currentUser.firstName || currentUser.displayName) {
       this.userName = getFullName(
@@ -83,10 +81,14 @@ export default {
         currentUser.displayName
       )
       this.avatarUrl = currentUser.profileImage
-      if ($nuxt.$route.path.includes('wellcome')) {
+      if (!currentUser.hasFinishedBasicInfo) {
+        this.$router.push({ path: this.localePath('/info') })
+      } else if (
+        $nuxt.$route.path.includes('wellcome') ||
+        $nuxt.$route.path.includes('info')
+      ) {
         this.$router.push({ path: this.localePath('/') })
       }
-      nextRouteCheckFinishedBasicInfo(currentUser)
     } else {
       try {
         const response = await this.$api.getUser()
@@ -97,8 +99,13 @@ export default {
           user.display_name
         )
         this.avatarUrl = user.profile_image
-        nextRouteCheckFinishedBasicInfo(user)
-        if ($nuxt.$route.path.includes('wellcome')) {
+        currentUser.setCurrentUser(user)
+        if (!user.has_finished_basic_info) {
+          this.$router.push({ path: this.localePath('/info') })
+        } else if (
+          $nuxt.$route.path.includes('wellcome') ||
+          $nuxt.$route.path.includes('info')
+        ) {
           this.$router.push({ path: this.localePath('/') })
         }
       } catch (e) {

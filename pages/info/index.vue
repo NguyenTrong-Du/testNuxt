@@ -166,6 +166,7 @@ export default {
             await this.$api.editInfo(currentUser.id, data)
             refetchUser.changeRefetch()
             this.isLoadingUpdateInfo = false
+            currentUser.setHasFinishedBasicInfo(true)
             if (!currentUser.emailVerifiedAt) this.success()
             this.$router.push({ path: this.localePath('/') })
             if (currentUser.emailVerifiedAt) {

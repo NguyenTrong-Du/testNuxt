@@ -44,11 +44,11 @@
             v-decorator="[
               'first_name',
               {
+                initialValue: currentUser?.firstName,
                 rules: [
                   { transform: (value) => value?.trim() },
                   { required: true, message: $t('info.firstNameEmpty') },
                 ],
-                initialValue: currentUser?.firstName,
               },
             ]"
             class="sm:w-1/2 md:w-1/2 lg:w-full"
@@ -100,6 +100,7 @@
         name="logo"
         list-type="picture"
         :file-list="listFileAvata"
+        :default-file-list="listFileAvata?.length < 1 ? null : listFileAvata"
         @change="handleSelectImage"
       >
         <a-button>
@@ -138,6 +139,7 @@
         v-decorator="[
           'phone_number',
           {
+            initialValue: currentUser?.phoneNumber,
             rules: [
               { transform: (value) => value?.trim() },
               {
@@ -203,6 +205,7 @@
         <div v-else class="mr-8"></div>
       </div>
       <div
+        v-if="nationalityNumber < 2"
         class="steps-content flex justify-center items-center cursor-pointer"
         @click="handleAddNationality()"
       >
@@ -227,7 +230,11 @@
       />
     </a-form-item>
     <div class="flex justify-center">
-      <a-button type="primary" @click="handleNext()">
+      <a-button
+        type="primary"
+        :disabled="hasErrors(form.getFieldsError())"
+        @click="handleNext()"
+      >
         {{ $t('info.next') }}
       </a-button>
     </div>
@@ -274,6 +281,17 @@ export default {
   async created() {
     const countryData = await this.$api.getAllCountry()
     this.allCountries = [...countryData.data]
+    if (!this.listFileImage.length && this.currentUser.profileImage) {
+      this.listFileAvata = [
+        {
+          uid: this.currentUser.id,
+          name: this.currentUser.displayName,
+          status: 'done',
+          url: this.currentUser.profileImage,
+          thumbUrl: this.currentUser.profileImage,
+        },
+      ]
+    }
     for (const country of this.allCountries) {
       this.nationalities = [...this.nationalities, ...country.countries]
     }
@@ -298,11 +316,7 @@ export default {
     },
 
     handleAddNationality() {
-      if (this.nationalityNumber < 2) {
-        this.nationalityNumber++
-      } else {
-        this.$message.warning(this.$t('info.maxNationality'))
-      }
+      this.nationalityNumber++
     },
     normFile(e) {
       if (Array.isArray(e)) {
@@ -311,20 +325,16 @@ export default {
       return e && e.fileList
     },
     beforeUpload(file) {
-      const isJpgOrPng =
-        file.type === 'image/jpeg' ||
-        file.type === 'image/jpg' ||
-        file.type === 'image/png'
-      if (!isJpgOrPng) {
-        this.$message.error(this.$t('info.errorTypeImage'))
-      }
       const isLt5M = file.size / 1024 / 1024 < 5
       if (!isLt5M) {
         this.$message.error(this.$t('info.sizeImage'))
+        file.shouldUpload = false
+        return false
       }
-      return isJpgOrPng && isLt5M
+      file.shouldUpload = true
     },
     handleSelectImage(info) {
+      if (!info.file.shouldUpload) return
       let fileList = [...info.fileList]
       fileList = fileList.slice(-1)
       fileList = fileList.map((file) => {
@@ -364,6 +374,9 @@ export default {
         this.nationalityNumber,
         choseNationalityIds
       )
+    },
+    hasErrors(fieldsError) {
+      return Object.keys(fieldsError).some((field) => fieldsError[field])
     },
   },
 }
