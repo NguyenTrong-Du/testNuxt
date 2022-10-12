@@ -195,14 +195,13 @@
             </a-select-option>
           </a-select>
         </a-form-item>
-        <div v-if="nationality > 1" class="ml-2 mb-4">
+        <div class="ml-2 my-1">
           <a-icon
             type="delete"
             :style="{ fontSize: '25px', color: 'red' }"
             @click="deleteNationality(nationality)"
           />
         </div>
-        <div v-else class="mr-8"></div>
       </div>
       <div
         v-if="nationalityNumber < 2"
@@ -264,7 +263,7 @@ export default {
   ],
   data() {
     return {
-      nationalityNumber: this.nationalitySum || 1,
+      nationalityNumber: this.nationalitySum || 0,
       allCountries: [],
       choseRegions: this.chosenRegion || [],
       listCountriesInChoseRegion: this.listCountriesInChosenRegion || [],
@@ -281,7 +280,7 @@ export default {
   async created() {
     const countryData = await this.$api.getAllCountry()
     this.allCountries = [...countryData.data]
-    if (!this.listFileImage.length && this.currentUser.profileImage) {
+    if (!this.listFileImage && this.currentUser.profileImage) {
       this.listFileAvata = [
         {
           uid: this.currentUser.id,
@@ -351,6 +350,7 @@ export default {
       this.choseRegions.splice(nationality - 1, 1)
       this.choseNationalities.splice(nationality - 1, 1)
       this.nationalities.splice(nationality - 1, 1)
+      this.listCountriesInChoseRegion.splice(nationality - 1, 1)
       this.nationalityNumber--
     },
     handleNext() {

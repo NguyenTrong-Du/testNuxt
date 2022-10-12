@@ -62,11 +62,11 @@ export default {
   layout: 'homepage',
   data() {
     return {
-      nationalitySum: 1,
+      nationalitySum: 0,
       current: 1,
       form: {},
       isLoadingUpdateInfo: false,
-      listFileImage: [],
+      listFileImage: null,
       chosenNationaly: [],
       chosenRegion: [],
       listCountriesInChosenRegion: [],
@@ -148,7 +148,7 @@ export default {
       formData.validateFields(async (err, values) => {
         if (!err) {
           const data = new FormData()
-          if (this.form.profile_image_file) {
+          if (this.form.profile_image_file?.length) {
             data.append(
               'profile_image_file',
               this.form.profile_image_file[0].originFileObj
