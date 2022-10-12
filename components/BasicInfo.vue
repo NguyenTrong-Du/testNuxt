@@ -287,6 +287,7 @@ export default {
           uid: this.currentUser.id,
           name: this.currentUser.displayName,
           status: 'done',
+          shouldUpload: true,
           url: this.currentUser.profileImage,
           thumbUrl: this.currentUser.profileImage,
         },
