@@ -3,7 +3,7 @@ const useMessage = () => {
   const errorMessage = (errorCodeList) => {
     const errorMessageList = errorCodeList.map((error) => error.code)
     errorMessageList.forEach((element) => {
-      message.error($nuxt.$t(`error.${element}`))
+      message.error(`[${element}] ` + $nuxt.$t(`error.${element}`))
     })
   }
   return { errorMessage }
