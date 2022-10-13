@@ -168,8 +168,8 @@
     "30004": "Profile image must be in image format",
     "30005": "Company name cannot be empty",
     "3009": "Company url must be in the form of a path",
-    "3006": "Nationality should be an array",
-    "3007": "The id of the nationality must be in the form uuid",
+    "3006": "Could not be processed.",
+    "3007": "Could not be processed.",
     "3008": "Nationality does not exist",
     "3010": "Image must smaller than 5MB!",
     "3011": "Referral email does not exist"
