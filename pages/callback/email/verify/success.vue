@@ -7,7 +7,9 @@
     >
       <template #extra>
         <a-button key="console" type="primary">
-          <nuxt-link to="/signin">{{ $t('homepage.login') }}</nuxt-link>
+          <nuxt-link :to="localePath('/signin')">{{
+            $t('homepage.login')
+          }}</nuxt-link>
         </a-button>
       </template>
     </a-result>
@@ -17,5 +19,9 @@
 <script>
 export default {
   name: 'VerifySuccess',
+  created() {
+    const locale = localStorage.getItem('locale')
+    this.$i18n.setLocale(locale)
+  },
 }
 </script>

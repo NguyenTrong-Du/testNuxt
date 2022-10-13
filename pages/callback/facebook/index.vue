@@ -11,11 +11,13 @@ export default {
   async created() {
     const { nextRouteCheckFinishedBasicInfo } = useNextRoute()
     const isLoginFacebookSuccess = Boolean(this.$route.query.code)
+    const locale = localStorage.getItem('locale')
     if (isLoginFacebookSuccess) {
       try {
         const data = await this.$api.redirectLoginByFacebook(
           this.$route.query.code
         )
+        this.$i18n.setLocale(locale)
         nextRouteCheckFinishedBasicInfo(data.data.user)
       } catch (e) {
         // TODO task show message

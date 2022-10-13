@@ -7,9 +7,9 @@ const useNextRoute = () => {
     const currentUser = useCurrentUserStore()
     currentUser.setCurrentUser(user)
     if (!currentUser.hasFinishedBasicInfo) {
-      router.push('/info')
+      router.push({ path: window.$nuxt.localePath('/info') })
     } else {
-      router.push('/')
+      router.push({ path: window.$nuxt.localePath('/') })
     }
     message.success($nuxt.$t('homepage.signinSuccess'))
   }

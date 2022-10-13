@@ -14,31 +14,16 @@
         >{{ $t('homepage.register') }}</nuxt-link
       >
     </div>
-    <div class="flex items-center mr-10">
-      <MdGlobeIcon w="25px" h="25px" />
-      <a-dropdown class="ml-1 flex items-center gap-1">
-        <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-          {{ $i18n.locale === 'en' ? 'English' : '日本語' }}
-          <a-icon type="down" />
-        </a>
-        <a-menu slot="overlay">
-          <a-menu-item v-for="locale in availableLocales" :key="locale.code">
-            <nuxt-link :to="switchLocalePath(locale.code)" class="m-5">{{
-              locale.name
-            }}</nuxt-link>
-          </a-menu-item>
-        </a-menu>
-      </a-dropdown>
-    </div>
+    <DropDownLanguage class-prop="flex items-center mr-10" />
   </div>
 </template>
 
 <script>
-import MdGlobeIcon from 'vue-ionicons/dist/md-globe.vue'
+import DropDownLanguage from './DropDownLanguage.vue'
 export default {
   name: 'HeaderLogin',
   components: {
-    MdGlobeIcon,
+    DropDownLanguage,
   },
   data() {
     return {
@@ -46,11 +31,6 @@ export default {
       size: 'large',
       isSignup: $nuxt.$route.path.includes('signup'),
     }
-  },
-  computed: {
-    availableLocales() {
-      return this.$i18n.locales
-    },
   },
   updated() {
     this.isSignup = $nuxt.$route.path.includes('signup')

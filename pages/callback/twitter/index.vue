@@ -13,12 +13,14 @@ export default {
     const isLoginTwitterSuccess = Boolean(
       this.$route.query.oauth_token && this.$route.query.oauth_verifier
     )
+    const locale = localStorage.getItem('locale')
     if (isLoginTwitterSuccess) {
       try {
         const data = await this.$api.redirectLoginByTwitter(
           this.$route.query.oauth_token,
           this.$route.query.oauth_verifier
         )
+        this.$i18n.setLocale(locale)
         nextRouteCheckFinishedBasicInfo(data.data.user)
       } catch (e) {
         // TODO task show message
