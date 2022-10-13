@@ -13,9 +13,9 @@
         v-show="isNotLoggedIn"
         shape="round"
         :size="size"
-        class="bg-white text-black"
+        class="bg-green-700 text-white"
       >
-        <nuxt-link :to="`${$i18n.locale === 'ja' ? '/ja/signin' : '/signin'}`">
+        <nuxt-link :to="`${$i18n.locale === 'ja' ? '/ja/signup' : '/signup'}`">
           {{ $t('homepage.joinNow') }}
         </nuxt-link>
       </a-button>
@@ -45,3 +45,10 @@ export default {
   },
 }
 </script>
+<style scoped>
+.ant-btn:hover {
+  border-color: rgb(7, 117, 44);
+  color: rgb(251, 251, 251);
+  background-color: rgb(8, 185, 126);
+}
+</style>

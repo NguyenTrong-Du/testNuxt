@@ -84,9 +84,13 @@
                     },
                     {
                       pattern: new RegExp(
-                        /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]{8,}$/
+                        /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]$/
                       ),
                       message: $t('homepage.valiPassword'),
+                    },
+                    {
+                      min: 8,
+                      message: $t('homepage.valiLengthPassword'),
                     },
                     {
                       validator: validateToNextPassword,

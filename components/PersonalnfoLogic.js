@@ -40,6 +40,9 @@ export default {
       yearsProgrammingLanguages:
         this.dataIndividual?.yearsProgrammingLanguages || [],
       yearsTranslation: this.dataIndividual?.yearsTranslation || [],
+      errorTranslation: false,
+      errorLanguage: false,
+      errorProgramingLanguage: false,
       form: this.$form.createForm(this, { name: 'coordinated' }),
     }
   },
@@ -71,6 +74,14 @@ export default {
         this.choseTranslationFrom.forEach((value, index) => {
           this.getListTranslationTo(index + 1, value)
         })
+    },
+    choseLevel() {
+      if (
+        !this.choseLevel.includes(null) ||
+        !this.choseLanguage.includes(null)
+      ) {
+        this.errorLanguage = false
+      }
     },
   },
   mounted() {
@@ -127,13 +138,16 @@ export default {
             language.parent_attribute_id === this.attributes.languages.id &&
             !this.choseLanguage.includes(language.name)
         )
+      this.choseLanguage[this.languageNumber] = null
       this.languageNumber++
     },
 
     handleAddTranslation() {
+      this.choseTranslationFrom[this.translationNumber] = null
       this.translationNumber++
     },
     handleAddProgrammingLanguage() {
+      this.choseProgrammingLanguages[this.programmingLanguageNumber] = null
       this.programmingLanguageNumber++
     },
     setListLanguage() {
@@ -156,10 +170,13 @@ export default {
       this.choseTranslationFrom.splice(translationIndex - 1, 1)
       this.choseTranslationTo.splice(translationIndex - 1, 1)
       this.listTranslation.splice(translationIndex - 1, 1)
+      this.yearsTranslation.splice(translationIndex - 1, 1)
       this.translationNumber--
     },
     deleteProgrammingLanguage(programmingLanguageIndex) {
       this.choseProgrammingLanguages.splice(programmingLanguageIndex - 1, 1)
+      this.yearsProgrammingLanguages.splice(programmingLanguageIndex - 1, 1)
+      this.yearsProgrammingLanguages.splice(programmingLanguageIndex - 1, 1)
       this.programmingLanguageNumber--
     },
 
@@ -211,11 +228,25 @@ export default {
       else {
         this.getListTranslationTo(translationIndex, valueTranslation)
       }
+      if (
+        !this.choseTranslationTo.includes(null) ||
+        !this.yearsTranslation.includes(null) ||
+        !this.choseTranslationFrom.includes(null)
+      ) {
+        this.errorTranslation = false
+      }
     },
     handleTranslationToChange(translationIndex, value) {
       this.listTranslation[translationIndex - 1] = {
         ...this.listTranslation[translationIndex - 1],
         to: value,
+      }
+      if (
+        !this.choseTranslationTo.includes(null) ||
+        !this.yearsTranslation.includes(null) ||
+        !this.choseTranslationFrom.includes(null)
+      ) {
+        this.errorTranslation = false
       }
     },
     handleLanguageChange(languageIndex, value) {
@@ -231,9 +262,18 @@ export default {
         (language) => language.parent_attribute_id === languageId
       )
       this.choseLevel[languageIndex - 1] = null
+      if (
+        !this.choseLevel.includes(null) ||
+        !this.choseLanguage.includes(null)
+      ) {
+        this.errorLanguage = false
+      }
     },
     handleProgrammingLanguagesChange(programmingLanguageIndex) {
       this.yearsProgrammingLanguages[programmingLanguageIndex - 1] = 1
+      if (!this.yearsProgrammingLanguages.includes(null)) {
+        this.errorProgramingLanguage = false
+      }
     },
 
     addLanguageToAttributes(listAttributes, checkValidate) {
@@ -254,8 +294,8 @@ export default {
           }
         }
       }
-      if (this.choseLevel.includes(null)) {
-        this.$message.error(this.$t('info.languageError'))
+      if (this.choseLevel.includes(null) || this.choseLanguage.includes(null)) {
+        this.errorLanguage = true
         checkValidate.push(false)
       }
 
@@ -289,8 +329,12 @@ export default {
           }
         }
       }
-      if (this.choseTranslationTo.includes(null)) {
-        this.$message.error(this.$t('info.translationError'))
+      if (
+        this.choseTranslationTo.includes(null) ||
+        this.yearsTranslation.includes(null) ||
+        this.choseTranslationFrom.includes(null)
+      ) {
+        this.errorTranslation = true
         checkValidate.push(false)
       }
 
@@ -332,6 +376,10 @@ export default {
             programmingLanguageIds.push(programmingLanguage.id)
           }
         }
+      }
+      if (this.yearsProgrammingLanguages.includes(null)) {
+        this.errorProgramingLanguage = true
+        checkValidate.push(false)
       }
 
       for (const programmingLanguage in programmingLanguageIds) {

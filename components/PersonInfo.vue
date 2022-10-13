@@ -97,6 +97,9 @@
               @click="deleteLanguage(languageIndex)"
             />
           </div>
+          <p v-if="errorLanguage" class="text-red-500 -mt-6 flex items-center">
+            {{ $t('info.languageError') }}
+          </p>
           <div
             class="steps-content flex justify-center items-center cursor-pointer"
             @click="handleAddLanguage()"
@@ -197,6 +200,12 @@
               @click="deleteTranslation(translationIndex)"
             />
           </div>
+          <p
+            v-if="errorTranslation"
+            class="text-red-500 -mt-6 flex items-center"
+          >
+            {{ $t('info.translationError') }}
+          </p>
           <div
             class="steps-content flex justify-center items-center cursor-pointer"
             @click="handleAddTranslation()"
@@ -265,6 +274,12 @@
               @click="deleteProgrammingLanguage(programmingLanguageIndex)"
             />
           </div>
+          <p
+            v-if="errorProgramingLanguage"
+            class="text-red-500 -mt-6 flex items-center"
+          >
+            {{ $t('info.programmingLanguagesError') }}
+          </p>
           <div
             class="steps-content flex justify-center items-center cursor-pointer"
             @click="handleAddProgrammingLanguage()"
