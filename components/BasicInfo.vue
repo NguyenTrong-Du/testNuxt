@@ -280,6 +280,21 @@ export default {
   async created() {
     const countryData = await this.$api.getAllCountry()
     this.allCountries = [...countryData.data]
+    this.currentUser.$subscribe((_mutation, state) => {
+      if (!this.listFileImage && state.profileImage) {
+        this.listFileAvata = [
+          {
+            uid: this.currentUser.id,
+            name: this.currentUser.displayName,
+            status: 'done',
+            shouldUpload: true,
+            url: this.currentUser.profileImage,
+            thumbUrl: this.currentUser.profileImage,
+          },
+        ]
+      }
+    })
+
     if (!this.listFileImage && this.currentUser.profileImage) {
       this.listFileAvata = [
         {
