@@ -2,7 +2,7 @@
 <template>
   <div class="mx-10 mt-3">
     <a-breadcrumb>
-      <nuxt-link to="./">
+      <nuxt-link :to="localePath('./')">
         <a-breadcrumb-item>
           <a-icon type="home" />
           <span>{{ $t('profile.home') }}</span>
@@ -23,7 +23,7 @@
         <p class="mt-4 text-lg">{{ $t('profile.descriptionProfile') }}</p></diV
       >
       <diV class="w-1/4 text-center">
-        <nuxt-link to="/profile/edit">
+        <nuxt-link :to="localePath('/profile/edit')">
           <a-button
             type="primary"
             icon="edit"
@@ -44,7 +44,7 @@ export default {
   computed: {
     percent() {
       const currentUser = useCurrentUserStore()
-      return currentUser.percent_complete_profile
+      return currentUser.percentCompleteProfile
     },
   },
   mounted() {

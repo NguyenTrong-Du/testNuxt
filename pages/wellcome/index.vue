@@ -15,7 +15,7 @@
         :size="size"
         class="bg-green-700 text-white"
       >
-        <nuxt-link :to="`${$i18n.locale === 'ja' ? '/ja/signup' : '/signup'}`">
+        <nuxt-link :to="localePath('/signin')">
           {{ $t('homepage.joinNow') }}
         </nuxt-link>
       </a-button>

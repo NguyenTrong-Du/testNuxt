@@ -65,6 +65,8 @@ export default {
     },
   },
   async created() {
+    const locale = localStorage.getItem('locale')
+    this.$i18n.setLocale(locale)
     const getFullName = (firstName, lastName, displayName) => {
       if (lastName) {
         return displayName || `${firstName} ${lastName}`

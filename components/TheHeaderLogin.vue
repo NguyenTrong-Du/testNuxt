@@ -2,13 +2,13 @@
   <div class="flex justify-between m-8">
     <div>
       <nuxt-link
-        :to="`${$i18n.locale === 'ja' ? '/ja/signin' : '/signin'}`"
+        :to="localePath('/signin')"
         class="mr-10 text-lg"
         :class="{ underline: !isSignup }"
         >{{ $t('homepage.login') }}</nuxt-link
       >
       <nuxt-link
-        :to="`${$i18n.locale === 'ja' ? '/ja/signup' : '/signup'}`"
+        :to="localePath('/signup')"
         class="text-lg"
         :class="{ underline: isSignup }"
         >{{ $t('homepage.register') }}</nuxt-link

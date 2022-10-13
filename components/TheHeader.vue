@@ -5,16 +5,12 @@
       <div class="flex mr-10 mt-2 mb-2 gap-3">
         <div v-show="isNotLoadingUser">
           <a-button type="text" shape="round">
-            <nuxt-link
-              :to="`${$i18n.locale === 'ja' ? '/ja/signin' : '/signin'}`"
-            >
+            <nuxt-link :to="localePath('/signin')">
               {{ $t('homepage.login') }}
             </nuxt-link>
           </a-button>
           <a-button shape="round" class="bg-green-700 text-white">
-            <nuxt-link
-              :to="`${$i18n.locale === 'ja' ? '/ja/signup' : '/signup'}`"
-            >
+            <nuxt-link :to="localePath('/signup')">
               {{ $t('homepage.register') }}
             </nuxt-link>
           </a-button>

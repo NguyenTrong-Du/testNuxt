@@ -178,13 +178,20 @@ export default {
             }
           }
           try {
+            let response = null
             if (this.form.account_type === 'company') {
-              await this.$api.updateInfoCompany(currentUser.id, data)
+              response = await this.$api.updateInfoCompany(currentUser.id, data)
             } else {
               data.append('attributes', JSON.stringify(listAttributes))
-              await this.$api.updateInfoIndividual(currentUser.id, data)
+              response = await this.$api.updateInfoIndividual(
+                currentUser.id,
+                data
+              )
             }
             refetchUser.changeRefetch()
+            currentUser.setPercentCompleteProfile(
+              response.data.percent_complete_profile
+            )
             this.isLoadingUpdateInfo = false
             currentUser.setHasFinishedBasicInfo(true)
             if (!currentUser.emailVerifiedAt) this.success()

@@ -22,5 +22,9 @@ export default {
       backgroundUrl,
     }
   },
+  created() {
+    const locale = localStorage.getItem('locale')
+    this.$i18n.setLocale(locale)
+  },
 }
 </script>

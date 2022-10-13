@@ -22,12 +22,12 @@
                 </a>
                 <a-menu slot="overlay">
                   <a-menu-item>
-                    <nuxt-link to="/profile"
+                    <nuxt-link :to="localePath('/profile')"
                       >{{ $t('homepage.profile') }} <br
                     /></nuxt-link>
                   </a-menu-item>
                   <a-menu-item>
-                    <nuxt-link to="/setting"
+                    <nuxt-link :to="localePath('/setting')"
                       >{{ $t('homepage.setting') }} <br
                     /></nuxt-link>
                   </a-menu-item>
