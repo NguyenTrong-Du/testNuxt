@@ -107,7 +107,7 @@
           <a-icon type="upload" /> {{ $t('info.uploadFile') }}
         </a-button>
       </a-upload>
-      <div class="text-rose-800">{{ $t('info.valiFile') }}</div>
+      <div class="text-stone-400">{{ $t('info.valiFile') }}</div>
     </a-form-item>
     <a-form-item class="mb-4 flex gap-8 form-icon-required">
       <span slot="label" class="mr-2"
@@ -178,7 +178,10 @@
           class="ml-3"
           :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
         >
-          <a-select v-model="choseNationalities[nationality - 1]">
+          <a-select
+            :disabled="!choseRegions[nationality - 1]"
+            v-model="choseNationalities[nationality - 1]"
+          >
             <span slot="notFoundContent">
               <span class="flex justify-center">{{ $t('info.noData') }}</span>
             </span>
@@ -203,6 +206,9 @@
           />
         </div>
       </div>
+      <p v-if="errorNationality" class="text-red-500 -mt-6 flex items-center">
+        {{ $t('info.nationalityEmpty') }}
+      </p>
       <div
         v-if="nationalityNumber < 2"
         class="steps-content flex justify-center items-center cursor-pointer"
@@ -275,7 +281,13 @@ export default {
       currentUser: useCurrentUserStore(),
       nationalities: [],
       listFileAvata: this.listFileImage || [],
+      errorNationality: false,
     }
+  },
+  watch: {
+    choseNationalities() {
+      this.checkValidateNationality()
+    },
   },
   async created() {
     const countryData = await this.$api.getAllCountry()
@@ -315,6 +327,17 @@ export default {
     this.form.setFieldsValue(this.formData)
   },
   methods: {
+    checkValidateNationality() {
+      for (const choseNationality of this.choseNationalities) {
+        if (
+          (this.nationalityNumber > 0 &&
+            this.choseNationalities.length < this.nationalityNumber) ||
+          choseNationality
+        ) {
+          this.errorNationality = false
+        }
+      }
+    },
     handleRegionChange(nationality, value) {
       this.choseNationalities[nationality - 1] = null
       for (const region of this.allCountries) {
@@ -328,6 +351,7 @@ export default {
           this.listCountriesInChoseRegion[nationality - 1] = [...listCountry]
         }
       }
+      this.checkValidateNationality()
     },
 
     handleAddNationality() {
@@ -366,6 +390,7 @@ export default {
       this.choseNationalities.splice(nationality - 1, 1)
       this.nationalities.splice(nationality - 1, 1)
       this.listCountriesInChoseRegion.splice(nationality - 1, 1)
+      this.checkValidateNationality()
       this.nationalityNumber--
     },
     handleNext() {
@@ -374,11 +399,11 @@ export default {
         this.nationalityNumber > 0 &&
         this.choseNationalities.length < this.nationalityNumber
       ) {
-        return this.$message.warning(this.$t('info.nationalityEmpty'))
+        this.errorNationality = true
       }
       for (const choseNationality of this.choseNationalities) {
         if (!choseNationality) {
-          return this.$message.warning(this.$t('info.nationalityEmpty'))
+          this.errorNationality = true
         }
         for (const country of this.nationalities) {
           if (choseNationality === country.name) {
@@ -386,16 +411,18 @@ export default {
           }
         }
       }
-      this.$emit(
-        'next',
-        this.form,
-        this.listFileAvata,
-        this.choseRegions,
-        this.choseNationalities,
-        this.listCountriesInChoseRegion,
-        this.nationalityNumber,
-        choseNationalityIds
-      )
+      if (!this.errorNationality) {
+        this.$emit(
+          'next',
+          this.form,
+          this.listFileAvata,
+          this.choseRegions,
+          this.choseNationalities,
+          this.listCountriesInChoseRegion,
+          this.nationalityNumber,
+          choseNationalityIds
+        )
+      }
     },
     hasErrors(fieldsError) {
       return Object.keys(fieldsError).some((field) => fieldsError[field])

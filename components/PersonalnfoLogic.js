@@ -62,6 +62,7 @@ export default {
       this.listProgrammingLanguages = this.programmingLanguages.filter(
         (item) => !this.choseProgrammingLanguages.includes(item.name)
       )
+      this.checkValidateProgramingLanguage()
     },
     listTranslation() {
       if (this.listTranslation.length > 0)
@@ -131,6 +132,31 @@ export default {
     this.isLoading = false
   },
   methods: {
+    checkValidateLanguage() {
+      if (
+        !this.choseLevel.includes(null) ||
+        !this.choseLanguage.includes(null)
+      ) {
+        this.errorLanguage = false
+      }
+    },
+    checkValidateTranslation() {
+      if (
+        !this.choseTranslationTo.includes(null) ||
+        !this.yearsTranslation.includes(null) ||
+        !this.choseTranslationFrom.includes(null)
+      ) {
+        this.errorTranslation = false
+      }
+    },
+    checkValidateProgramingLanguage() {
+      if (
+        !this.yearsProgrammingLanguages.includes(null) ||
+        !this.choseProgrammingLanguages.includes(null)
+      ) {
+        this.errorProgramingLanguage = false
+      }
+    },
     handleAddLanguage() {
       this.languages[this.languageNumber] =
         this.attributes.languages.childs.filter(
@@ -164,6 +190,7 @@ export default {
       this.choseLanguage.splice(languageIndex - 1, 1)
       this.choseLevel.splice(languageIndex - 1, 1)
       this.setListLanguage()
+      this.checkValidateLanguage()
       this.languageNumber--
     },
     deleteTranslation(translationIndex) {
@@ -171,12 +198,14 @@ export default {
       this.choseTranslationTo.splice(translationIndex - 1, 1)
       this.listTranslation.splice(translationIndex - 1, 1)
       this.yearsTranslation.splice(translationIndex - 1, 1)
+      this.checkValidateTranslation()
       this.translationNumber--
     },
     deleteProgrammingLanguage(programmingLanguageIndex) {
       this.choseProgrammingLanguages.splice(programmingLanguageIndex - 1, 1)
       this.yearsProgrammingLanguages.splice(programmingLanguageIndex - 1, 1)
       this.yearsProgrammingLanguages.splice(programmingLanguageIndex - 1, 1)
+      this.checkValidateProgramingLanguage()
       this.programmingLanguageNumber--
     },
 
@@ -228,26 +257,14 @@ export default {
       else {
         this.getListTranslationTo(translationIndex, valueTranslation)
       }
-      if (
-        !this.choseTranslationTo.includes(null) ||
-        !this.yearsTranslation.includes(null) ||
-        !this.choseTranslationFrom.includes(null)
-      ) {
-        this.errorTranslation = false
-      }
+      this.checkValidateTranslation()
     },
     handleTranslationToChange(translationIndex, value) {
       this.listTranslation[translationIndex - 1] = {
         ...this.listTranslation[translationIndex - 1],
         to: value,
       }
-      if (
-        !this.choseTranslationTo.includes(null) ||
-        !this.yearsTranslation.includes(null) ||
-        !this.choseTranslationFrom.includes(null)
-      ) {
-        this.errorTranslation = false
-      }
+      this.checkValidateTranslation()
     },
     handleLanguageChange(languageIndex, value) {
       this.setListLanguage()
@@ -262,18 +279,11 @@ export default {
         (language) => language.parent_attribute_id === languageId
       )
       this.choseLevel[languageIndex - 1] = null
-      if (
-        !this.choseLevel.includes(null) ||
-        !this.choseLanguage.includes(null)
-      ) {
-        this.errorLanguage = false
-      }
+      this.checkValidateLanguage()
     },
     handleProgrammingLanguagesChange(programmingLanguageIndex) {
       this.yearsProgrammingLanguages[programmingLanguageIndex - 1] = 1
-      if (!this.yearsProgrammingLanguages.includes(null)) {
-        this.errorProgramingLanguage = false
-      }
+      this.checkValidateProgramingLanguage()
     },
 
     addLanguageToAttributes(listAttributes, checkValidate) {
@@ -377,7 +387,10 @@ export default {
           }
         }
       }
-      if (this.yearsProgrammingLanguages.includes(null)) {
+      if (
+        this.yearsProgrammingLanguages.includes(null) ||
+        this.choseProgrammingLanguages.includes(null)
+      ) {
         this.errorProgramingLanguage = true
         checkValidate.push(false)
       }

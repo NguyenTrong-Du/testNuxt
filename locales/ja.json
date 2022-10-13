@@ -92,9 +92,9 @@
     "programmingLanguages": "エンジニア",
     "translationError": "翻訳セクションに情報を入力してください。",
     "languageError": "言語セクションに情報を入力してください。",
-    "programmingLanguagesError": "プログラミング言語の経験年数を空欄にすることはできません。",
+    "programmingLanguagesError": "プログラミング言語セクションに情報を入力してください。",
     "maxNationality": "人は最大 2 つの国籍しか選択できません。",
-    "nationalityEmpty": "国籍を空にすることはできません。",
+    "nationalityEmpty": "国籍セクションに情報を入力してください。",
     "noData": "データなし",
     "yearsExperience": "経験年数"
   },

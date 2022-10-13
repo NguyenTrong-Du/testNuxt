@@ -92,9 +92,9 @@
     "programmingLanguages": "Programming Languages",
     "translationError": "Please fill out the information in the translation section",
     "languageError": "Please fill out the information in the language section",
-    "programmingLanguagesError": "Programming language years of experience cannot be empty",
+    "programmingLanguagesError": "Please fill out the information in the programming language section",
     "maxNationality": "A person can only choose a maximum of two nationalities",
-    "nationalityEmpty": "Nationality can't be empty",
+    "nationalityEmpty": "Please fill out the information in the nationality section",
     "noData": "No Data",
     "yearsExperience": "Years of experience"
   },
