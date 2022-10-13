@@ -179,8 +179,8 @@
           :style="{ display: 'inline-block', width: 'calc(50% - 12px)' }"
         >
           <a-select
-            :disabled="!choseRegions[nationality - 1]"
             v-model="choseNationalities[nationality - 1]"
+            :disabled="!choseRegions[nationality - 1]"
           >
             <span slot="notFoundContent">
               <span class="flex justify-center">{{ $t('info.noData') }}</span>
@@ -328,14 +328,11 @@ export default {
   },
   methods: {
     checkValidateNationality() {
-      for (const choseNationality of this.choseNationalities) {
-        if (
-          (this.nationalityNumber > 0 &&
-            this.choseNationalities.length < this.nationalityNumber) ||
-          choseNationality
-        ) {
-          this.errorNationality = false
-        }
+      if (
+        this.nationalityNumber >= 0 &&
+        this.choseNationalities.length === this.nationalityNumber
+      ) {
+        this.errorNationality = false
       }
     },
     handleRegionChange(nationality, value) {
@@ -390,8 +387,8 @@ export default {
       this.choseNationalities.splice(nationality - 1, 1)
       this.nationalities.splice(nationality - 1, 1)
       this.listCountriesInChoseRegion.splice(nationality - 1, 1)
-      this.checkValidateNationality()
       this.nationalityNumber--
+      this.checkValidateNationality()
     },
     handleNext() {
       const choseNationalityIds = []
