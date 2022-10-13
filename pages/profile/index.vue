@@ -2,7 +2,7 @@
 <template>
   <div class="mx-10 mt-3">
     <a-breadcrumb>
-      <nuxt-link :to="localePath('./')">
+      <nuxt-link :to="localePath('/')">
         <a-breadcrumb-item>
           <a-icon type="home" />
           <span>{{ $t('profile.home') }}</span>
