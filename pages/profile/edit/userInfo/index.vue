@@ -24,6 +24,7 @@ export default {
       attributes: {},
       dataIndividual: {},
       isLoading: false,
+      form: {},
     }
   },
   async created() {
@@ -179,7 +180,7 @@ export default {
     choseTranslationFrom.forEach((value, index) => {
       listTranslationsTo[index] = getListTranslationTo(index + 1, value)
     })
-
+    this.form.self_introduction = profile.self_introduction
     this.dataIndividual = {
       choseJob,
       listJobChilds,

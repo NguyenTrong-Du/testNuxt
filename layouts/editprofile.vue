@@ -11,7 +11,7 @@
           />
         </div>
         <a-breadcrumb class="ml-10 flex items-center h-12">
-          <nuxt-link to="./">
+          <nuxt-link :to="localePath('/')">
             <a-breadcrumb-item>
               <a-icon type="home" />
               <span>{{ $t('profile.home') }}</span>

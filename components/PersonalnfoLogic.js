@@ -447,8 +447,11 @@ export default {
 
             try {
               data.append('attributes', JSON.stringify(listAttributes))
-              await this.$api.updateInfoIndividual(currentUser.id, data)
-
+              const userAfterUpdate = await this.$api.updateInfoIndividual(
+                currentUser.id,
+                data
+              )
+              currentUser.setCurrentUser(userAfterUpdate.data)
               this.$message.success(this.$t('info.editInfoSuccess'))
             } catch (e) {
               errorMessage(e.response.data.error)

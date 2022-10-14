@@ -19,6 +19,8 @@ export const useCurrentUserStore = defineStore('currentUser', {
     companyUrl: '',
     companyDescription: '',
     accountType: 'individual',
+    attributes: null,
+    selfIntroduction: null,
   }),
   getters: {
     getEmail: (state) => state.email,
@@ -41,6 +43,8 @@ export const useCurrentUserStore = defineStore('currentUser', {
       this.companyUrl = user.company_url
       this.companyDescription = user.company_description
       this.accountType = user.account_type ?? this.accountType
+      this.attributes = user.attributes
+      this.selfIntroduction = user.self_introduction
     },
     setLoadingUser(loading) {
       this.isLoadingUser = loading

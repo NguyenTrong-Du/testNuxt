@@ -103,6 +103,7 @@ export default {
       formData.validateFields(async (err, values) => {
         if (!err) {
           const data = new FormData()
+          const listAttribute = []
           if (
             this.form.profile_image_file?.length &&
             this.form.profile_image_file[0].shouldUpload
@@ -115,14 +116,6 @@ export default {
           if (!this.form.email && currentUser.email) {
             data.append('email', currentUser.email)
           }
-          for (const key in this.form) {
-            if (
-              !['profile_image_file', 'nationalities'].includes(key) &&
-              this.form[key]
-            ) {
-              data.append(key, this.form[key])
-            }
-          }
           for (const key in values) {
             if (values[key]) {
               data.append(key, values[key])
@@ -131,17 +124,35 @@ export default {
           if (nationalities?.length) {
             data.append('nationalities[]', nationalities)
           }
+          for (const attribute of currentUser.attributes) {
+            listAttribute.push({
+              attributeIds: JSON.parse(attribute.attributeIds),
+              value: attribute.value,
+            })
+          }
+          data.append('company_name', currentUser.companyName)
+          data.append('company_url', currentUser.companyUrl)
+          data.append('company_description', currentUser.companyDescription)
+          data.append('attributes', JSON.stringify(listAttribute))
+          data.append('self_introduction', currentUser.selfIntroduction)
           try {
-            data.append('company_name', currentUser.companyName)
             this.isLoadingEditInfo = true
-            const response = await this.$api.updateInfoCompany(
-              currentUser.id,
-              data
-            )
+            let userAfterUpdate
+            if (currentUser.accountType === 'company') {
+              userAfterUpdate = await this.$api.updateInfoCompany(
+                currentUser.id,
+                data
+              )
+            } else {
+              userAfterUpdate = await this.$api.updateInfoIndividual(
+                currentUser.id,
+                data
+              )
+            }
             refetchUser.changeRefetch()
-            currentUser.setCurrentUser(response.data)
+            currentUser.setCurrentUser(userAfterUpdate.data)
             currentUser.setPercentCompleteProfile(
-              response.data.percent_complete_profile
+              userAfterUpdate.data.percent_complete_profile
             )
             this.$router.push({ path: this.localePath('/profile') })
             this.$message.success(this.$t('info.editInfoSuccess'))
