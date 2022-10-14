@@ -1,4 +1,5 @@
 import MdAddIcon from 'vue-ionicons/dist/md-add.vue'
+import { useCurrentUserStore } from '~/store/user'
 export default {
   components: {
     MdAddIcon,
@@ -8,10 +9,13 @@ export default {
     'formData',
     // eslint-disable-next-line vue/require-prop-types
     'dataIndividual',
+    // eslint-disable-next-line vue/require-prop-types
+    'isEdit',
   ],
   data() {
     return {
       isLoading: true,
+      size: 'large',
       attributes: {},
       translationNumber: this.dataIndividual?.translationNumber || 0,
       languageNumber: this.dataIndividual?.languageNumber || 0,
@@ -118,16 +122,17 @@ export default {
       )
 
     this.listProgrammingLanguages = this.programmingLanguages
-
-    this.languages[0] = response.data.languages.childs.filter(
-      (language) => language.parent_attribute_id === response.data.languages.id
-    )
+    this.setListLanguage()
     this.choseTranslationFrom.forEach((value, index) => {
       this.listTranslation[index] = {
         from: value,
         to: this.choseTranslationTo[index],
       }
     })
+    if (this.listTranslation.length > 0)
+      this.choseTranslationFrom.forEach((value, index) => {
+        this.getListTranslationTo(index + 1, value)
+      })
 
     this.isLoading = false
   },
@@ -275,7 +280,7 @@ export default {
         }
       }
 
-      this.levels = this.attributes.languages.childs.filter(
+      this.levels[languageIndex - 1] = this.attributes.languages.childs.filter(
         (language) => language.parent_attribute_id === languageId
       )
       this.choseLevel[languageIndex - 1] = null
@@ -289,17 +294,21 @@ export default {
     addLanguageToAttributes(listAttributes, checkValidate) {
       const choseLanguageIds = []
       const choseLevelToIds = []
-      for (const choseLanguageName of this.choseLanguage) {
-        for (const language of this.languages) {
-          if (language.length > 0 && choseLanguageName === language[0].name) {
-            choseLanguageIds.push(language[0].id)
+      const languageAll = this.attributes.languages.childs.filter(
+        (language) =>
+          language.parent_attribute_id === this.attributes.languages.id
+      )
+      for (const choseLanguageIndex in this.choseLanguage) {
+        for (const language of languageAll) {
+          if (this.choseLanguage[choseLanguageIndex] === language.name) {
+            choseLanguageIds.push(language.id)
           }
         }
       }
 
-      for (const choseLevelName of this.choseLevel) {
-        for (const level of this.levels) {
-          if (choseLevelName === level.name) {
+      for (const choseLevelIndex in this.choseLevel) {
+        for (const level of this.levels[choseLevelIndex]) {
+          if (this.choseLevel[choseLevelIndex] === level.name) {
             choseLevelToIds.push(level.id)
           }
         }
@@ -359,7 +368,7 @@ export default {
         })
       }
     },
-    handleNext() {
+    convertListTranslation() {
       const listAttributes = []
       const checkValidate = []
       for (const job in this.choseJobChilds) {
@@ -404,9 +413,50 @@ export default {
           value: this.yearsProgrammingLanguages[programmingLanguage],
         })
       }
-
+      return { listAttributes, checkValidate }
+    },
+    handleNext() {
+      const { listAttributes, checkValidate } = this.convertListTranslation()
       if (checkValidate.length === 0) {
         this.$emit('submit', this.form, listAttributes)
+      }
+    },
+    handleEditProfile() {
+      const { listAttributes, checkValidate } = this.convertListTranslation()
+      const currentUser = useCurrentUserStore()
+      if (checkValidate.length === 0) {
+        this.form.validateFields(async (err, values) => {
+          if (!err) {
+            const data = new FormData()
+            for (const key in this.dataIndividual?.profile) {
+              if (
+                key === 'nationalities' &&
+                this.dataIndividual?.profile.nationalities
+              ) {
+                this.dataIndividual?.profile[key].forEach((nationality) => {
+                  data.append('nationalities[]', nationality)
+                })
+              } else if (this.dataIndividual?.profile[key]) {
+                data.append(key, this.dataIndividual?.profile[key])
+              }
+            }
+            for (const key in values) {
+              if (values[key]) {
+                data.append(key, values[key])
+              }
+            }
+
+            try {
+              data.append('attributes', JSON.stringify(listAttributes))
+              await this.$api.updateInfoIndividual(currentUser.id, data)
+
+              this.$message.success(this.$t('info.editInfoSuccess'))
+            } catch (e) {
+              errorMessage(e.response.data.error)
+            }
+          }
+          // this.isLoadingUpdateInfo = false
+        })
       }
     },
   },

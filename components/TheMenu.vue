@@ -22,8 +22,10 @@
         <span>{{ $t('editprofile.menuProfile') }}</span></span
       >
       <a-menu-item key="4" class="!pl-6 flex items-center">
-        <a-icon type="right" />
-        {{ $t('editprofile.editPersonProfile') }}
+        <nuxt-link :to="localePath('/profile/edit/userInfo')">
+          <a-icon type="right" />
+          {{ $t('editprofile.editPersonProfile') }}</nuxt-link
+        >
       </a-menu-item>
       <a-menu-item key="5" class="!pl-6 flex items-center">
         <nuxt-link :to="localePath('/profile/edit/corporateinfo')">
@@ -50,6 +52,9 @@ export default {
       if (this.path.includes('/profile/edit/corporateinfo')) {
         this.openKeys = ['sub1']
         this.current = ['5']
+      } else if (this.path.includes('/profile/edit/userInfo')) {
+        this.openKeys = ['sub1']
+        this.current = ['4']
       } else if (this.path.includes('/profile/edit')) {
         this.current = ['1']
       }
@@ -63,6 +68,9 @@ export default {
     if (this.path.includes('/profile/edit/corporateinfo')) {
       this.openKeys = ['sub1']
       this.current = ['5']
+    } else if (this.path.includes('/profile/edit/userInfo')) {
+      this.openKeys = ['sub1']
+      this.current = ['4']
     }
   },
   methods: {

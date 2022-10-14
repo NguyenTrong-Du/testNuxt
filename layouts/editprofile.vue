@@ -1,28 +1,33 @@
 <template>
   <a-spin :spinning="isLoadingUser">
-    <div v-if="userName?.trim().length === 0"><TheHeader /></div>
-    <div v-else>
-      <SimpleTheHeader
-        :user-name="userName"
-        :avt-url="avatarUrl"
-        @set-is-loading-user="setIsLoadingUser"
-      />
-    </div>
-    <div class="mt-3 h-full">
-      <a-breadcrumb class="ml-10">
-        <nuxt-link :to="localePath('/')">
+    <div class="grid grid-rows-auto-1fr h-screen overflow-hidden">
+      <div>
+        <div v-if="userName?.trim().length === 0"><TheHeader /></div>
+        <div v-else>
+          <SimpleTheHeader
+            :user-name="userName"
+            :avt-url="avatarUrl"
+            @set-is-loading-user="setIsLoadingUser"
+          />
+        </div>
+        <a-breadcrumb class="ml-10 flex items-center h-12">
+          <nuxt-link to="./">
+            <a-breadcrumb-item>
+              <a-icon type="home" />
+              <span>{{ $t('profile.home') }}</span>
+            </a-breadcrumb-item>
+          </nuxt-link>
           <a-breadcrumb-item>
-            <a-icon type="home" />
-            <span>{{ $t('profile.home') }}</span>
+            <span>{{ $t('profile.profile') }}</span>
           </a-breadcrumb-item>
-        </nuxt-link>
-        <a-breadcrumb-item>
-          <span>{{ $t('profile.editProfile') }}</span>
-        </a-breadcrumb-item>
-      </a-breadcrumb>
-      <div class="flex mt-7 h-full gap-x-4 overflow-hidden">
-        <div class="w-1/4"><TheMenu /></div>
-        <div class="w-3/4 bg-gray-500 py-5 px-5 overflow-y-scroll">
+        </a-breadcrumb>
+      </div>
+
+      <div
+        class="grid grid-flow-col grid-cols-auto-1fr relative overflow-y-auto"
+      >
+        <div class="w-72 absolute h-full top-0"><TheMenu /></div>
+        <div class="bg-gray-500 py-5 px-5 overflow-y-scroll h-full ml-80">
           <nuxt />
         </div>
       </div>

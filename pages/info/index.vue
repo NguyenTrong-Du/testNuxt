@@ -39,6 +39,7 @@
               <PersonInfo
                 :data-individual="dataIndividual"
                 :form-data="form"
+                :is-edit="false"
                 @prev="prev"
                 @submit="submit"
               />

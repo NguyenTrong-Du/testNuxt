@@ -52,14 +52,10 @@
                 </span>
                 <a-select-option
                   v-for="language in languages[languageIndex - 1]"
-                  :key="language.name"
+                  :key="language.id"
                   :value="language.name"
                 >
-                  {{
-                    language.name.split(' ').length >= 2
-                      ? $t(`language.${language.name.split(' ')[0]}`)
-                      : $t(`language.${language.name}`)
-                  }}
+                  {{ $t(`language.${language.name.replace(/\s/g, '')}`) }}
                 </a-select-option>
               </a-select>
             </a-form-item>
@@ -78,22 +74,21 @@
                   }}</span>
                 </span>
                 <a-select-option
-                  v-for="level in levels"
-                  :key="level.name"
+                  v-for="level in levels[languageIndex - 1]"
+                  :key="level.id"
                   :value="level.name"
                 >
-                  {{
-                    level.name.split(' ').length >= 2
-                      ? $t(`level.${level.name.split(' ')[0]}`)
-                      : $t(`level.${level.name}`)
-                  }}
+                  {{ $t(`level.${level.name.replace(/\s/g, '')}`) }}
                 </a-select-option>
               </a-select>
             </a-form-item>
 
-            <a-icon
-              type="delete"
-              class="m-2 text-[25px] text-red-600"
+            <a-button
+              type="link"
+              shape="circle"
+              icon="delete"
+              class="text-red-600 hover:text-red-400 focus:text-red-500"
+              :size="size"
               @click="deleteLanguage(languageIndex)"
             />
           </div>
@@ -137,7 +132,7 @@
                 </span>
                 <a-select-option
                   v-for="translationForm in listTranslationsFrom"
-                  :key="translationForm.name"
+                  :key="translationForm.id"
                   :value="translationForm.name"
                 >
                   {{
@@ -169,7 +164,7 @@
                   v-for="translationTo in listTranslationsTo[
                     translationIndex - 1
                   ]"
-                  :key="translationTo.name"
+                  :key="translationTo.id"
                   :value="translationTo.name"
                 >
                   {{
@@ -194,9 +189,12 @@
               />
             </a-form-item>
 
-            <a-icon
-              type="delete"
-              class="m-2 text-[25px] text-red-600"
+            <a-button
+              type="link"
+              shape="circle"
+              icon="delete"
+              class="text-red-600 hover:text-red-400 focus:text-red-500"
+              :size="size"
               @click="deleteTranslation(translationIndex)"
             />
           </div>
@@ -268,9 +266,12 @@
               />
             </a-form-item>
 
-            <a-icon
-              type="delete"
-              class="m-2 text-[25px] text-red-600"
+            <a-button
+              type="link"
+              shape="circle"
+              icon="delete"
+              class="text-red-600 hover:text-red-400 focus:text-red-500"
+              :size="size"
               @click="deleteProgrammingLanguage(programmingLanguageIndex)"
             />
           </div>
@@ -289,7 +290,12 @@
         </a-form-item>
       </div>
 
-      <div class="flex justify-center">
+      <div v-if="isEdit" class="flex justify-center">
+        <a-button type="primary" @click="handleEditProfile()">
+          {{ $t('info.save') }}
+        </a-button>
+      </div>
+      <div v-else class="flex justify-center">
         <a-button type="primary" @click="handleNext()">
           {{ $t('info.save') }}
         </a-button>
