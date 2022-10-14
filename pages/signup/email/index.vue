@@ -84,7 +84,7 @@
                     },
                     {
                       pattern: new RegExp(
-                        /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]$/
+                        /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]{1,}$/
                       ),
                       message: $t('homepage.valiPassword'),
                     },

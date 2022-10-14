@@ -209,7 +209,6 @@ export default {
     deleteProgrammingLanguage(programmingLanguageIndex) {
       this.choseProgrammingLanguages.splice(programmingLanguageIndex - 1, 1)
       this.yearsProgrammingLanguages.splice(programmingLanguageIndex - 1, 1)
-      this.yearsProgrammingLanguages.splice(programmingLanguageIndex - 1, 1)
       this.checkValidateProgramingLanguage()
       this.programmingLanguageNumber--
     },
@@ -372,7 +371,7 @@ export default {
       const listAttributes = []
       const checkValidate = []
       for (const job in this.choseJobChilds) {
-        if (job !== 'none') {
+        if (this.choseJob !== '') {
           const listChilds = []
           listChilds.push(this.attributes.jobs.id)
           listChilds.push(this.choseJob)
@@ -455,7 +454,6 @@ export default {
               errorMessage(e.response.data.error)
             }
           }
-          // this.isLoadingUpdateInfo = false
         })
       }
     },
