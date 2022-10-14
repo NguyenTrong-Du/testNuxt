@@ -85,3 +85,7 @@ svg {
 .menu-light .ant-menu {
   background-color: initial;
 }
+
+.notShow {
+  display: none;
+}

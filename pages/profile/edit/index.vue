@@ -68,7 +68,18 @@ export default {
               this.chosenRegion.push(country.region)
               this.chosenNationality.push(country.countries[countryIndex].name)
               this.listCountriesInChosenRegion[indexOfListCountry] =
-                country.countries.filter((value) => value.id !== nationality)
+                country.countries.map((value) => {
+                  if (value.id === nationality) {
+                    return {
+                      ...value,
+                      isShow: true,
+                    }
+                  }
+                  return {
+                    ...value,
+                    isShow: false,
+                  }
+                })
               indexOfListCountry++
             }
           }

@@ -189,6 +189,7 @@
               v-for="country in listCountriesInChoseRegion[nationality - 1]"
               :key="country.id"
               :value="country.name"
+              :class="[{ notShow: country.isShow }]"
             >
               {{
                 country.name.split(' ').length >= 2
