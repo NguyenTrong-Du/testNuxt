@@ -151,7 +151,7 @@ import regex from '@/composables/regex'
 import { useCurrentUserStore } from '~/store/user'
 export default {
   // eslint-disable-next-line vue/require-prop-types
-  props: ['formData', 'isValidateFail', 'isEdit'],
+  props: ['formData', 'isValidateFail', 'isEdit', 'isLoadingEditInfo'],
   data() {
     return {
       formLayout: 'horizontal',
@@ -162,6 +162,13 @@ export default {
   },
   mounted() {
     this.form.setFieldsValue(this.formData)
+    this.currentUser.$subscribe((_mutation, state) => {
+      if (!this.isLoadingEditInfo) {
+        this.form.setFieldsValue({
+          company_description: state.companyDescription,
+        })
+      }
+    })
   },
   methods: {
     hasErrors(fieldsError) {

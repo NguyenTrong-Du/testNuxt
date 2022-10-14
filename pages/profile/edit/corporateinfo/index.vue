@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <a-spin :spinning="isLoadingEditInfo">
     <div>
       <h3 class="text-2xl">{{ $t('editprofile.editCorporateProfile') }}</h3>
     </div>
@@ -8,10 +8,11 @@
         class="bg-gray-800 w-10/12 m-auto py-4 px-3 shadow-2xl"
         :form-data="form"
         :is-edit="true"
+        :is-loading-edit-info="isLoadingEditInfo"
         @submit="submit"
       />
     </div>
-  </div>
+  </a-spin>
 </template>
 <script>
 import CompanyInfo from '../../../../components/CompanyInfo.vue'
@@ -25,7 +26,7 @@ export default {
   data() {
     return {
       form: {},
-      isLoadingUpdateInfo: false,
+      isLoadingEditInfo: false,
       currentUser: useCurrentUserStore(),
     }
   },
@@ -59,18 +60,26 @@ export default {
           data.append('last_name', this.currentUser.lastName)
           data.append('account_type', this.currentUser.accountType)
           data.append('email', this.currentUser.email)
+          data.append('display_name', this.currentUser.displayName)
+          data.append('phone_number', this.currentUser.phoneNumber)
           if (this.currentUser.nationalities?.length) {
             data.append('nationalities[]', this.currentUser.nationalities)
           }
 
           try {
-            await this.$api.updateProfile(this.currentUser.id, data)
+            this.isLoadingEditInfo = true
+            const response = await this.$api.updateInfoCompany(
+              this.currentUser.id,
+              data
+            )
             refetchUser.changeRefetch()
+            this.currentUser.setCurrentUser(response.data)
             this.$router.push({ path: this.localePath('/profile') })
             this.$message.success(this.$t('info.editInfoSuccess'))
           } catch (e) {
             errorMessage(e.response.data.error)
           }
+          this.isLoadingEditInfo = false
         }
       })
     },
