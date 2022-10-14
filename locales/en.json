@@ -150,6 +150,19 @@
     "France": "France",
     "United": "United States"
   },
+  "editprofile": {
+    "editBasicProfile": "Edit basic information",
+    "editMailProfile": "Edit email address and password",
+    "alignmentProfile": "Alignment",
+    "menuProfile": "Menu",
+    "editPersonProfile": "Edit personal information",
+    "editCompanyProfile": "Edit corporate information",
+    "updateProfile": "Update basic information",
+    "editCorporateProfile": "Edit corporate information",
+    "editInfoCompany": "Edit corporate information",
+    "companyUrlRequired": "Please input your company url",
+    "companyDescriptionRequired": "Please input your company description"
+  },
   "error": {
     "default": "Something went wrong",
     "10001": "Email cannot be empty",

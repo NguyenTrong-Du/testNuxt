@@ -13,6 +13,12 @@ export const useCurrentUserStore = defineStore('currentUser', {
     isLoadingUser: false,
     emailVerifiedAt: null,
     percentCompleteProfile: 0,
+    phoneNumber: '',
+    nationalities: '',
+    companyName: '',
+    companyUrl: '',
+    companyDescription: '',
+    accountType: 'individual',
   }),
   getters: {
     getEmail: (state) => state.email,
@@ -29,6 +35,12 @@ export const useCurrentUserStore = defineStore('currentUser', {
       this.email = user.email
       this.emailVerifiedAt = user.email_verified_at
       this.percentCompleteProfile = user.percent_complete_profile
+      this.phoneNumber = user.phone_number
+      this.nationalities = user.nationalities
+      this.companyName = user.company_name
+      this.companyUrl = user.company_url
+      this.companyDescription = user.company_description
+      this.accountType = user.account_type ?? this.accountType
     },
     setLoadingUser(loading) {
       this.isLoadingUser = loading

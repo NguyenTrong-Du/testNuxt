@@ -150,6 +150,19 @@
     "France": "フランス",
     "United": "アメリカ"
   },
+  "editprofile": {
+    "editBasicProfile": "基本情報編集",
+    "editMailProfile": "メールアドレス・パスワード編集",
+    "alignmentProfile": "連携",
+    "menuProfile": "メニュー",
+    "editPersonProfile": "個人情報編集",
+    "editCompanyProfile": "法人情報編集",
+    "updateProfile": "基本情報を更新する",
+    "editCorporateProfile": "法人情報編集",
+    "editInfoCompany": "法人情報編集を登録する",
+    "companyUrlRequired": "会社の URL を入力してください",
+    "companyDescriptionRequired": "会社概要を入力してください"
+  },
   "error": {
     "default": "エラーが発生しました",
     "10001": "メールアドレスは必ず入力してください",

@@ -15,7 +15,7 @@
         v-decorator="[
           'account_type',
           {
-            initialValue: 'individual',
+            initialValue: currentUser?.accountType,
           },
         ]"
       >
@@ -234,13 +234,22 @@
         disabled
       />
     </a-form-item>
-    <div class="flex justify-center">
+    <div v-if="!isEdit" class="flex justify-center">
       <a-button
         type="primary"
         :disabled="hasErrors(form.getFieldsError())"
         @click="handleNext()"
       >
         {{ $t('info.next') }}
+      </a-button>
+    </div>
+    <div v-else class="flex justify-center">
+      <a-button
+        type="primary"
+        :disabled="hasErrors(form.getFieldsError()) || errorNationality"
+        @click="handleUpdateProfile()"
+      >
+        {{ $t('editprofile.updateProfile') }}
       </a-button>
     </div>
   </a-form>
@@ -266,6 +275,8 @@ export default {
     'chosenNationaly',
     // eslint-disable-next-line vue/require-prop-types
     'nationalitySum',
+    // eslint-disable-next-line vue/require-prop-types
+    'isEdit',
   ],
   data() {
     return {
@@ -293,32 +304,11 @@ export default {
     const countryData = await this.$api.getAllCountry()
     this.allCountries = [...countryData.data]
     this.currentUser.$subscribe((_mutation, state) => {
-      if (!this.listFileImage && state.profileImage) {
-        this.listFileAvata = [
-          {
-            uid: this.currentUser.id,
-            name: this.currentUser.displayName,
-            status: 'done',
-            shouldUpload: true,
-            url: this.currentUser.profileImage,
-            thumbUrl: this.currentUser.profileImage,
-          },
-        ]
-      }
+      this.setProfileImageAndNumberNationality(state)
     })
 
-    if (!this.listFileImage && this.currentUser.profileImage) {
-      this.listFileAvata = [
-        {
-          uid: this.currentUser.id,
-          name: this.currentUser.displayName,
-          status: 'done',
-          shouldUpload: true,
-          url: this.currentUser.profileImage,
-          thumbUrl: this.currentUser.profileImage,
-        },
-      ]
-    }
+    this.setProfileImageAndNumberNationality(this.currentUser)
+
     for (const country of this.allCountries) {
       this.nationalities = [...this.nationalities, ...country.countries]
     }
@@ -423,6 +413,47 @@ export default {
     },
     hasErrors(fieldsError) {
       return Object.keys(fieldsError).some((field) => fieldsError[field])
+    },
+    handleUpdateProfile() {
+      const choseNationalityIds = []
+      if (
+        this.nationalityNumber > 0 &&
+        this.choseNationalities.length < this.nationalityNumber
+      ) {
+        this.errorNationality = true
+      }
+      for (const choseNationality of this.choseNationalities) {
+        if (!choseNationality) {
+          this.errorNationality = true
+        }
+        for (const country of this.nationalities) {
+          if (choseNationality === country.name) {
+            choseNationalityIds.push(country.id)
+          }
+        }
+      }
+
+      if (!this.errorNationality) {
+        this.$emit('submit', this.form, choseNationalityIds)
+      }
+    },
+    setProfileImageAndNumberNationality(state) {
+      if (!this.listFileImage && state.profileImage) {
+        this.listFileAvata = [
+          {
+            uid: state.id,
+            name: state.displayName,
+            status: 'done',
+            shouldUpload: true,
+            url: state.profileImage,
+            thumbUrl: state.profileImage,
+          },
+        ]
+      }
+
+      if (this.isEdit) {
+        this.nationalityNumber = state?.nationalities?.length ?? 0
+      }
     },
   },
 }
