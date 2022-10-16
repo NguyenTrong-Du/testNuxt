@@ -10,11 +10,9 @@
         <a-menu-item
           v-for="locale in availableLocales"
           :key="locale.code"
-          @click="() => handleChangeLanguage(locale.code)"
+          @click="() => $i18n.setLocale(locale.code)"
         >
-          <nuxt-link :to="switchLocalePath(locale.code)" class="m-5">{{
-            locale.name
-          }}</nuxt-link>
+          {{ locale.name }}
         </a-menu-item>
       </a-menu>
     </a-dropdown>

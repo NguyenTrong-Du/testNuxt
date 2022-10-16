@@ -116,7 +116,9 @@
   },
   "language": {
     "English": "英語",
-    "Japanese": "日本語"
+    "Japanese": "日本語",
+    "en": "英語",
+    "ja": "日本語"
   },
   "level": {
     "Beginner": "初心者",

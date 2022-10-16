@@ -89,3 +89,7 @@ svg {
 .notShow {
   display: none;
 }
+
+.test-tailwind {
+  @apply text-red-600;
+}

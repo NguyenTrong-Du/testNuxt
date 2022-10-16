@@ -49,6 +49,7 @@ export default {
     '@nuxtjs/auth',
   ],
   i18n: {
+    strategy: 'no_prefix',
     locales: [
       {
         code: 'en',
@@ -124,4 +125,5 @@ export default {
       },
     },
   },
+  middleware: ['authenticated'],
 }

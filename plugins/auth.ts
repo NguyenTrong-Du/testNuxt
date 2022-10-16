@@ -1,3 +1,5 @@
+import createApiService from '~/apiServices'
+
 export default function ({ $axios }: any, inject: any) {
   const axios = $axios.create({
     headers: {
@@ -78,4 +80,6 @@ export default function ({ $axios }: any, inject: any) {
     getAttributes: () => axios.$get('/api/v1/attribute'),
   }
   inject('api', api)
+
+  inject('apiServices', createApiService($axios))
 }
