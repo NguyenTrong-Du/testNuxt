@@ -116,7 +116,9 @@
   },
   "language": {
     "English": "English",
-    "Japanese": "Japanese"
+    "Japanese": "Japanese",
+    "en": "English",
+    "ja": "Japanese"
   },
   "level": {
     "Beginner": "Beginner",

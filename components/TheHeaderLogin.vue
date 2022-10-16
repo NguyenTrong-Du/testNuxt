@@ -46,7 +46,7 @@ export default {
         this.$router.push({ path: this.localePath('/') })
       }
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e?.response?.status === 401) {
         if (
           !$nuxt.$route.path.includes('signin') &&
           !$nuxt.$route.path.includes('signup') &&
