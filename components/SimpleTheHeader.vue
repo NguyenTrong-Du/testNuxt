@@ -9,8 +9,11 @@
         <div class="ml-4 flex">
           <div class="flex items-center">
             <div class="flex items-center mr-5">
-              <a-avatar :size="32" class="flex items-center justify-center">
-                <template #icon><MdPersonIcon /></template>
+              <a-avatar
+                :src="avtUrl"
+                :size="32"
+                class="flex items-center justify-center"
+              >
               </a-avatar>
               <a-dropdown class="ml-1 flex items-center gap-1">
                 <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
@@ -19,12 +22,12 @@
                 </a>
                 <a-menu slot="overlay">
                   <a-menu-item>
-                    <nuxt-link to="/profile"
+                    <nuxt-link :to="localePath('/profile')"
                       >{{ $t('homepage.profile') }} <br
                     /></nuxt-link>
                   </a-menu-item>
                   <a-menu-item>
-                    <nuxt-link to="/setting"
+                    <nuxt-link :to="localePath('/setting')"
                       >{{ $t('homepage.setting') }} <br
                     /></nuxt-link>
                   </a-menu-item>
@@ -34,27 +37,7 @@
                 </a-menu>
               </a-dropdown>
             </div>
-            <div class="flex items-center">
-              <MdGlobeIcon w="25px" h="25px" />
-              <a-dropdown class="ml-1 flex items-center gap-1">
-                <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-                  {{ $i18n.locale === 'en' ? 'English' : '日本語' }}
-                  <a-icon type="down" />
-                </a>
-                <a-menu slot="overlay">
-                  <a-menu-item
-                    v-for="locale in availableLocales"
-                    :key="locale.code"
-                  >
-                    <nuxt-link
-                      :to="switchLocalePath(locale.code)"
-                      class="m-5"
-                      >{{ locale.name }}</nuxt-link
-                    >
-                  </a-menu-item>
-                </a-menu>
-              </a-dropdown>
-            </div>
+            <DropDownLanguage class-prop="flex items-center" />
           </div>
         </div>
       </div>
@@ -63,16 +46,18 @@
 </template>
 
 <script>
-import MdGlobeIcon from 'vue-ionicons/dist/md-globe.vue'
-import MdPersonIcon from 'vue-ionicons/dist/md-person.vue'
+import DropDownLanguage from './DropDownLanguage.vue'
 export default {
   name: 'App',
   components: {
-    MdGlobeIcon,
-    MdPersonIcon,
+    DropDownLanguage,
   },
   props: {
     userName: {
+      type: String,
+      default: '',
+    },
+    avtUrl: {
       type: String,
       default: '',
     },
@@ -82,15 +67,12 @@ export default {
       collapsed: false,
     }
   },
-  computed: {
-    availableLocales() {
-      return this.$i18n.locales
-    },
-  },
   methods: {
     async handleLogout() {
       try {
+        this.$emit('set-is-loading-user', true)
         await this.$api.logout()
+        this.$emit('set-is-loading-user', false)
         this.$router.push({ path: this.localePath('signin') })
       } catch {
         // TODO

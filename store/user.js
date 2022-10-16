@@ -6,10 +6,25 @@ export const useCurrentUserStore = defineStore('currentUser', {
     firstName: '',
     lastName: '',
     displayName: '',
+    email: '',
     hasFinishedBasicInfo: false,
     profileImage: null,
     totalPoint: 0,
+    isLoadingUser: false,
+    emailVerifiedAt: null,
+    percentCompleteProfile: 0,
+    phoneNumber: '',
+    nationalities: '',
+    companyName: '',
+    companyUrl: '',
+    companyDescription: '',
+    accountType: 'individual',
+    attributes: null,
+    selfIntroduction: null,
   }),
+  getters: {
+    getEmail: (state) => state.email,
+  },
   actions: {
     setCurrentUser(user) {
       this.id = user.id
@@ -19,6 +34,26 @@ export const useCurrentUserStore = defineStore('currentUser', {
       this.hasFinishedBasicInfo = user.has_finished_basic_info
       this.profileImage = user.profile_image
       this.totalPoint = user.total_point
+      this.email = user.email
+      this.emailVerifiedAt = user.email_verified_at
+      this.percentCompleteProfile = user.percent_complete_profile
+      this.phoneNumber = user.phone_number
+      this.nationalities = user.nationalities
+      this.companyName = user.company_name
+      this.companyUrl = user.company_url
+      this.companyDescription = user.company_description
+      this.accountType = user.account_type ?? this.accountType
+      this.attributes = user.attributes
+      this.selfIntroduction = user.self_introduction
+    },
+    setLoadingUser(loading) {
+      this.isLoadingUser = loading
+    },
+    setHasFinishedBasicInfo(hasFinishedBasicInfo) {
+      this.hasFinishedBasicInfo = hasFinishedBasicInfo
+    },
+    setPercentCompleteProfile(percentCompleteProfile) {
+      this.percentCompleteProfile = percentCompleteProfile
     },
   },
 })

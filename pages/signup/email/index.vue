@@ -10,12 +10,16 @@
         class="w-1/2"
         @submit="handleSubmit"
       >
-        <a-form-item :label="$t('homepage.lastName')">
+        <a-form-item
+          :label="$t('homepage.lastName')"
+          class="mb-0 icon-required"
+        >
           <a-input
             v-decorator="[
               'last_name',
               {
                 rules: [
+                  { transform: (value) => value?.trim() },
                   {
                     required: true,
                     message: $t('homepage.lastNameEmtry'),
@@ -23,29 +27,36 @@
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
-        <a-form-item :label="$t('homepage.firstName')">
+        <a-form-item
+          :label="$t('homepage.firstName')"
+          class="mb-0 icon-required"
+        >
           <a-input
             v-decorator="[
               'first_name',
               {
                 rules: [
+                  { transform: (value) => value?.trim() },
                   {
                     required: true,
-                    message: $t('homepage.firstNameEmtry'),
+                    message: $t('homepage.firstNameEmpty'),
                   },
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
-        <a-form-item :label="$t('homepage.email')">
+        <a-form-item :label="$t('homepage.email')" class="mb-0 icon-required">
           <a-input
             v-decorator="[
               'email',
               {
                 rules: [
+                  { transform: (value) => value?.trim() },
                   {
                     type: 'email',
                     message: $t('homepage.validEmail'),
@@ -54,10 +65,14 @@
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
         <div v-if="usePassword">
-          <a-form-item :label="$t('homepage.password')">
+          <a-form-item
+            :label="$t('homepage.password')"
+            class="mb-0 icon-required height-input-password"
+          >
             <a-input-password
               v-decorator="[
                 'password',
@@ -69,9 +84,13 @@
                     },
                     {
                       pattern: new RegExp(
-                        /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]{8,}$/
+                        /^[a-zA-Z0-9\u0020-\u002F\u003A-\u0040]{1,}$/
                       ),
                       message: $t('homepage.valiPassword'),
+                    },
+                    {
+                      min: 8,
+                      message: $t('homepage.valiLengthPassword'),
                     },
                     {
                       validator: validateToNextPassword,
@@ -81,7 +100,10 @@
               ]"
             />
           </a-form-item>
-          <a-form-item :label="$t('homepage.passwordConfirm')">
+          <a-form-item
+            :label="$t('homepage.passwordConfirm')"
+            class="mb-0 icon-required height-input-password"
+          >
             <a-input-password
               v-decorator="[
                 'password_confirmation',
@@ -102,13 +124,13 @@
             />
           </a-form-item>
         </div>
-        <a-form-item class="flex justify-center">
+        <a-form-item class="block mt-5">
           <a-button
             type="text"
             shape="round"
-            class="bg-white text-black mr-2"
+            class="bg-white font-semibold text-black h-12 w-full rounded-lg flex items-center justify-center"
             :disabled="disabledBtn"
-            @click="handleUsePassword"
+            @click="handleUsePassword()"
           >
             {{
               usePassword
@@ -119,8 +141,9 @@
           <a-button
             html-type="submit"
             shape="round"
-            class="bg-green-700 text-white ml-2"
+            class="bg-green-700 text-white font-semibold h-12 w-full rounded-lg mt-5 flex items-center justify-center"
             :disabled="disabledBtn"
+            :loading="loadingBtn"
           >
             {{ $t('homepage.register') }}
           </a-button>
@@ -131,6 +154,7 @@
 </template>
 
 <script>
+import useMessage from '@/composables/useMessage'
 export default {
   name: 'SignIn',
   layout: 'signin',
@@ -144,6 +168,7 @@ export default {
       disabledBtn: false,
       confirmDirty: false,
       usePassword: false,
+      loadingBtn: false,
     }
   },
   computed: {
@@ -155,13 +180,8 @@ export default {
     this.$api.getCookie()
   },
   methods: {
-    openNotificationWithIcon(type, title, error) {
-      for (let i = 0; i < error.length; i++) {
-        this.$notification[type]({
-          message: title,
-          description: this.$t('error.' + error[i]),
-        })
-      }
+    handleUsePassword() {
+      this.usePassword = !this.usePassword
     },
     handleConfirmBlur(e) {
       const value = e.target.value
@@ -186,30 +206,23 @@ export default {
 
     handleSubmit(e) {
       this.disabledBtn = true
+      this.loadingBtn = true
+      const { errorMessage } = useMessage()
       e.preventDefault()
       this.form.validateFields(async (err, values) => {
         if (!err) {
           try {
             await this.$api.signUp(values)
-            this.openNotificationWithIcon(
-              'success',
-              this.$t('homepage.signupSuccess'),
-              this.$t('homepage.desSignupSuccess')
-            )
+            this.$message.success(this.$t('homepage.desSignupSuccess'))
+            this.form.resetFields()
           } catch (e) {
-            this.openNotificationWithIcon(
-              'error',
-              this.$t('homepage.signupError'),
-              e.response.data.error
-            )
+            errorMessage(e.response.data.error)
           }
         }
       })
       this.disabledBtn = false
+      this.loadingBtn = false
     },
-  },
-  handleUsePassword() {
-    this.usePassword = !this.usePassword
   },
 }
 </script>

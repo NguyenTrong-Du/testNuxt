@@ -5,22 +5,28 @@
 </template>
 
 <script>
-import { useCurrentUserStore } from '~/store/user'
+import useNextRoute from '@/composables/useNextRoute'
 export default {
   name: 'CallbackLoading',
   async created() {
-    if (this.$route.query.oauth_token && this.$route.query.oauth_verifier) {
+    const { nextRouteCheckFinishedBasicInfo } = useNextRoute()
+    const isLoginTwitterSuccess = Boolean(
+      this.$route.query.oauth_token && this.$route.query.oauth_verifier
+    )
+    const locale = localStorage.getItem('locale')
+    if (isLoginTwitterSuccess) {
       try {
         const data = await this.$api.redirectLoginByTwitter(
           this.$route.query.oauth_token,
           this.$route.query.oauth_verifier
         )
-        const currentUser = useCurrentUserStore()
-        currentUser.setCurrentUser(data.data.user)
-        this.$router.push({ path: this.localePath('/') })
+        this.$i18n.setLocale(locale)
+        nextRouteCheckFinishedBasicInfo(data.data.user)
       } catch (e) {
         // TODO task show message
       }
+    } else {
+      this.$router.push({ path: this.localePath('/signin') })
     }
   },
 }

@@ -5,21 +5,25 @@
 </template>
 
 <script>
-import { useCurrentUserStore } from '~/store/user'
+import useNextRoute from '@/composables/useNextRoute'
 export default {
   name: 'CallbackLoading',
   async created() {
-    if (this.$route.query.code) {
+    const { nextRouteCheckFinishedBasicInfo } = useNextRoute()
+    const isLoginFacebookSuccess = Boolean(this.$route.query.code)
+    const locale = localStorage.getItem('locale')
+    if (isLoginFacebookSuccess) {
       try {
         const data = await this.$api.redirectLoginByFacebook(
           this.$route.query.code
         )
-        const currentUser = useCurrentUserStore()
-        currentUser.setCurrentUser(data.data.user)
-        this.$router.push({ path: this.localePath('/') })
+        this.$i18n.setLocale(locale)
+        nextRouteCheckFinishedBasicInfo(data.data.user)
       } catch (e) {
         // TODO task show message
       }
+    } else {
+      this.$router.push({ path: this.localePath('/signin') })
     }
   },
 }

@@ -1,19 +1,11 @@
 <template>
-  <div class="bg-[#9CA3AF] h-full flex items-center pt-12">
-    <div class="ml-20">
-      <div class="text-black w-[1/3] text-xl mb-4">
-        {{ $t('homepage.title1') }}
-        <br />
-        {{ $t('homepage.title2') }}
-      </div>
-      <a-button shape="round" :size="size" class="bg-white text-black">
-        {{ $t('homepage.joinNow') }}
-      </a-button>
-    </div>
+  <div class="h-full flex items-center justify-center text-2xl pt-12">
+    {{ $t('homepage.textBody') }}
   </div>
 </template>
 
 <script>
+import backgroundUrl from '~/assets/img/bg.avif'
 export default {
   name: 'App',
   layout: 'homepage',
@@ -21,7 +13,14 @@ export default {
     return {
       collapsed: false,
       size: 'large',
+      backgroundUrl,
     }
+  },
+  computed: {
+    isNotLoggedIn() {
+      const { isLoadingUser } = useCurrentUserStore()
+      return !isLoadingUser
+    },
   },
 }
 </script>

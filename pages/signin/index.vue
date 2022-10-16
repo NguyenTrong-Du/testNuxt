@@ -1,25 +1,26 @@
 <template>
   <div>
-    <div class="flex justify-center m-5 text-xl font-bold">
+    <div class="flex justify-center m-5 text-2xl font-bold">
       {{ $t('homepage.titleLogin') }}
     </div>
     <TheSns />
-    <div class="flex justify-center m-5">
+    <div class="flex justify-center m-5 font-bold text-lg">
       {{ $t('homepage.or') }}
     </div>
-    <div class="w-1/2 ml-[25%]">
+    <div class="w-1/2 m-auto">
       <a-form
         :form="form"
         :layout="formLayout"
         class="w-full"
         @submit="handleSubmit"
       >
-        <a-form-item :label="$t('homepage.email')">
+        <a-form-item :label="$t('homepage.email')" class="mb-0 icon-required">
           <a-input
             v-decorator="[
               'email',
               {
                 rules: [
+                  { transform: (value) => value?.trim() },
                   {
                     type: 'email',
                     message: $t('homepage.validEmail'),
@@ -28,10 +29,14 @@
                 ],
               },
             ]"
+            class="h-12 rounded-lg"
           />
         </a-form-item>
         <div v-if="usePassword">
-          <a-form-item :label="$t('homepage.password')">
+          <a-form-item
+            :label="$t('homepage.password')"
+            class="icon-required height-input-password"
+          >
             <a-input-password
               v-decorator="[
                 'password',
@@ -53,11 +58,11 @@
             />
           </a-form-item>
         </div>
-        <a-form-item class="flex justify-center">
+        <a-form-item class="block mt-5">
           <a-button
             type="text"
             shape="round"
-            class="bg-white text-black mr-2"
+            class="bg-white font-semibold text-black h-12 w-full rounded-lg flex items-center justify-center"
             :disabled="disabledBtn"
             @click="handleUsePassword"
           >
@@ -71,8 +76,9 @@
             type="primary"
             html-type="submit"
             shape="round"
-            class="bg-green-700 text-white ml-2"
+            class="bg-green-700 font-semibold text-white mt-5 h-12 w-full rounded-lg flex items-center justify-center"
             :disabled="disabledBtn"
+            :loading="loadingBtn"
           >
             {{ $t('homepage.login') }}
           </a-button>
@@ -85,6 +91,7 @@
 <script>
 import TheSns from '~/components/TheSns.vue'
 import { useCurrentUserStore } from '~/store/user'
+import useMessage from '@/composables/useMessage'
 export default {
   name: 'SignIn',
   components: {
@@ -100,6 +107,7 @@ export default {
       form: this.$form.createForm(this, { name: 'coordinated' }),
       disabledBtn: false,
       usePassword: false,
+      loadingBtn: false,
     }
   },
   computed: {
@@ -111,42 +119,36 @@ export default {
     this.$api.getCookie()
   },
   methods: {
-    openNotificationWithIcon(type, title, error) {
-      for (let i = 0; i < error.length; i++) {
-        this.$notification[type]({
-          message: title,
-          description: this.$t('error.' + error[i]),
-        })
-      }
-    },
     handleSubmit(e) {
+      const { errorMessage } = useMessage()
       e.preventDefault()
       this.disabledBtn = true
+      this.loadingBtn = true
       const currentUser = useCurrentUserStore()
       this.form.validateFields(async (err, values) => {
         if (!err) {
           try {
             if (!values.password) {
               await this.$api.loginByOtp(values)
+              this.disabledBtn = false
+              this.loadingBtn = false
+              this.$message.success(this.$t('homepage.signinSuccessOtp'))
             } else {
               const res = await this.$api.login(values)
               currentUser.setCurrentUser(res.data.user)
-              this.$router.push({ path: this.localePath('/homepage') })
-              this.openNotificationWithIcon(
-                'success',
-                this.$t('homepage.signinSuccess'),
-                ''
-              )
+              this.$router.push({ path: this.localePath('/') })
+              this.$message.success(this.$t('homepage.signinSuccess'))
+              this.form.resetFields()
             }
           } catch (e) {
-            this.openNotificationWithIcon(
-              'error',
-              this.$t('homepage.signupError'),
-              e.response.data.error
-            )
+            if (e.response.data.error.includes(30001)) {
+              this.$router.push({ path: this.localePath('/') })
+            }
+            errorMessage(e.response.data.error)
           }
         }
         this.disabledBtn = false
+        this.loadingBtn = false
       })
     },
     handleUsePassword() {

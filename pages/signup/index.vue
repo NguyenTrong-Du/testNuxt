@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="flex justify-center m-5 text-xl font-bold">
+    <div class="flex justify-center m-5 text-2xl font-bold">
       {{ $t('homepage.titleRegister') }}
     </div>
     <TheSns />
-    <div class="flex justify-center m-5">
+    <div class="flex justify-center m-5 font-bold text-lg">
       {{ $t('homepage.or') }}
     </div>
     <div class="flex justify-center mt-5">

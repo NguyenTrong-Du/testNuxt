@@ -1,3 +1,5 @@
+import createApiService from '~/apiServices'
+
 export default function ({ $axios }: any, inject: any) {
   const axios = $axios.create({
     headers: {
@@ -35,7 +37,7 @@ export default function ({ $axios }: any, inject: any) {
     getCookie: () => axios.$get('sanctum/csrf-cookie'),
     signUp: (data: User) => axios.$post('api/v1/register', data),
     login: (data: User) => axios.$post('api/v1/login', data),
-    getUser: () => axios.$get('api/v1/user'),
+    getUser: () => axios.$get(`api/v1/user/profile`),
     loginByTwitter: () => axios.$get('/api/v1/auth/twitter'),
     redirectLoginByTwitter: (oauthToken: string, oauthVerifier: string) =>
       axios.$get(
@@ -52,12 +54,32 @@ export default function ({ $axios }: any, inject: any) {
       axios.$get(`/api/v1/auth/instagram/callback?code=${code}`),
     loginByOtp: (data: UserLogin) =>
       axios.$post('api/v1/login/email-otp', data),
-    redirectLoginByOtp: (userId: string, signature: string) => {
+    redirectLoginByOtp: (userId: string, signature: string) =>
       axios.$get(
         `/api/v1/login/email-otp/verify/${userId}?signature=${signature}`
-      )
-    },
+      ),
     logout: () => axios.$post('/api/v1/logout'),
+
+    // info
+    getAllCountry: () => axios.$get('/api/v1/country'),
+
+    updateInfoCompany: (userId: string, data: any) =>
+      axios.$post(`/api/v1/user/company/update/${userId}`, data, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      }),
+
+    updateInfoIndividual: (userId: string, data: any) =>
+      axios.$post(`/api/v1/user/individual/update/${userId}`, data, {
+        headers: {
+          'content-type': 'multipart/form-data',
+        },
+      }),
+
+    getAttributes: () => axios.$get('/api/v1/attribute'),
   }
   inject('api', api)
+
+  inject('apiServices', createApiService($axios))
 }

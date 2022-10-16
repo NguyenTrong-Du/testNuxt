@@ -1,3 +1,95 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* TODO: switch to component style */
+div#div_name_id
+  > div.ant-row.ant-form-item
+  > div.ant-form-item-label
+  > label.ant-form-item-required:before {
+  display: none;
+}
+
+.icon-required .ant-form-item-required {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.icon-required .ant-form-item-required::before {
+  margin-left: 4px;
+}
+
+.form-icon-required > .ant-form-item-label .ant-form-item-required::before,
+.form-icon-required > .ant-form-item-label > label::after {
+  display: none;
+}
+
+svg {
+  vertical-align: baseline;
+}
+
+.ant-upload-list-item-card-actions .anticon {
+  color: red;
+  font-size: 20px;
+}
+
+.height-input-password .ant-input {
+  height: 48px;
+  border-radius: 0.5rem;
+}
+
+.step-custom.ant-steps-item-process
+  > .ant-steps-item-container
+  > .ant-steps-item-tail::after,
+.step-custom.ant-steps-item-wait
+  .ant-steps-item-icon
+  > .ant-steps-icon
+  .ant-steps-icon-dot {
+  background-color: #fff;
+}
+
+.menu-light.ant-menu-inline .ant-menu-item::after {
+  display: none;
+}
+
+.menu-light.ant-menu-inline .ant-menu-item::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  border-right: 3px solid #1890ff;
+  transform: scaleY(0.0001);
+  opacity: 0;
+  transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1),
+    opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+  content: '';
+}
+
+.menu-light.ant-menu-inline .ant-menu-item-selected::before {
+  transform: scaleY(1);
+  opacity: 1;
+  transition: transform 0.15s cubic-bezier(0.645, 0.045, 0.355, 1),
+    opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.menu-light.ant-menu-inline .ant-menu-item,
+.menu-light.ant-menu-inline .ant-menu-submenu-title {
+  width: 100%;
+  font-size: 16px;
+  margin-top: 0;
+  margin-bottom: 0;
+  border: 1px solid #ffffff;
+}
+
+.menu-light .ant-menu {
+  background-color: initial;
+}
+
+.notShow {
+  display: none;
+}
+
+.test-tailwind {
+  @apply text-red-600;
+}
